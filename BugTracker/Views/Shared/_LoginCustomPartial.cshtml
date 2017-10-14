@@ -1,0 +1,24 @@
+﻿@if (Request.IsAuthenticated) {
+    using (Html.BeginForm("LogOff", "Account", new { returnUrl = Request.Url }, FormMethod.Post, new { id = "logoutForm", })) {
+        @Html.AntiForgeryToken()
+        <li>
+            
+        </li>
+        <li>
+            <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+        </li>
+        <li>
+            @Html.ActionLink("Logged in as " + @User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+    }
+}
+else {
+    <li>
+        @Html.ActionLink("Login", "Login", "Account", routeValues: new { ReturnUrl = Request.Url.AbsolutePath }, htmlAttributes: new { id = "loginLink", @class = "force_left" })
+    </li>
+    <li>
+        @Html.ActionLink("Register", "Register", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "registerLink" })
+    </li>
+}
+
+

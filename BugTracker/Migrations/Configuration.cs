@@ -102,26 +102,26 @@ namespace BugTracker.Migrations
             var userID = userManager.FindByEmail("caseylawsonjones@yahoo.com").Id;
             userManager.AddToRole(userID, "Admin");
             //Mark Jaang
-            userID = userManager.FindByEmail("mjaang@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "Admin");
+            var userID2 = userManager.FindByEmail("mjaang@coderfoundry.com").Id;
+            userManager.AddToRole(userID2, "Admin");
             //Ryan Chapman
-            userID = userManager.FindByEmail("rchapman@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "Admin");
+            var userID3 = userManager.FindByEmail("rchapman@coderfoundry.com").Id;
+            userManager.AddToRole(userID3, "Admin");
 
             // ASSIGNMENT OF DEMO USERS FOR EACH ROLE
 
             //DemoAdmin
-            userID = userManager.FindByEmail("DemoAdmin@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "Admin");
+            var userID4 = userManager.FindByEmail("DemoAdmin@coderfoundry.com").Id;
+            userManager.AddToRole(userID4, "Admin");
             //DemoProjectManager
-            userID = userManager.FindByEmail("DemoProjectManager@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "ProjectManager");
+            var userID5 = userManager.FindByEmail("DemoProjectManager@coderfoundry.com").Id;
+            userManager.AddToRole(userID5, "ProjectManager");
             //DemoDeveloper
-            userID = userManager.FindByEmail("DemoDeveloper@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "Developer");
+            var userID6 = userManager.FindByEmail("DemoDeveloper@coderfoundry.com").Id;
+            userManager.AddToRole(userID6, "Developer");
             //DemoSubmitter
-            userID = userManager.FindByEmail("DemoSubmitter@coderfoundry.com").Id;
-            userManager.AddToRole(userID, "Submitter");
+            var userID7 = userManager.FindByEmail("DemoSubmitter@coderfoundry.com").Id;
+            userManager.AddToRole(userID7, "Submitter");
 
             //TICKET STATUS SEEDS
             if (!context.TicketStatuses.Any(p => p.Name == "Submitted")) {
@@ -162,9 +162,9 @@ namespace BugTracker.Migrations
 
             //TICKET TYPE SEEDS
             if (!context.TicketTypes.Any(p => p.Name == "Hardware")) {
-                var status = new TicketStatus();
-                status.Name = "Hardware";
-                context.TicketStatuses.Add(status);
+                var type = new TicketType();
+                type.Name = "Hardware";
+                context.TicketTypes.Add(type);
             }
             if (!context.TicketTypes.Any(p => p.Name == "Software")) {
                 var type = new TicketType();

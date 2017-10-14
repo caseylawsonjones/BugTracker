@@ -1,0 +1,238 @@
+﻿@model BugTracker.Models.CodeFirst.Ticket
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-5">
+            <h2>@Model.Title</h2>
+        </div>
+        <div class="col-xs-7" style="text-align:center">
+            <h2>Attachments</h2>
+        </div>
+    </div>
+</div>
+<div>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-5 wordWrapBreakWord" style="border-right:solid">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.Project.Title)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.Project.Title)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.TicketPriority.Name)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.TicketPriority.Name)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.TicketStatus.Name)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.TicketStatus.Name)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.TicketType.Name)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.TicketType.Name)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Created)</dt>
+
+                    <dd>@Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Updated)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.Updated)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Title)</dt>
+
+                    <dd>@Html.DisplayFor(model => model.Title)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+
+                    <dd> @Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.OwnerUserId)</dt>
+
+                    <dd>@ViewBag.ownerUser</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.AssignedUserId)</dt>
+
+                    <dd>@ViewBag.assignedUser</dd>
+
+                </dl>
+                <p style="text-align:center;">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) &#124;
+                    @Html.ActionLink("Add Comment", "Create", "TicketComments", new { id = Model.Id }, null) &#124;
+                    @Html.ActionLink("Add Attachment", "Create", "TicketAttachments", new { ticketId = Model.Id }, null) &#124;
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+
+            </div>
+            <div class="col-xs-7">
+                @{int i = 0;  <!-- The column number for Attachment Icons does not work properly. -->
+                    int x = 3; <!-- Number of Attachment Display Columns = (x+1)  Acceptable values are 0, 1, 2, 3 or 5</!-->
+                    int xx = 12 / (x + 1);  <!-- xx is used to set the column size -->
+                    <div class="row">
+                        @foreach (var attachment in Model.Attachments) {
+                            <div class="col-xs-2" style="text-align:center;">
+                                <div class="row">
+                                    <a href="#" data-toggle="modal" data-target="#AttModal_@attachment.Id"><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" /></div></a>
+                                </div>
+                                <div class="wordWrapBreakWord"><h5 class="wordWrapBreakWord;">@attachment.FileName</h5></div>
+                                <div class="post-meta" style="font-size:x-small;">
+                                    <div class="row" @*col-md-7 col-sm-7 col-xs-7*@>
+                                        <!-- Author  -->
+                                        <span class="author"><i class="fa fa-user"></i> @attachment.Author.FullName</span>
+                                    </div>
+                                    <div class="row" @*This DIV was not here, originally.*@>
+                                        <!-- Meta Date -->
+                                        <span class="time"><i class="fa fa-calendar"></i> @Html.ToUserTime(attachment.Created, ViewBag.UserTimeZone as string) </span>
+                                    </div>
+                                    <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
+                                        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
+                                            ((User.IsInRole("Developer") && (attachment.AuthorId == User.Identity.GetUserId()))) ||
+                                            ((User.IsInRole("Submitter") && (attachment.AuthorId == User.Identity.GetUserId())))) {
+                                            <a href="#" data-toggle="modal" data-target="#DeleteAttachmentModal_@attachment.Id">Delete</a>
+                                            <br /><br />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            if (i > 0 && (i % (x + 1)) == 0) {  // Determines if we are at the end of a row
+                                Html.Raw("</div><div class='row'>"); /*Adds a row ending DIV and starts a new row DIV*/
+                            }
+                            i++;
+                                    <!-- DELETE COMMENT MODAL -->
+                            <div class="modal fade DeleteAttachmentModal" id="DeleteAttachmentModal_@attachment.Id">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h2 style="text-align:center;">Confirm Deletion of Ticket Attachment</h2>
+                                            <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-2">
+                                                        @using (Html.BeginForm("Delete", "TicketAttachments", new { id = attachment.Id }, FormMethod.Post)) {
+                                                            @Html.AntiForgeryToken()
+                                                            <div class="form-actions no-color">
+                                                                <input type="submit" value="Delete" class="btn btn-default" />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                    </div>
+                                                    <div class="col-sm-4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            //Attachment Display Modal
+                            <div class="modal fade" id="AttModal_@attachment.Id">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <object type="application/pdf" data="@Url.Content(attachment.FileUrl)" width="100%" height="500" style="height: 85vh;">No Support</object>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="height: 23px;">
+            <div class="col-md-12 top-pad-20">
+                <h4 style="color:blue">Comments</h4>
+                @foreach (var comment in Model.TicketComments) {
+                    <div class="comment-item comments_border">
+                        <!-- Maybe add a randomized picture on the left for this, if not using an account picture -->
+                        @*<div class="pull-left author-img"><img class="img-circle" src="img/sections/testimonials/1.jpg" width="80" height="80" alt="" title=""></div>*@
+                        @Html.Raw(comment.Body)
+                        <div class="post-meta" style="font-size:x-small;">
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                                <!-- Author  -->
+                                <span class="author"><i class="fa fa-user"></i> @comment.Author.FullName</span>
+                                <!-- Meta Date -->
+                                <span class="time"><i class="fa fa-calendar"></i> @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string) </span>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2" style="top: 0px;">
+                                @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
+                                    ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) ||
+                                    ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
+                                    @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null)<b>&#160;&#124;</b>
+                                    @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
+                                    <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id">Delete</a>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                            <!-- DELETE COMMENT MODAL -->
+                            @*@Html.ActionLink("Delete", "Delete", "Posts", new { slug = Model.Slug }, null)*@
+                            <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h2 style="text-align:center;">Confirm Deletion of Ticket Comment</h2>
+                                            <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-2">
+                                                        @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
+                                                            @Html.AntiForgeryToken()
+                                                            <div class="form-actions no-color">
+                                                                <input type="submit" value="Delete" class="btn btn-default" />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                    </div>
+                                                    <div class="col-sm-4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                }
+                <!-- LEAVE COMMENT IF LOGGED IN -->
+                    @*<h4>Leave a Comment</h4>
+                        <div class="row">
+                            <div class="form-group">
+                                @using (Html.BeginForm("Create", "Comments", new { id = Model.Id, postslug = Model.Slug }, FormMethod.Post)) {
+                                    @Html.AntiForgeryToken()
+                                    <textarea name="Body" id="editor" rows="5"></textarea>
+                                        <button class="btn btn-default" type="submit">Send Now <i class="icon-paper-plane"></i></button>
+                                }
+                            </div>
+                        </div>*@
+            </div>
+        </div>
+
+    </div>
+</div>

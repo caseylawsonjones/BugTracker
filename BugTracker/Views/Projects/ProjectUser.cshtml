@@ -1,0 +1,18 @@
+﻿@model BugTracker.Models.Helpers.ProjectUserViewModel
+@{
+    ViewBag.Title = "ProjectUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Assign Users to Project</h2>
+
+
+@using (Html.BeginForm()) {  <!-- If you leave this blank, it will default to the Post action of the model -->
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ProjectId)
+
+    <h3>Project Name: @Model.Project.Title</h3>
+
+    @Html.ListBox("AssignedUsers", Model.Users)
+    <button type="submit">Submit</button>
+}

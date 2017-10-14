@@ -11,17 +11,47 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BugTracker.Models;
+using System.Web.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace BugTracker
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
-        {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+        public async Task SendAsync(IdentityMessage message) {
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+
+
+            using (var smtp = new SmtpClient() {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            })
+
+            using (var email = new MailMessage("BugTracker<webappmessages@gmail.com>", message.Destination) {
+                Subject = message.Subject,
+                IsBodyHtml = true,
+                Body = message.Body
+            }) {
+                try {
+                    await smtp.SendMailAsync(email);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                    await Task.FromResult(0);
+                }
+            };
         }
     }
+
 
     public class SmsService : IIdentityMessageService
     {
@@ -106,4 +136,31 @@ namespace BugTracker
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+    public class PersonalEmail {
+        public async Task SendAsync(MailMessage message) {
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+            using (var smtp = new SmtpClient() {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            }) {
+                try {
+                    await smtp.SendMailAsync(message);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                    await Task.FromResult(0);
+
+                }
+            };
+        }
+    }
+
 }

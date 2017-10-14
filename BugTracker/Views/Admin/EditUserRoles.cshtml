@@ -1,0 +1,32 @@
+﻿@model BugTracker.Models.Helpers.AdminUserViewModels
+@{
+    ViewBag.Title = "EditUserRoles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post)){
+    <h2>
+        Assign roles for <i style="color:darkmagenta"><b>@Html.DisplayFor(model => Model.User.FullName)
+    </b></i></h2>
+    <input type="submit" value="AssignRoles" class="btn btn-default pull-right" style="margin-top: 0px" />
+    <hr/>
+    @Html.HiddenFor(mdoel => Model.User.Id)
+    @Html.ListBox("AssignedRoles", Model.Roles, new { @class = "multi-select" })
+}
+
+<div style="margin-top: 40px">
+    @Html.ActionLink("Back to Admin Index", "Index")
+</div>
+@section Scripts {
+    <script src="~/Content/MultiSelect/multiselect.js"></script>
+    <script type="text/javascript">
+        /* Multiselect inputs */
+        $(function () { "use strict";
+            $('.multi-select').multiSelect({
+                selectableHeader: "<div style='text-align: center; background-color: violet; color: white'><strong>Available Roles</strong></div>",
+                selectionHeader: "<div style='text-align: center; background-color: violet; color: white'><strong>Available Roles</strong></div>"
+            })
+            $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
+        })
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@model IEnumerable<BugTracker.Models.CodeFirst.Project>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+@if (User.Identity.IsAuthenticated) {
+    if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
+        <h2>Project Management Options</h2>
+        @Html.ActionLink("Projects - All", "Index", "Projects")<br />
+        @Html.ActionLink("Create Project", "Create", "Projects")<br />
+        @Html.ActionLink("List of Users", "Index", "Admin")<br />
+    }
+    <hr />
+    <h2>User Options</h2>
+    @Html.ActionLink("My Projects", "ProjectList", "Projects")<br />
+}
+else{
+    <h2>Please Log In</h2>
+}
+
+<script>
+    jQuery(function($){
+    $('#accordion-example-1,#accordion-example-2').footable({
+    "columns": $.get('columns.json'),
+    "rows": $.get('rows.json')
+    });
+    });
+</script>
+
+<div class="panel-group" id="projectTable" role="tablist" aria-multiselectable="true">
+    @foreach (var proj in Model) {
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="project_@proj.Id">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#projectTable" href="#ticketsForProject_@proj.Id" aria-expanded="true" aria-controls="collapseOne">
+                        LIST OF PROJECTS
+                    </a>
+                </h4>
+            </div>
+
+        @foreach (var tick in proj.Tickets) {
+            <div id="ticketsForProject_@proj.Id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="project_@proj.Id">
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#projectTable" href="#ticketsForProject_@proj.Id" aria-expanded="true" aria-controls="collapseOne">
+                                    LIST OF TICKETS
+                                </a>
+                            </h4>
+                        </div>
+
+                        @*@foreach (var comm in tick.TicketComments) {
+                            <div id="commentsForTicket_@tick.Id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ticket_@tick.Id">
+                                <div class="panel-body">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#projectTable" href="#commentsForTicket_@tick.Id" aria-expanded="true" aria-controls="collapseOne">
+                                                    LIST OF COMMENTS
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @foreach (var att in tick.Attachments) {
+                            <div id="attachmentsForTicket_@tick.Id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ticket_@tick.Id">
+                                <div class="panel-body">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#projectTable" href="#attachmentsForTicket_@tick.Id" aria-expanded="true" aria-controls="collapseOne">
+                                                    LIST OF ATTACHMENTS
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }*@
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+
+    }
+</div>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Collapsible Group Item #1
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <table id="accordion-example-1" class="table" data-paging="true" data-filtering="true" data-sorting="true"></table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Collapsible Group Item #2
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <table id="accordion-example-2" class="table" data-paging="true" data-filtering="true" data-sorting="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,239 @@
+#### IN SCOPE ####
+XXX - Log off until email confirmation on registration
+XXX - Change email sender from "Me" on registration
+XXX - Secure details pages to only those assigned or admin
+XXX - Put a version of this in all Details, Edits and Delete GET's:  if (id == null || !db.TicketComments.Any(c => c.Id == id)) { return new HttpStatusCodeResult(HttpStatusCode.BadRequest); }
+
+---Projects---
+XXX - Projects Details page needs to limit who sees the edit option
+XXX - Do I need to add role verification in the Post Actions?
+XXX - Add Security to details
+XXX - All displays of dates should use @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+XXX - All views that list properties should have the @Labelfor set, rather than plain text
+XXX - Details - turn User Id's into User Names
+XXX - Secure Create, Edit and Delete POST actions
+??? - Check edit for correct binding vs. property value assignment
+??? - Edit Link does not pass the model to the Get Edit
+OPTIONAL - If user is removed from project, check Project to find any tickets whose assignee is not in the Project.Users list and unassign
+OPTIONAL - Project Edit and Assign Users needs to be merged
+OPTIONAL - Be able to unassign all users from a Project?
+
+---Tickets---
+XXX - When submitting a ticket, only allow projects to be selected to which the submitter is associated.
+XXX - When editing by Dev only users, limit the projects to the projects of the user only.
+XXX - Do I need to add role verification in the Post Actions?
+XXX - Add Security to Details
+XXX - Add Security to Edit
+XXX - Comment Out Delete methods
+XXX - All displays of dates should use @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+XXX - All views that list properties should have the @Labelfor set, rather than plain text
+XXX - Ticket Edit should return to the Details page, not the Index
+XXX - Per SRS, Tickets cannot be deleted
+XXX - Secure Create and Edit POST actions
+??? - Check edit for correct binding vs. property value assignment
+OPTIONAL - Implement Archive
+OPTIONAL - Rethink Index login in controller
+QUESTION - Can the Project be changed on a Ticket Edit? - YES Admin or PM(for their projects)
+      Sort list of available developers to assign to ticket
+	  Ticket Index - add a column for @Model.Attachments.Count so you can sort tickets by # of Attachments
+
+---Archive---
+XXX - Add IsArchived to Model
+XXX - Reject IsArchived from Index
+XXX - Add IsArchived = false; in Ticket Creation
+XXX - Change nothing in Details as it already filters for permissions and there is no problem seeing Archived Tickets with those permissions
+XXX - Reject IsArchived in Edit
+XXX - Add HiddenFor IsArchived in Edit View
+XXX - Add IsArchived in the Model binding in Edit Post action
+XXX - Add IsArchived call in Edit to create a TicketHistory event
+XXX - Reject IsArchived from Delete
+XXX - Reject IsArchived in TicketComments Create for that ticket
+XXX - Reject IsArchived in TicketComments Edit for that ticket
+XXX - Reject IsArchived in TicketComments Delete for that ticket
+XXX - Reject IsArchived in TicketAttachments Create for that ticket
+XXX - Reject IsArchived in TicketAttachments Edit for that ticket (not needed)
+XXX - Reject IsArchived in TicketAttachments Delete for that ticket
+XXX - Manually set db.Tickets.IsArchived to false for all tickets until ready to test
+OPTIONAL - Create Method to Archive Items that are Resolved, Closed or Cancelled > 2weeks
+OPTIONAL - Call that Method from Home/Index - this should be the landing page, after logging in
+OPTIONAL - Create View and Method for Displaying Archived Tickets
+OPTIONAL - Manually set Tickets to Archived in DB and then test Index
+QUESTION - Do I need to add a catch in the Post actions for Create, Edit and Delete?
+QUESTION - Should we be able to manually archive?
+      Test Creation
+      Test Edit
+
+---Comments---
+XXX - Do I need to add role verification in the Post Actions?
+XXX - Add Security to Details
+XXX - Add Security to Edit
+XXX - Add Security to Delete
+XXX - Add Security to Index in View - Commented out - no use
+XXX - Show Project as well as Ticket - not needed
+XXX - All displays of dates should use @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+XXX - All views that list properties should have the @Labelfor set, rather than plain text
+XXX - Add Comment should return you to the Ticket Details
+XXX - Secure Create and Delete POST actions
+??? - Check edit for correct binding vs. property value assignment
+	  Set Comment addition to a modal instead of a new page, or even have a blank space to type.
+
+---Attachments---
+XXX - Do I need to add role verification in the Post Actions?
+XXX - Add Security to Details and Delete
+XXX - Comment out Edit GET and POST
+XXX - Add security on Create/Delete
+XXX - All displays of dates should use @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+XXX - All views that list properties should have the @Labelfor set, rather than plain text
+XXX - Enable Attachment Deletion
+XXX - When saving file, create a unique filename or path -  att.SaveAs(Path.Combine(absPath, att.FileName));
+XXX - Delete actual file when deleting attachment
+XXX - Secure Create and Delete POST actions
+??? - Check edit for correct binding vs. property value assignment
+      Make Zip files, and other attachments that will not show in a modal, downloadable
+      Make sure that the attachment icon display is scalable to smaller viewports
+      Adjust picture sizing
+
+---Users---
+XXX - All displays of dates should use @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+XXX - Need to indicate the logged in user.
+??? - If you change your own roles, it does not take effect until next login.
+??? - User Manager Update Method
+OPTIONAL - In Profile/Account manage, allow the user to see the roles they are assigned to.
+OPTIONAL - List of Users by Role
+OPTIONAL - List of Projects by User
+OPTIONAL - Archive user when they leave or are removed - set as in active, remove all roles and unassign from all projects, tickets
+OPTIONAL - Set login to only allow users with an active status
+OPTIONAL - Add ability to disable a user and re-assign all assigned Projects and Tickets
+                //List<Project> projects = db.Projects.ToList();
+                //List<Project> plist = projects.Where(p => !p.Users.Any(user => user.Roles.Any( r => r.RoleId == "ProjectManager"))).ToList();
+QUESTION - When we seed a user in Migrations>Configuration.cs, if we then change those users' passwords, do they get set back when an update-database is ran?
+OPTIONAL - Be able to unassign all roles for a user.
+      Admin list of users with all associated Projects, Ticket, Comments and Attachments
+	  Login with Social Networks...
+	  Per Ryan - User cannot change email address
+	  Per Ryan - must be able to associate Social Network login with pre-existing login
+
+---History---
+XXX - Add history event for Ticket creation
+XXX - Add history event for Ticket deletion
+XXX - Add history event for Ticket edit
+XXX - Add history event for TicketComment creation
+XXX - Add history event for TicketComment deletion
+XXX - Add history event for TicketComment edit
+XXX - Add history event for TicketAttachment creation
+XXX - Add history event for TicketAttachment deletion
+XXX - Make sure it works.
+OPTIONAL - Add history event for ticket archival
+
+---Notifications---
+email vs. in-app
+XXX - send link to item along with notification
+XXX - "An attachment has been deleted from a ticket that is assigned to you." needs to be changed to "An attachment has been deleted from one of your assigned tickets."
+XXX - "An attachment has been added to a ticket that is assigned to you." needs to be changed to "An attachment has been added to one of your assigned tickets."
+XXX - Delete Attachments notification - just display filename, not path. - probably add "FileName" property to Attachment model
+OPTIONAL - Customize message for new assignments to say "You have been assigned a new ticket", rather than it appearing as a previously assigned ticket was modified.
+
+---Miscellaneous---
+Before publishing to Github, exclude the configs
+Do we need to set security in POST actions?  Most security settings should stop you from getting here.
+
+---Layout---
+XXX - Delete Comments/Attachments in Modal
+XXX - Replace a "|" with &#124;
+OPTIONAL - Make lists as partial views to be inserted as widgets/small tables in the user's home view.
+OPTIONAL - Have hidden messages throughout the Views that only show up when logged in as a Demo user and highlight the functions of the app
+      Increase Menu dropdown width on Layout menu items
+      Change menu icons
+      Fix all User references from Id to FullName
+	  Format Time display everywhere
+OPTIONAL - List filtering, not just sorting.  This may be redundant with respect to searching, but is separate - may be same as sorting?
+      Dashboard displays on login
+	  Landing Page displays until logged in
+OPTIONAL - login on a modal
+      Display the most recent ticket assignments or tickets logged for the user (depends on role) oother relevant role-based information 
+	  Display data visualization of ticket types loand resolved per project and/or total 
+
+
+Currently Logged in User
+HttpContext.Current.User.Identity.Name
+
+---Login Button---
+@using (Html.BeginForm("Login", "Account", new { Email = "DemoUser@eWellman.bug", Password = "password-1" })) {
+                             @Html.AntiForgeryToken()
+                             <input type="submit" class="btn btn-default" value="Login as User" />
+                         }
+
+Datatables require
+					<table id="IdName" class="table">
+						 <thead>
+							<tr>
+								<th>
+									Column Header
+								</th>
+								<th>
+									Column Header
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									data	MUST HAVE THE SAME NUMBER OF COLUMNS IN THE BODY AS IN THE COLUMN HEADERS
+								</td>
+								<td>
+									data
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<script>
+						$("#IdName").DataTable();
+					</script>
+					https://github.com/redbooth/free-file-icons
+---ADMIN VIEW---
+All Projects
+	Subset of Tickets, per project
+		Subset of Attachments
+		Subset of Comments too?
+	Link for Archived Tickets
+Assigned Projects
+	Subset of Tickets, per project
+		Subset of Attachments
+		Subset of Comments too?
+	Link for Archived Tickets
+Link for Archived Projects
+Quick List of Critical Tickets
+Quick List of Unassigned Projects
+Quick List of Unassigned Tickets
+Quick List of Users w/o Role assignments
+Quick List of Users w/o Project or Ticket assignments
+*Quick List of Overdue Projects
+*Quick List of Overdue Tickets
+*Quick List of Projects due Today/Tomorrow
+*Quick List of Tickets due Today/Tomorrow
+*Quick List of Messages
+Statistical Items
+Assign a specific Project Manager for each project
+
+
+#### OUT OF SCOPE ####
+Messages – ability to send messages within the app
+Preferred start page?
+Preferred layout - wrap layout and body declarations with an if statement
+	Users model could have a property to store the preference
+Projects could have a due date - default to two weeks
+Tickets could have a due date - default to three days
+Calendar with due date
+Add history event for Projects?
+
+
+
+
+
+Google - webappmessages@gmail.com
+Client ID:  302700981700-gtttrc19i1ehq839h2fltdn812v5dj8k.apps.googleusercontent.com
+Client Secret:  1WXhomzTY0PDIdkk6EZPbpbA
+
+
+enable ssl = true in IdentityConfig.cs

@@ -7,25 +7,30 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BugTracker.Models;
+using System.Data.Entity;
+using System.IO;
 
 namespace BugTracker.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : Universal
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        // ManageController
         public ManageController()
         {
         }
 
+        // ManageController
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        // SignInManager
         public ApplicationSignInManager SignInManager
         {
             get
@@ -38,6 +43,7 @@ namespace BugTracker.Controllers
             }
         }
 
+        // UserManager
         public ApplicationUserManager UserManager
         {
             get
@@ -224,18 +230,14 @@ namespace BugTracker.Controllers
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
+                if (user != null) {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
@@ -320,6 +322,24 @@ namespace BugTracker.Controllers
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+
+        // GET: /Manage/EditProfile
+        public ActionResult EditProfile() {
+            var id = User.Identity.GetUserId();
+            ApplicationUser user = db.Users.First(u => u.Id == id);
+            return View(user);
+        }
+
+        //POST: /Manage/EditProfile
+        [HttpPost]
+        public async Task<ActionResult> EditProfile(string firstName, string lastName, string email, string id) {
+            var user = UserManager.FindById(id);
+            user.Email = email;
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            var updateResult = await UserManager.UpdateAsync(user);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

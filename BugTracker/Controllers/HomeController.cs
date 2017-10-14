@@ -1,11 +1,16 @@
-﻿using System;
+﻿using BugTracker.Models;
+using BugTracker.Models.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace BugTracker.Controllers {
-    public class HomeController : Controller {
+    public class HomeController : Universal {
         public ActionResult Index() {
             return View();
         }
@@ -20,6 +25,33 @@ namespace BugTracker.Controllers {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        //CONTACT
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Contact(EmailHelper model) {
+            if (ModelState.IsValid) {
+                try {
+                    var body = "<p>Email From: <bold>{0}</bold>({1})</p><p>Message:</p><p>{2}</p>"; 
+                    var from = "BugTracker<webappmessages@gmail.com>";
+                    model.Body = "This is a message from your BugTracker web application.  The name and the email of the contacting person is above.";
+                        var email = new MailMessage(from,
+                                    ConfigurationManager.AppSettings["emailto"]) {  //ACHTUNG!! emailto = the program's webappmessages@gmail.com
+                            Subject = "Portfolio Contact Email",
+                            Body = string.Format(body, model.FromName, model.FromEmail, model.Body),
+                            IsBodyHtml = true
+                        };
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+                    return RedirectToAction("Sent");
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    await Task.FromResult(0);
+                }
+            }
+            return View(model);
         }
     }
 }

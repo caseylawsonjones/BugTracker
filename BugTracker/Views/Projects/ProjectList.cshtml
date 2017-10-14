@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BugTracker.Models.CodeFirst.Project>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index of My Projects</h2>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.First(p => p.Id > 0).Title)</th>
+        <th>@Html.DisplayNameFor(model => model.First(p => p.Id > 0).Description)</th>
+        <th>@Html.DisplayNameFor(model => model.First(p => p.Id > 0).Created)</th>
+        <th>@Html.DisplayNameFor(model => model.First(p => p.Id > 0).Updated)</th>
+        <th>@Html.DisplayNameFor(model => model.First(p => p.Id > 0).AuthorId)</th>
+        <th>Options</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Updated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorId)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.Id })
+            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
+                <b>&#124;</b>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <b>&#124;</b>
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id }) <b>&#124;</b>
+                @Html.ActionLink("Assign Projects", "ProjectUser", new { id=item.Id })
+            }
+        </td>
+    </tr>
+}
+
+</table>
