@@ -13,6 +13,7 @@ using BugTracker.Models.CodeFirst;
 
 namespace BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ProjectsController : Universal
     {

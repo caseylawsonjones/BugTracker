@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class TicketCommentsController : Universal
     {
@@ -73,7 +74,7 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Body")] TicketComment ticketComment, int ticketId)
         {
-            TicketComment comment = db.TicketComments.Find(id);
+            TicketComment comment = db.TicketComments.Find(ticketId);
             Ticket ticket = db.Tickets.Find(comment.TicketId);
             Project project = db.Projects.Find(ticket.ProjectId);
             if ((User.IsInRole("Admin") ||
@@ -105,6 +106,7 @@ namespace BugTracker.Controllers
                 return View(ticketComment);
                 //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
             }
+            return RedirectToAction("Details", "Tickets", new { id = ticketId });
         }
 
         // GET: TicketComments/Edit/5

@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace BugTracker.Controllers {
+    [RequireHttps]
     public class HomeController : Universal {
         public ActionResult Index() {
             return View();

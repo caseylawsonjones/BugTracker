@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class TicketsController : Universal
     {

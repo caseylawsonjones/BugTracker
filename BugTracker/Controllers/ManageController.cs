@@ -12,6 +12,7 @@ using System.IO;
 
 namespace BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Universal
     {

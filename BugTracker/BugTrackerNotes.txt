@@ -126,17 +126,17 @@ XXX - Make sure it works.
 OPTIONAL - Add history event for ticket archival
 
 ---Notifications---
-email vs. in-app
 XXX - send link to item along with notification
 XXX - "An attachment has been deleted from a ticket that is assigned to you." needs to be changed to "An attachment has been deleted from one of your assigned tickets."
 XXX - "An attachment has been added to a ticket that is assigned to you." needs to be changed to "An attachment has been added to one of your assigned tickets."
 XXX - Delete Attachments notification - just display filename, not path. - probably add "FileName" property to Attachment model
 OPTIONAL - Customize message for new assignments to say "You have been assigned a new ticket", rather than it appearing as a previously assigned ticket was modified.
+OPTIONAL - Add in-app messaging
 
 ---Miscellaneous---
-Before publishing to Github, exclude the configs
-Do we need to set security in POST actions?  Most security settings should stop you from getting here.
-
+XXX - Before publishing to Github, exclude the configs
+XXX - Do we need to set security in POST actions?  Per Antonio, it is good practice to add the security settings there as well.
+      Remove BugTrackerNotes.txt from the GitHub repository on the first commit
 ---Layout---
 XXX - Delete Comments/Attachments in Modal
 XXX - Replace a "|" with &#124;
@@ -152,7 +152,7 @@ OPTIONAL - List filtering, not just sorting.  This may be redundant with respect
 OPTIONAL - login on a modal
       Display the most recent ticket assignments or tickets logged for the user (depends on role) oother relevant role-based information 
 	  Display data visualization of ticket types loand resolved per project and/or total 
-
+QUESTION - Does [RequireHttps] need to be added to Controllers only, or to helper classes and models as well?
 
 Currently Logged in User
 HttpContext.Current.User.Identity.Name
@@ -230,10 +230,16 @@ Add history event for Projects?
 
 
 
-
+https://localhost:44318/
+https://cjones-bugtracker.azurewebsites.net/
 Google - webappmessages@gmail.com
 Client ID:  302700981700-gtttrc19i1ehq839h2fltdn812v5dj8k.apps.googleusercontent.com
 Client Secret:  1WXhomzTY0PDIdkk6EZPbpbA
 
+Google OAuth:
+Client ID:
+715922513099-uv8h307k6ilirlhanl30l78vsgu0bbj3.apps.googleusercontent.com
+Client Secret:
+b4XQT1wInXMVB4OOAeLyL-b8
 
 enable ssl = true in IdentityConfig.cs

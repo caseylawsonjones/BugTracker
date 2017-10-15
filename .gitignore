@@ -6,6 +6,7 @@ private.config
 web.config
 configuration.cs
 Startup.Auth.cs
+BugTrackerNotes.txt
 
 # User-specific files
 *.suo

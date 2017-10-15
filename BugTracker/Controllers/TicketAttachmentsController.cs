@@ -14,6 +14,7 @@ using BugTracker.Models.Helpers;
 using System.Threading.Tasks;
 
 namespace BugTracker.Controllers {
+    [RequireHttps]
     public class TicketAttachmentsController : Universal {
 
         // GET: TicketAttachments
