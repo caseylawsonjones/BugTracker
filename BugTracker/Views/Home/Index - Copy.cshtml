@@ -6,7 +6,7 @@
 @if (User.Identity.IsAuthenticated) {
     if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
         <h2>Project Management Options</h2>
-        @Html.ActionLink("Projects - All", "Index", "Projects")<br />
+        @Html.ActionLink("Projects - All", "Index", "Home")<br />
         @Html.ActionLink("Create Project", "Create", "Projects")<br />
         @Html.ActionLink("List of Users", "Index", "Admin")<br />
     }

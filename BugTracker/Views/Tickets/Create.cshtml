@@ -5,15 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-
-
 @using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>Ticket</h4>
-        <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -62,7 +58,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-group">
-                <label>Add Attachments</label>
+                <label class="control-label col-md-2">Add Attachments</label>
                 <div class="col-md-10">
                     <input type="file" name="files" multiple>
                 </div>

@@ -28,7 +28,53 @@ textarea {
     width:15vh;
 }
 .wordWrapBreakWord {
-    overflow-wrap: break-word;
-    /*word-wrap: break-word;*/
-    word-break: break-all;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    -ms-word-break: break-all !important;
+    /* Non standard for webkit */
+    word-break: break-word !important;
+    -webkit-hyphens: auto !important;
+    -moz-hyphens: auto !important;
+    -ms-hyphens: auto !important;
+    hyphens: auto !important;
 }
+.loginDiv {
+    background-image: url('../../Content/Images/Radar elements blue background vector.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.table_padding {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    height: 10vh;
+}
+.table_title {
+    padding-left:5px;
+    margin-top:15px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #f4f8f9;
+}
+.center_text{
+    text-align:center!important;
+}
+.bg-roseybrown {
+    background-color: #BC8F8F;
+}
+
+a.bg-roseybrown:hover,
+a.bg-roseybrown:focus {
+    background-color: #d9bfbf;
+}
+/* 
+    I added this here for reference.  It is located in site.css ln. 15832 of the Cubic specific stylesheet
+    I normally wouldn't change anything there and would just over-ride it here, but I do not trust CSS.
+.fix-header .page-wrapper {
+    margin-top: 0px /* originally, it was 60px*/
+}
+*/

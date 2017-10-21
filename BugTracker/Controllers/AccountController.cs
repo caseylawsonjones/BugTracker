@@ -210,6 +210,9 @@ namespace BugTracker.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             return View();
         }
 
@@ -220,6 +223,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
@@ -254,6 +260,9 @@ namespace BugTracker.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             return code == null ? View("Error") : View();
         }
 
@@ -264,6 +273,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -412,7 +424,7 @@ namespace BugTracker.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

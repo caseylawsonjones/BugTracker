@@ -1,148 +1,184 @@
 ﻿@using BugTracker.Models
 @model LoginViewModel
 @{
+    Layout = null;
     ViewBag.Title = "Log in";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Login v2</title>
+    <!-- STYLESHEETS -->
+    <style type="text/css">
+        [fuse-cloak],
+        .fuse-cloak {
+            display: none !important;
+        }
+    </style>
+    <!-- Icons.css -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/icons/fuse-icon-font/style.css">
+    <!-- Animate.css -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/vendor/animate.css/animate.min.css">
+    <!-- PNotify -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/vendor/pnotify/pnotify.custom.min.css">
+    <!-- Nvd3 - D3 Charts -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/vendor/nvd3/build/nv.d3.min.css" />
+    <!-- Perfect Scrollbar -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+    <!-- Fuse Html -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/vendor/fuse-html/fuse-html.min.css" />
+    <!-- Main CSS -->
+    <link type="text/css" rel="stylesheet" href="~/Content/Theme Files/From Other Templates/css/main.css">
+    <!-- / STYLESHEETS -->
+    <!-- JAVASCRIPT -->
+    <!-- jQuery -->
+    <!-- / JAVASCRIPT -->
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="content">
+            <div id="login-v2" class="row no-gutters">
+                <!-- LEFT HALF OF THE PAGE -->
+                <div class="intro col-12 col-md">
+                    <div class="d-flex flex-column align-items-center align-items-md-start text-center text-md-left py-16 py-md-32 px-12">
+                        @*<div class="logo bg-secondary mb-8 loginDiv">
+                        </div>*@
+                        <div class="title" style="color:white">
+                            Welcome to BUGTRACKER!
+                        </div>
+                        <div class="description pt-2" style="color:white">
+                            A Project Management Web Application
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                <!-- LOGIN FORM ON RIGHT OF PAGE -->
+                <div class="form-wrapper col-12 col-md-auto d-flex justify-content-center p-4 p-md-0">
+                    <div class="form-content md-elevation-8 h-100 bg-white text-auto px-12" style="padding-top:16px;"><!-- classes: (py-md-32 main.css ln 3215) (py-16 main.css ln 1658)-->
+                        <div class="title h5">Log in to your account</div>
+                        <section id="loginForm" novalidate class="mt-8">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mt-8", role = "form", name = "loginForm" })) {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group mb-4">
+                                    @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", style = "padding-bottom:0px;", id = "loginFormInputEmail" })
+                                    <label for="loginFormInputEmail">Email address</label>
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group mb-0"><!-- classes: (mb-4 main.css ln 1214)-->
+                                    @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", style = "padding-bottom:0px;", id = "loginFormInputPassword" })
+                                    <label for="loginFormInputPassword">Password</label>
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="remember-forgot-password row no-gutters align-items-center justify-content-between"><!-- classes: (pt-4 main.css ln 1569)-->
+                                    <div class="form-group form-check remember-me mb-4">
+                                        <label class="form-check-label">
+                                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                                            <span class="checkbox-icon"></span>
+                                            <span class="form-check-description">Remember Me</span>
+                                            @*@Html.LabelFor(m => m.RememberMe)*@
+                                        </label>
+                                    </div>
+                                    @Html.ActionLink("Forgot Password?", "ForgotPassword", null, new { @class = "forgot-password text-secondary mb-4", style = "padding-top:15px;" })
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="LOG IN" class="submit-button btn btn-block btn-secondary my-4 mx-auto" aria-label="LOG IN" />
+                                </div>
+                            }
+                        </section>
+                        <div class="separator">
+                            <span class="text">OR</span>
+                        </div>
+
+                        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+                            @Html.AntiForgeryToken()
+                            <div id="socialLoginList">
+                                @*<button type="submit" class="btn btn-default" id="LinkedIn" name="provider" value="LinkedIn" title="Log in using your LinkedIn account">LinkedIn</button>*@
+                                <button type="submit" class="google btn btn-block btn-secondary my-2 mx-auto" id="Google" name="provider" value="Google" title="Log in using your Google account">
+                                    <span>
+                                        <i class="icon-google-plus s-4"></i>
+                                        <span>Log in with Google</span>
+                                    </span>
+                                </button>
+                                <button type="submit" class="facebook btn btn-block btn-secondary my-2 mx-auto" id="Facebook" name="provider" value="Facebook" title="Log in using your Facebook account">
+                                    <span>
+                                        <i class="icon-facebook s-4"></i>
+                                        <span>Log in with Facebook</span>
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                        <div class="separator">
+                            <span class="text">OR</span>
+                        </div>
+                        <div class="description mt-2" style="text-align:center;">Use one of the Demo Accounts</div>
+                        <section id="QuickLogins">
+                            @using (Html.BeginForm("Login", "Account", new { Email = "DemoAdmin@coderfoundry.com", Password = "BugTracker8**" })) {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="demoadmin btn btn-block btn-secondary my-2 mx-auto" value="DemoAdmin" style="width:200px">
+                                    <span>Demo Admin</span>
+                                </button>
+                            }
+
+                            @using (Html.BeginForm("Login", "Account", new { Email = "DemoProjectManager@coderfoundry.com", Password = "BugTracker8**" })) {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="demopm btn btn-block btn-secondary my-2 mx-auto" value="DemoProjectManager" style="width:200px">
+                                <span>Demo Project Manager</span>
+                                </button>
+
+                            }
+
+                            @using (Html.BeginForm("Login", "Account", new { Email = "DemoDeveloper@coderfoundry.com", Password = "BugTracker8**" })) {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="demodev btn btn-block btn-secondary my-2 mx-auto" value="DemoDeveloper" style="width:200px">
+                                <span>Demo Developer</span>
+                                </button>
+
+                            }
+
+                            @using (Html.BeginForm("Login", "Account", new { Email = "DemoSubmitter@coderfoundry.com", Password = "BugTracker8**" })) {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="demosub btn btn-block btn-secondary my-2 mx-auto" value="DemoSubmitter" style="width:200px">
+                                <span>Demo Submitter</span>
+                                </button>
+                            }
+                        </section>
+                        <div class="register d-flex flex-column flex-sm-row align-items-center justify-content-center mt-8 mb-6 mx-auto">
+                            <span class="text mr-sm-2">Don't have an account?</span>
+                            @Html.ActionLink("Create an Account", "Register", null, new { @class = "link text-secondary" })
+                        </div>
                     </div>
                 </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                //Enable this once you have account confirmation enabled for password reset functionality
-                <p>
-                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                </p>
-            }
-        </section>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <section id="QuickLogins">
-            @using (Html.BeginForm("Login", "Account", new { Email = "DemoAdmin@coderfoundry.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-purple" value="DemoAdmin" style="width:200px" />
-            }
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/jquery/dist/jquery.min.js"></script>
+    <!-- Mobile Detect -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/mobile-detect/mobile-detect.min.js"></script>
+    <!-- Perfect Scrollbar -->
+    <script type="text/javascript"
+            src="~/Content/Theme Files/From Other Templates/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- Popper.js -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/popper.js/index.js"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/bootstrap/bootstrap.min.js"></script>
+    <!-- Nvd3 - D3 Charts -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/d3/d3.min.js"></script>
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/nvd3/build/nv.d3.min.js"></script>
+    <!-- Data tables -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+    <!-- PNotify -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/pnotify/pnotify.custom.min.js"></script>
+    <!-- Fuse Html -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/fuse-html/fuse-html.min.js"></script>
+    <!-- Main JS -->
+    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/js/main.js"></script>
 
-            @using (Html.BeginForm("Login", "Account", new { Email = "DemoProjectManager@coderfoundry.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-danger" value="DemoProjectManager" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "DemoDeveloper@coderfoundry.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-success" value="DemoDeveloper" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "DemoSubmitter@coderfoundry.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-primary" value="DemoSubmitter" style="width:200px" />
-            }
-
-            <br />
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "1stAdmin@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-purple" value="1stAdmin" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "1stProjectManager@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-danger" value="1stProjectManager" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "1stDeveloper@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-success" value="1stDeveloper" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "1stSubmitter@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-primary" value="1stSubmitter" style="width:200px" />
-            }
-
-            <br />
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "2ndAdmin@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-purple" value="2ndAdmin" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "2ndProjectManager@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-danger" value="2ndProjectManager" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "2ndDeveloper@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-success" value="2ndDeveloper" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "2ndSubmitter@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-primary" value="2ndSubmitter" style="width:200px" />
-            }
-
-            <br />
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "3rdAdmin@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-purple" value="3rdAdmin" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "3rdProjectManager@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-danger" value="3rdProjectManager" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "3rdDeveloper@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-success" value="3rdDeveloper" style="width:200px" />
-            }
-
-            @using (Html.BeginForm("Login", "Account", new { Email = "3rdSubmitter@test.com", Password = "BugTracker8**" })) {
-                @Html.AntiForgeryToken()
-                <input type="submit" class="btn btn-primary" value="3rdSubmitter" style="width:200px" />
-            }
-
-
-        </section>
-        @*<section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>*@
-    </div>
-</div>
+</body></html>

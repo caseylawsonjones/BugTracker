@@ -59,7 +59,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to Ticket", "Details", "Tickets", new { id = Model.TicketId }, null )
         </div>
     }
 </div>

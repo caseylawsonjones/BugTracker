@@ -12,7 +12,7 @@ namespace BugTracker.Models {
         protected override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (User.Identity.IsAuthenticated) {
                 var userId = User.Identity.GetUserId();
-                var user = db.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+                ApplicationUser user = db.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
                 ViewBag.FirstName = user.FirstName;
                 ViewBag.LastName  = user.LastName;
                 ViewBag.FullName  = user.FullName;

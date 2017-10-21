@@ -1,8 +1,471 @@
-﻿@{
+﻿@model BugTracker.Models.Helpers.ProjectsListViewModel
+@{
     ViewBag.Title = "Home Page";
 }
+@section styles{
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+}
 @if (User.Identity.IsAuthenticated) {
+
+<div class="row colorbox-group-widget">
+    <div class="col-md-3 col-sm-6 info-color-box">
+        <div class="white-box">
+            <div class="media bg-danger">
+                <div class="media-body">
+                    <h3 class="info-count">@Model.AllTickets.Where(t => t.TicketPriority.Id == 5).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
+                    <p class="info-text font-12">Critical Tickets</p>
+                    <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 info-color-box">
+        <div class="white-box">
+            <div class="media bg-warning">
+                <div class="media-body">
+                    <h3 class="info-count">@Model.AllTickets.Where(t => t.TicketPriority.Id == 4).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
+                    <p class="info-text font-12">High Priority Tickets</p>
+                    <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 info-color-box">
+        <div class="white-box">
+            <div class="media bg-info">
+                <div class="media-body">
+                    <h3 class="info-count">@Model.AllTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                    <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                    <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 info-color-box">
+        <div class="white-box">
+            <div class="media bg-roseybrown">
+                <div class="media-body" style="color:white;">
+                    <h3 class="info-count">@Model.AllTickets.Where(t => t.AssignedUserId == null).Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                    <p class="info-text font-12">Unassigned Tickets</p>
+                    <p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.DevelopersWithNoTicketAssignments.Count()</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <div class="white-box order-chart-widget">
+            <h4 class="box-title">Ticket Priorities</h4>
+            <div id="ticket_priority_donut" style="height: 387px;"></div>
+            <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Critical</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>High</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Medium</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Low</h6>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="white-box order-chart-widget" style="height: 539px;">
+            <h3 class="box-title">User Count Per Role</h3>
+            <div id="developerInfoChart" style="height: 425px"></div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="white-box order-chart-widget">
+            <h4 class="box-title">Ticket Statuses</h4>
+            <div id="ticket_status_donut" style="height: 350px;"></div>
+            <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Submitted</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>Assigned</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>In-Progress</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Pending</h6>
+                </li>
+                <li>
+                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Resolved</h6>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box user-table">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4 class="box-title">Table Format/User Data</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="javascript:void(0);" class="btn btn-default btn-outline font-16"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn btn-default btn-outline font-16"><i class="fa fa-commenting" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                    <select class="custom-select">
+                        <option selected>Sort by</option>
+                        <option value="1">Name</option>
+                        <option value="2">Location</option>
+                        <option value="3">Type</option>
+                        <option value="4">Role</option>
+                        <option value="5">Action</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c1" type="checkbox">
+                                    <label for="c1"></label>
+                                </div>
+                            </th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c2" type="checkbox">
+                                    <label for="c2"></label>
+                                </div>
+                            </td>
+                            <td><a href="javascript:void(0);" class="text-link">Daniel Kristeen</a></td>
+                            <td>Texas, US</td>
+                            <td>Posts 564</td>
+                            <td><span class="label label-success">Admin</span></td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="1">Modulator</option>
+                                    <option value="2">Admin</option>
+                                    <option value="3">Staff</option>
+                                    <option value="4">User</option>
+                                    <option value="5">General</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c3" type="checkbox">
+                                    <label for="c3"></label>
+                                </div>
+                            </td>
+                            <td><a href="javascript:void(0);" class="text-link">Hanna Gover</a></td>
+                            <td>Los Angeles, US</td>
+                            <td>Posts 451</td>
+                            <td><span class="label label-info">Staff</span> </td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="1">Modulator</option>
+                                    <option value="2">Admin</option>
+                                    <option value="3">Staff</option>
+                                    <option value="4">User</option>
+                                    <option value="5">General</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c4" type="checkbox">
+                                    <label for="c4"></label>
+                                </div>
+                            </td>
+                            <td><a href="javascript:void(0);" class="text-link">Jeffery Brown</a></td>
+                            <td>Houston, US</td>
+                            <td>Posts 978</td>
+                            <td><span class="label label-danger">User</span> </td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="1">Modulator</option>
+                                    <option value="2">Admin</option>
+                                    <option value="3">Staff</option>
+                                    <option value="4">User</option>
+                                    <option value="5">General</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c5" type="checkbox">
+                                    <label for="c5"></label>
+                                </div>
+                            </td>
+                            <td><a href="javascript:void(0);" class="text-link">Elliot Dugteren</a></td>
+                            <td>San Antonio, US</td>
+                            <td>Posts 34</td>
+                            <td><span class="label label-warning">General</span> </td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="1">Modulator</option>
+                                    <option value="2">Admin</option>
+                                    <option value="3">Staff</option>
+                                    <option value="4">User</option>
+                                    <option value="5">General</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="checkbox checkbox-info">
+                                    <input id="c6" type="checkbox">
+                                    <label for="c6"></label>
+                                </div>
+                            </td>
+                            <td><a href="javascript:void(0);" class="text-link">Sergio Milardovich</a></td>
+                            <td>Jacksonville, US</td>
+                            <td>Posts 31</td>
+                            <td><span class="label label-primary">Partial</span> </td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="1">Modulator</option>
+                                    <option value="2">Admin</option>
+                                    <option value="3">Staff</option>
+                                    <option value="4">User</option>
+                                    <option value="5">General</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul class="pagination">
+                <li class="disabled"> <a href="#">1</a> </li>
+                <li class="active"> <a href="#">2</a> </li>
+                <li> <a href="#">3</a> </li>
+                <li> <a href="#">4</a> </li>
+                <li> <a href="#">5</a> </li>
+            </ul>
+            <a href="javascript:void(0);" class="btn btn-success pull-right m-t-10 font-20">+</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box calendar-widget">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-sm-12">
+        <div class="white-box comment-widget">
+            <h4 class="box-title">Recent Comments</h4>
+            <ul class="media-list">
+                <li class="media">
+                    <div class="media-left">
+                        <a href="#"> <img alt="user" class="media-object" src="../plugins/images/users/jeffery.jpg"> </a>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <a href="javascript:void(0);" class="text-link"> Daniel Kristeen</a><span class="font-normal com-time">2 min ago</span>
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="javascript:void(0);"><span>Reply</span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fa fa-heart p-r-5"></i>0 Like</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                        <div class="media reply">
+                            <div class="media-left">
+                                <a href="#"> <img alt="user" class="media-object" src="../plugins/images/users/hanna.jpg"> </a>
+                            </div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <a href="javascript:void(0);" class="text-link">Hanna Gover</a><span class="font-normal com-time">1 min ago</span>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="javascript:void(0);"><span>Reply</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);"><i class="fa fa-heart p-r-5"></i>0 Like</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <p>Cras sit amet nibh libero, in gravida nulla.</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="media">
+                    <div class="media-left">
+                        <a href="#"> <img alt="user" class="media-object" src="../plugins/images/users/jeffery.jpg"> </a>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <a href="javascript:void(0);" class="text-link"> Daniel Kristeen</a><span class="font-normal com-time">2 sec ago</span>
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="javascript:void(0);"><span>Reply</span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><i class="fa fa-heart p-r-5 text-danger"></i>2 Like</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="add-comment">
+                <input type="text" class="form-control" placeholder="Write your comment here">
+                <i class="fa fa-camera"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="white-box">
+            <div class="profile-widget">
+                <div class="profile-img">
+                    <img src="../plugins/images/users/jeffery.jpg" alt="user-img" class="img-circle">
+                    <p class="m-t-10 m-b-5"><a href="javascript:void(0);" class="profile-text font-22 font-semibold">Jeffery Brown</a></p>
+                    <span class="font-16">Ahmedabad, IN</span>
+                </div>
+                <div class="profile-info">
+                    <div class="col-xs-6 col-md-6 b-r">
+                        <h1 class="text-primary">647 </h1>
+                        <span class="font-16">Ranking</span>
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+                        <h1 class="text-primary">98 </h1>
+                        <span class="font-16">Events</span>
+                    </div>
+                </div>
+                <div class="profile-detail font-15">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+                    </p>
+                </div>
+                <div class="profile-btn">
+                    <a href="javascript:void(0);" class="btn btn-success">Follow Me</a>
+                    <a href="javascript:void(0);" class="btn btn-default btn-outline m-r-0">Detail View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script src="~/Content/Theme Files/From Other Templates/js/data-tables/jquery.dataTables.js"></script>
+    <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.tableTools.js"></script>
+    <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.bootstrap.js"></script>
+    <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.responsive.js"></script>
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script>$("#projectsTable").DataTable({ "order": [[2, 'desc']] });</script>
+    <script>$("#ticketsNoAssigneeTable").DataTable({ "order": [[5, 'desc']] });</script>
+    <script>$("#criticalTicketsTable").DataTable({ "order": [[4, 'desc']] });</script>
+    <script>
+        new Morris.Donut({
+            element: 'ticket_priority_donut',
+            data: [{
+                label: "Critical",
+                value: @Model.AllTickets.Where(t => t.TicketPriorityId == 5).Count()
+            }, {
+                label: "High",
+                value: @Model.AllTickets.Where(t => t.TicketPriorityId == 4).Count()
+            }, {
+                label: "Medium",
+                value: @Model.AllTickets.Where(t => t.TicketPriorityId == 3).Count()
+            }, {
+                label: "Low",
+                value: @Model.AllTickets.Where(t => t.TicketPriorityId == 2).Count()
+            }
+            ],
+            resize: true,
+            colors: ['#d9534f', '#f0ad4e', '#5bc0de', '#5cb85c']
+        });
+    </script>
+    <script>
+            new Morris.Donut({
+                element: 'ticket_status_donut',
+                data: [{
+                    label: "Submitted",
+                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 1).Count()
+                }, {
+                    label: "Assigned",
+                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 2).Count()
+                }, {
+                    label: "In Progress",
+                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 3).Count()
+                }, {
+                    label: "Pending",
+                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 4).Count()
+                }, {
+                    label: "Resolved",
+                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 5).Count()
+                }],
+                resize: true,
+                colors: ['#d9534f', '#f0ad4e', '#337ab7', '#5bc0de', '#5cb85c']
+            });
+    </script>
+    <script>
+            var line = new Morris.Bar({
+                element: 'developerInfoChart',
+                resize: true,
+                data: [{
+                    x: 'Admin',
+                    Value: @Model.AllUsers.Where(u => u.Roles.Any(r => r.RoleId == "15d6e5d2-56b5-4023-a411-c6029a989052")).Count()
+                }, {
+                    x: 'Project Manager',
+                    Value: @Model.AllUsers.Where(u => u.Roles.Any(r => r.RoleId == "5e1d6394-7712-4389-bfee-eecc30b2b985")).Count()
+                }, {
+                    x: 'Developer',
+                    Value: @Model.AllUsers.Where(u => u.Roles.Any(r => r.RoleId == "f6c4f96d-cab2-4667-b3da-70b9165f344c")).Count()
+                }, {
+                    x: 'Submitter',
+                    Value: @Model.AllUsers.Where(u => u.Roles.Any(r => r.RoleId == "bab7637d-3aba-4a75-b243-b08e1a8440d1")).Count()
+                }],
+                xkey: 'x',
+                ykeys: ['Value'],
+                labels: ['Roles'],
+                //gridLineColor: '#e0e0e0',
+                barColors: ['#5cb85c'],
+                lineWidth: 1,
+                xLabelAngle: 45,
+                padding: 50,
+                hideHover: 'auto'
+            });
+
+    </script>
 }
-else {
-    <h2>Please Log In</h2>
 }
+
+

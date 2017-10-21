@@ -18,39 +18,43 @@ namespace BugTracker.Controllers
     public class ProjectsController : Universal
     {
 
-        // GET: Projects
-        [Authorize]
-        public ActionResult Index()
-        {
-            //return View(db.Projects.ToList());
-            ProjectsListViewModel pListVM = new ProjectsListViewModel();
-            ICollection<Project> projects = db.Projects.ToList();
-            pListVM.AllProjects = projects;
-            ViewBag.NoRolesAssigned = false;
+        //// GET: Projects
+        //[Authorize]
+        //public ActionResult Index()
+        //{
+        //    //return View(db.Projects.ToList());
+        //    ProjectsListViewModel pListVM = new ProjectsListViewModel();
+        //    ICollection<Project> projects = db.Projects.ToList();
+        //    pListVM.AllProjects = projects;
+        //    ViewBag.NoRolesAssigned = false;
+        //    ICollection<ApplicationUser> unassignedUsers = db.Users.Where(u => u.Tickets.Count <= 0).ToList();
+        //    pListVM.UsersWithNoAssignments = unassignedUsers;
+        //    ICollection<ApplicationUser> usersWithNoRolesAssigned = db.Users.Where(u => u.Roles.Count <= 0).ToList();
+        //    pListVM.UsersWithNoRoles = usersWithNoRolesAssigned;
 
-            List<ApplicationUser> tempUsers = new List<ApplicationUser>();
-            ApplicationUser tempUser = new ApplicationUser();
-            foreach (var project in pListVM.AllProjects) {
-                tempUsers.Add(db.Users.FirstOrDefault(u => u.Id == project.AuthorId));
-            }
-            // Admin Role does not need to be checked as all projects have already been passed to the VM.
+        //    List<ApplicationUser> tempUsers = new List<ApplicationUser>();
+        //    ApplicationUser tempUser = new ApplicationUser();
+        //    foreach (var project in pListVM.AllProjects) {
+        //        tempUsers.Add(db.Users.FirstOrDefault(u => u.Id == project.AuthorId));
+        //    }
+        //    // Admin Role does not need to be checked as all projects have already been passed to the VM.
 
-            if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter")) {
-                List <ApplicationUser> users = db.Users.ToList();
-                ApplicationUser user = users.First(u => u.Id == User.Identity.GetUserId());
-                pListVM.UserProjects = user.Projects.ToList();
-                foreach (var userProject in pListVM.UserProjects) {
-                    tempUser = db.Users.FirstOrDefault(u => u.Id == userProject.AuthorId);
-                    tempUsers.Add(tempUser);
-                }
-            }
-            if (pListVM == null) {
-                ViewBag.NoRolesAssigned = true;  //If user has no role assignments, this will flag true.
-            }
+        //    if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter")) {
+        //        List <ApplicationUser> users = db.Users.ToList();
+        //        ApplicationUser user = users.First(u => u.Id == User.Identity.GetUserId());
+        //        pListVM.UserProjects = user.Projects.ToList();
+        //        foreach (var userProject in pListVM.UserProjects) {
+        //            tempUser = db.Users.FirstOrDefault(u => u.Id == userProject.AuthorId);
+        //            tempUsers.Add(tempUser);
+        //        }
+        //    }
+        //    if (pListVM == null) {
+        //        ViewBag.NoRolesAssigned = true;  //If user has no role assignments, this will flag true.
+        //    }
 
-            pListVM.ProjectAuthors = tempUsers;
-            return View(pListVM);
-        }
+        //    pListVM.ProjectAuthors = tempUsers;
+        //    return View(pListVM);
+        //}
 
         //public ActionResult ProjectList() {
         //    List<Project> mine = new List<Project>();
@@ -91,7 +95,7 @@ namespace BugTracker.Controllers
                 return View(projectUserVM);
             }
             else {
-                return RedirectToAction("Index", "Projects");
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -116,7 +120,7 @@ namespace BugTracker.Controllers
                 project.AuthorId = User.Identity.GetUserId();
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(project);
@@ -151,7 +155,7 @@ namespace BugTracker.Controllers
                 project.Updated = DateTimeOffset.UtcNow;
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(project);
         }
@@ -210,7 +214,7 @@ namespace BugTracker.Controllers
             foreach(var userId in model.AssignedUsers) {
                 helper.AddUserToProject(userId, model.ProjectId);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Projects/Archive/5
@@ -236,7 +240,7 @@ namespace BugTracker.Controllers
             if (ModelState.IsValid) {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(project);
         }

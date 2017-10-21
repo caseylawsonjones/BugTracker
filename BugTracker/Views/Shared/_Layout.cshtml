@@ -1,342 +1,486 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-    <meta name="author" content="Coderthemes">
-
-    <link rel="shortcut icon" href="~/Content/Theme Files/assets/images/favicon.ico">
-
-    <title>BugTracker</title>
-
-    <!--Morris Chart CSS -->
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/morris/morris.css">
-
-    <!-- Data Tables Styling -->
-    <link rel="stylesheet" href="~/Content/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/datatables/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/datatables/buttons.bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/datatables/fixedHeader.bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/datatables/responsive.bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/plugins/datatables/scroller.bootstrap.min.css" />
-
-    <!-- App css -->
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/bootstrap.min.css"      />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/core.css"               />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/components.css"         />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/icons.css"              />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/pages.css"              />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/menu.css"               />
-    <link rel="stylesheet" type="text/css" href="~/Content/Theme Files/assets/css/responsive.css"         />
-    <link rel="stylesheet" type="text/css" href="~/Content/MultiSelect/multiselect.css"                   />
-
-
-
-    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Theme Files/_Cubic/plugins/images/favicon.png">
+    <title>Cubic Admin Template</title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="~/Content/Theme Files/_Cubic/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link href="~/Content/Theme Files/_Cubic/plugins/components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/Content/Theme Files/_Cubic/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href='~/Content/Theme Files/_Cubic/plugins/components/fullcalendar/fullcalendar.css' rel='stylesheet'>
+    <!-- ===== Animation CSS ===== -->
+    <link href="~/Content/Theme Files/_Cubic/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="~/Content/Theme Files/_Cubic/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="~/Content/Theme Files/_Cubic/css/colors/red.css" id="theme" rel="stylesheet">
+    <link href="~/Content/Theme Files/_Cubic/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="~/Content/CSS/Site.css" rel="stylesheet" />
-    <script src="~/Content/Theme Files/assets/js/modernizr.min.js"></script>
+    @RenderSection("styles", required: false)
 
 </head>
 
-<body class="fixed-left">
-    <!-- Navigation Bar-->
-    <header id="topnav">
-        <div class="topbar-main">
-            <div class="container">
-
-                <!-- LOGO -->
-                <div class="topbar-left">
-                    <a href="~/Content/Theme Files/index.html" class="logo"><span>Admin<span>to</span></span></a>
-                </div>
-                <!-- End Logo container-->
-
-
-                <div class="menu-extras">
-
-                    <ul class="nav navbar-nav navbar-right pull-right">
-                        <li>
-                            <form role="search" class="navbar-left app-search pull-left hidden-xs">
-                                <input type="text" placeholder="Search..." class="form-control">
-                                <a href=""><i class="fa fa-search"></i></a>
-                            </form>
-                        </li>
-                        <li>
-                            <!-- Notification -->
-                            <div class="notification-box">
-                                <ul class="list-inline m-b-0">
-                                    <li>
-                                        <a href="javascript:void(0);" class="right-bar-toggle">
-                                            <i class="zmdi zmdi-notifications-none"></i>
-                                        </a>
-                                        <div class="noti-dot">
-                                            <span class="dot"></span>
-                                            <span class="pulse"></span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Notification bar -->
-                        </li>
-
-                        <li class="dropdown user-box">
-                            <a href="" class="dropdown-toggle waves-effect waves-light profile " data-toggle="dropdown" aria-expanded="true">
-                                <img src="~/Content/Theme Files/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
-                                <div class="user-status away"><i class="zmdi zmdi-dot-circle"></i></div>
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                @if (Request.IsAuthenticated) {
-                                    using (Html.BeginForm("LogOff", "Account", new { returnUrl = Request.Url }, FormMethod.Post, new { id = "logoutForm", })) {
-                                        @Html.AntiForgeryToken()
-                                        <li><a href="/Manage" title="Manage"><i class="ti-settings m-r-5"></i>@ViewBag.FullName</a></li>
-                                        <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti-power-off m-r-5"></i>Log Out</a></li>
-                                    }
-                                }
-                                else {
-                                    <li>
-                                        <a href="/Account/Register?returnUrl=http%3A%2F%2Flocalhost%3A49841%2F" id="registerLink"><i class="ti-user m-r-5"></i>Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="/Account/Login?ReturnUrl=%2F" id="loginLink"><i class="ti-power-off m-r-5"></i>Login</a>
-                                        @*@Html.ActionLink("Register", "Register", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "registerLink" })
-                                        @Html.ActionLink("Login", "Login", "Account", routeValues: new { ReturnUrl = Request.Url.AbsolutePath }, htmlAttributes: new { id = "loginLink" })*@
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-
-            </div>
+<body class="mini-sidebar fix-header">
+    <!-- ===== Main-Wrapper ===== -->
+    <div id="wrapper">
+        <div class="preloader">
+            <div class="cssload-speeding-wheel"></div>
         </div>
-
-        <div class="navbar-custom">
-            <div class="container">
-                <div id="navigation">
-                    <!-- Navigation Menu-->
-                    <ul class="navigation-menu">
-                        <li>
-                            <a href="/Home/Index"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="/Projects/Index"><i class="zmdi zmdi-invert-colors"></i> <span> Projects </span> </a>
-                            <ul class="submenu megamenu">
-                                <li>
-                                    <ul>
-                                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
-                                            <li><a href="/Projects/Create">New Project</a></li>
-                                            <li><a href="/Projects/Index">All Active Projects</a></li>
-                                            @*<li><a href="#">Projects by Project Manager</a></li>
-                                            <li><a href="#">Projects by Assigned User </a></li>*@
-                                            <li><a href="/Projects/Archived">Archived Projects </a></li>
-                                            <li></li>
-                                        }
-                                        @if (User.IsInRole("ProjectManager")) {
-                                            <li><a href="#">Projects That I Manage</a></li>
-                                            <li></li>
-                                        }
-                                        @if (User.IsInRole("Developer") || User.IsInRole("Submitter")) {
-                                            <li><a href="/Projects/Index">My Assigned Projects</a></li>
-                                        }
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="has-submenu">
-                            <a href="/Tickets/Index"><i class="zmdi zmdi-collection-text"></i><span> Tickets </span> </a>
-                            <ul class="submenu">
-                                @if (User.IsInRole("Submitter")) {
-                                    <li><a href="/Tickets/Create">New Ticket</a></li>
-                                }
-                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
-                                    <li><a href="/Tickets/Index">All Active Tickets</a></li>
-                                    @*<li><a href="#">Tickets by Assigned User</a></li>
-                                    <li><a href="#">Tickets by Submitter</a></li>*@
-                                }
-                                @if (User.IsInRole("Developer")) {
-                                    <li><a href="/Tickets/Index">My Assigned Tickets</a></li>
-                                }
-                                @if (User.IsInRole("Submitter")) {
-                                    <li><a href="/Tickets/Index">My Submitted Tickets</a></li>
-                                }
-                            </ul>
-                        </li>
-                        <!-- User Administration Menu -->
-                        @if (User.IsInRole("Admin")) {
-                            <li class="has-submenu">
-                                <a href="#"><i class="zmdi zmdi-view-list"></i> <span> User Administration </span> </a>
-                                <ul class="submenu">
-                                    <li><a href="/Admin/Index">List of Users</a></li>
-                                    <li><a href="#">Users by Role</a></li>
-                                </ul>
+        <!-- ===== Top-Navigation ===== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <a class="navbar-toggle font-20 hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="top-left-part">
+                    <a class="logo" href="/Home/Index">
+                        <b>
+                            <img src="~/Content/Theme Files/_Cubic/plugins/images/logo.png" alt="home" />
+                        </b>
+                        <span>
+                            <img src="~/Content/Theme Files/_Cubic/plugins/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li>
+                        <a href="javascript:void(0)" class="sidebartoggler font-20 waves-effect waves-light"><i class="icon-arrow-left-circle"></i></a>
+                    </li>
+                    <li>
+                        <form role="search" class="app-search hidden-xs">
+                            <i class="icon-magnifier"></i>
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </form>
+                    </li>
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light font-20" data-toggle="dropdown" href="javascript:void(0);">
+                            <i class="icon-speech"></i>
+                            <span class="badge badge-xs badge-danger">6</span>
+                        </a>
+                        <ul class="dropdown-menu mailbox animated bounceInDown">
+                            <li>
+                                <div class="drop-title">You have 4 new messages</div>
                             </li>
-                        }
-                    </ul>
-                    <!-- End navigation menu  -->
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- End Navigation Bar-->
+                            <li>
+                                <div class="message-center">
+                                    <a href="javascript:void(0);">
+                                        <div class="user-img">
+                                            <img src="~/Content/Theme Files/_Cubic/plugins/images/users/1.jpg" alt="user" class="img-circle">
+                                            <span class="profile-status online pull-right"></span>
+                                        </div>
+                                        <div class="mail-contnet">
+                                            <h5>Pavan kumar</h5>
+                                            <span class="mail-desc">Just see the my admin!</span>
+                                            <span class="time">9:30 AM</span>
+                                        </div>
+                                    </a>
+                                    <a href="javascript:void(0);">
+                                        <div class="user-img">
+                                            <img src="~/Content/Theme Files/_Cubic/plugins/images/users/2.jpg" alt="user" class="img-circle">
+                                            <span class="profile-status busy pull-right"></span>
+                                        </div>
+                                        <div class="mail-contnet">
+                                            <h5>Sonu Nigam</h5>
+                                            <span class="mail-desc">I've sung a song! See you at</span>
+                                            <span class="time">9:10 AM</span>
+                                        </div>
+                                    </a>
+                                    <a href="javascript:void(0);">
+                                        <div class="user-img">
+                                            <img src="~/Content/Theme Files/_Cubic/plugins/images/users/3.jpg" alt="user" class="img-circle"><span class="profile-status away pull-right"></span>
+                                        </div>
+                                        <div class="mail-contnet">
+                                            <h5>Arijit Sinh</h5>
+                                            <span class="mail-desc">I am a singer!</span>
+                                            <span class="time">9:08 AM</span>
+                                        </div>
+                                    </a>
+                                    <a href="javascript:void(0);">
+                                        <div class="user-img">
+                                            <img src="~/Content/Theme Files/_Cubic/plugins/images/users/4.jpg" alt="user" class="img-circle">
+                                            <span class="profile-status offline pull-right"></span>
+                                        </div>
+                                        <div class="mail-contnet">
+                                            <h5>Pavan kumar</h5>
+                                            <span class="mail-desc">Just see the my admin!</span>
+                                            <span class="time">9:02 AM</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="text-center" href="javascript:void(0);">
+                                    <strong>See all notifications</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light font-20" data-toggle="dropdown" href="javascript:void(0);">
+                            <i class="icon-calender"></i>
+                            <span class="badge badge-xs badge-danger">3</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-tasks animated slideInUp">
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div>
+                                        <p>
+                                            <strong>Task 1</strong>
+                                            <span class="pull-right text-muted">40% Complete</span>
+                                        </p>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div>
+                                        <p>
+                                            <strong>Task 2</strong>
+                                            <span class="pull-right text-muted">20% Complete</span>
+                                        </p>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                <span class="sr-only">20% Complete</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div>
+                                        <p>
+                                            <strong>Task 3</strong>
+                                            <span class="pull-right text-muted">60% Complete</span>
+                                        </p>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                                <span class="sr-only">60% Complete (warning)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div>
+                                        <p>
+                                            <strong>Task 4</strong>
+                                            <span class="pull-right text-muted">80% Complete</span>
+                                        </p>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                                <span class="sr-only">80% Complete (danger)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="text-center" href="javascript:void(0);">
+                                    <strong>See All Tasks</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                     -->
 
 
-    <div class="wrapper">
-        <div class="container">
-            @RenderBody()
-            <!-- Footer -->
-            @*<footer class="footer text-right">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-6">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light font-20" data-toggle="dropdown" href="javascript:void(0);">
+                            <i class="icon-calender"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-tasks animated bounceInDown">
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div>
+                                        <p>
+                                            <strong>Task 1</strong>
+                                            <span class="pull-right text-muted">40% Complete</span>
+                                        </p>
+                                        <div class="progress progress-striped active">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
 
-                        </div>
-                        <div class="col-xs-6">
-                            <ul class="pull-right list-inline m-b-0">
+                    <!-- User Management Menu Item -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light font-20 profile " data-toggle="dropdown" href="javascript:void(0);" aria-expanded="true">
+                            <i class="icon-settings"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-tasks animated bounceInDown">
+                            @if (Request.IsAuthenticated) {
+                                using (Html.BeginForm("LogOff", "Account", new { returnUrl = Request.Url }, FormMethod.Post, new { id = "logoutForm", })) {
+                                    @Html.AntiForgeryToken()
+                                    <li><a href="/Manage/Index" title="Manage"><i class="ti-settings m-r-5"></i>@ViewBag.FullName</a></li>
+                                    <li><br /></li>
+                                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti-power-off m-r-5"></i>Log Out</a></li>
+                                }
+                            }
+                            else {  <!-- This should never bee seen as all logged out users should be redirected to the landing/login page -->
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="/Account/Register?returnUrl=http%3A%2F%2Flocalhost%3A49841%2F" id="registerLink"><i class="ti-user m-r-5"></i>Register</a>
                                 </li>
                                 <li>
-                                    <a href="#">Help</a>
+                                    <a href="/Account/Login?ReturnUrl=%2F" id="loginLink"><i class="ti-power-off m-r-5"></i>Login</a>
+                                    @*@Html.ActionLink("Register", "Register", "Account", routeValues: new { returnUrl = Request.Url }, htmlAttributes: new { id = "registerLink" })
+                                        @Html.ActionLink("Login", "Login", "Account", routeValues: new { ReturnUrl = Request.Url.AbsolutePath }, htmlAttributes: new { id = "loginLink" })*@
                                 </li>
-                                <li>
-                                    <a href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </footer>*@
-            <!-- End Footer -->
-        </div>
-        <!-- end container -->
-        <!-- Right Sidebar -->
-        <div class="side-bar right-bar">
-            <a href="javascript:void(0);" class="right-bar-toggle">
-                <i class="zmdi zmdi-close-circle-o"></i>
-            </a>
-            <h4 class="">Notifications</h4>
-            <div class="notification-list nicescroll">
-                <ul class="list-group list-no-border user-list">
-                    <li class="list-group-item">
-                        <a href="#" class="user-list-item">
-                            <div class="avatar">
-                                <img src="~/Content/Theme Files/assets/images/users/avatar-2.jpg" alt="">
-                            </div>
-                            <div class="user-desc">
-                                <span class="name">Michael Zenaty</span>
-                                <span class="desc">There are new settings available</span>
-                                <span class="time">2 hours ago</span>
-                            </div>
-                        </a>
+                            }
+                        </ul>
                     </li>
-                    <li class="list-group-item">
-                        <a href="#" class="user-list-item">
-                            <div class="icon bg-info">
-                                <i class="zmdi zmdi-account"></i>
-                            </div>
-                            <div class="user-desc">
-                                <span class="name">New Signup</span>
-                                <span class="desc">There are new settings available</span>
-                                <span class="time">5 hours ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#" class="user-list-item">
-                            <div class="icon bg-pink">
-                                <i class="zmdi zmdi-comment"></i>
-                            </div>
-                            <div class="user-desc">
-                                <span class="name">New Message received</span>
-                                <span class="desc">There are new settings available</span>
-                                <span class="time">1 day ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-group-item active">
-                        <a href="#" class="user-list-item">
-                            <div class="avatar">
-                                <img src="~/Content/Theme Files/assets/images/users/avatar-3.jpg" alt="">
-                            </div>
-                            <div class="user-desc">
-                                <span class="name">James Anderson</span>
-                                <span class="desc">There are new settings available</span>
-                                <span class="time">2 days ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-group-item active">
-                        <a href="#" class="user-list-item">
-                            <div class="icon bg-warning">
-                                <i class="zmdi zmdi-settings"></i>
-                            </div>
-                            <div class="user-desc">
-                                <span class="name">Settings</span>
-                                <span class="desc">There are new settings available</span>
-                                <span class="time">1 day ago</span>
-                            </div>
-                        </a>
-                    </li>
+                    <li class="divider"></li>
 
+                    <!--
+                    <li class="right-side-toggle">
+                        <a class="right-side-toggler waves-effect waves-light b-r-0 font-20" href="javascript:void(0)">
+                            <i class="icon-settings"></i>
+                        </a>
+                    </li>
+                    -->
                 </ul>
             </div>
+        </nav>
+        <!-- ===== Top-Navigation-End ===== -->
+        <!-- ===== Left-Sidebar ===== -->
+        <aside class="sidebar">
+            <div class="scroll-sidebar">
+                <div class="user-profile">
+                    <div class="dropdown user-pro-body">
+                        <div class="profile-image">
+                            <img src="~/Content/Theme Files/_Cubic/plugins/images/users/hanna.jpg" alt="user-img" class="img-circle">
+                            <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="badge badge-danger">
+                                    <i class="fa fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated flipInY">
+                                <li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-cog"></i> Account Settings</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href=""><i class="fa fa-power-off"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                        <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> Hanna Gover</a></p>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="side-menu">
+                        <li>
+                            <a class="active waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard <span class="label label-rounded label-info pull-right">3</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li> <a href="index.html">Modern Version</a> </li>
+                                <li> <a href="index2.html">Clean Version</a> </li>
+                                <li> <a href="index3.html">Analytical Version</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-basket fa-fw"></i> <span class="hide-menu"> eCommerce </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li> <a href="index4.html">Dashboard</a> </li>
+                                <li> <a href="products.html">Products</a> </li>
+                                <li> <a href="product-detail.html">Product Detail</a> </li>
+                                <li> <a href="product-edit.html">Product Edit</a> </li>
+                                <li> <a href="product-orders.html">Product Orders</a> </li>
+                                <li> <a href="product-cart.html">Product Cart</a> </li>
+                                <li> <a href="product-checkout.html">Product Checkout</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-envelope-letter fa-fw"></i> <span class="hide-menu"> Inbox <span class="label label-rounded label-primary pull-right">5</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li> <a href="inbox.html">Mail Box</a> </li>
+                                <li> <a href="inbox-detail.html">Mail Details</a> </li>
+                                <li> <a href="compose.html">Compose Mail</a> </li>
+                                <li> <a href="contact.html">Contact</a> </li>
+                                <li> <a href="contact-detail.html">Contact Detail</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-equalizer fa-fw"></i> <span class="hide-menu"> UI Elements<span class="label label-rounded label-danger pull-right">18</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="panels-wells.html">Panels and Wells</a></li>
+                                <li><a href="panel-ui-block.html">Panels With BlockUI</a></li>
+                                <li><a href="portlet-draggable.html">Draggable Portlet</a></li>
+                                <li><a href="buttons.html">Buttons</a></li>
+                                <li><a href="tabs.html">Tabs</a></li>
+                                <li><a href="modals.html">Modals</a></li>
+                                <li><a href="progressbars.html">Progress Bars</a></li>
+                                <li><a href="notification.html">Notifications</a></li>
+                                <li><a href="carousel.html">Carousel</a></li>
+                                <li><a href="user-cards.html">User Cards</a></li>
+                                <li><a href="timeline.html">Timeline</a></li>
+                                <li><a href="timeline-horizontal.html">Horizontal Timeline</a></li>
+                                <li><a href="range-slider.html">Range Slider</a></li>
+                                <li><a href="ribbons.html">Ribbons</a></li>
+                                <li><a href="steps.html">Steps</a></li>
+                                <li><a href="session-idle-timeout.html">Session Idle Timeout</a></li>
+                                <li><a href="session-timeout.html">Session Timeout</a></li>
+                                <li><a href="bootstrap.html">Bootstrap UI</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-notebook fa-fw"></i> <span class="hide-menu"> Forms </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="form-basic.html">Basic Forms</a></li>
+                                <li><a href="form-layout.html">Form Layout</a></li>
+                                <li><a href="icheck-control.html">Icheck Control</a></li>
+                                <li><a href="form-advanced.html">Form Addons</a></li>
+                                <li><a href="form-upload.html">File Upload</a></li>
+                                <li><a href="form-dropzone.html">File Dropzone</a></li>
+                                <li><a href="form-pickers.html">Form-pickers</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-grid fa-fw"></i> <span class="hide-menu"> Tables</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="basic-table.html">Basic Tables</a></li>
+                                <li><a href="table-layouts.html">Table Layouts</a></li>
+                                <li><a href="data-table.html">Data Table</a></li>
+                                <li><a href="bootstrap-tables.html">Bootstrap Tables</a></li>
+                                <li><a href="responsive-tables.html">Responsive Tables</a></li>
+                                <li><a href="editable-tables.html">Editable Tables</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-pie-chart fa-fw"></i> <span class="hide-menu"> Charts</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="morris-chart.html">Morris Chart</a></li>
+                                <li><a href="peity-chart.html">Peity Charts</a></li>
+                                <li><a href="knob-chart.html">Knob Charts</a></li>
+                                <li><a href="sparkline-chart.html">Sparkline charts</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="widgets.html" aria-expanded="false"><i class="icon-settings fa-fw"></i> <span class="hide-menu"> Widgets </span></a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-bulb fa-fw"></i> <span class="hide-menu"> Icons</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li> <a href="simple-line.html">Simple Line</a> </li>
+                                <li> <a href="fontawesome.html">Fontawesome</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-location-pin fa-fw"></i> <span class="hide-menu"> Maps</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li> <a href="map-google.html">Google Map</a> </li>
+                                <li> <a href="map-vector.html">Vector Map</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i class="icon-docs fa-fw"></i> <span class="hide-menu"> Pages<span class="label label-rounded label-success pull-right">18</span></span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a href="javascript:void(0);">Error Pages</a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li> <a href="400.html">400</a> </li>
+                                        <li> <a href="403.html">403</a> </li>
+                                        <li> <a href="404.html">404</a> </li>
+                                        <li> <a href="500.html">404</a> </li>
+                                        <li> <a href="503.html">404</a> </li>
+                                    </ul>
+                                </li>
+                                <li><a href="starter-page.html">Starter Page</a></li>
+                                <li><a href="blank.html">Blank Page</a></li>
+                                <li><a href="search-result.html">Search Result</a></li>
+                                <li><a href="custom-scroll.html">Custom Scrolls</a></li>
+                                <li><a href="login.html">Login Page</a></li>
+                                <li><a href="lock-screen.html">Lock Screen</a></li>
+                                <li><a href="recoverpw.html">Recover Password</a></li>
+                                <li><a href="animation.html">Animations</a></li>
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="invoice.html">Invoice</a></li>
+                                <li><a href="gallery.html">Gallery</a></li>
+                                <li><a href="pricing.html">Pricing</a></li>
+                                <li><a href="register.html">Register</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="calendar.html" aria-expanded="false"><i class="icon-calender fa-fw"></i> <span class="hide-menu"> Calendar</span></a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="p-30">
+                    <span class="hide-menu">
+                        <a href="javascript:void(0);" target="_blank" class="btn btn-success">Buy Cubic Admin</a>
+                        <a href="javascript:void(0);" target="_blank" class="btn btn-default m-t-15">Check Documentation</a>
+                    </span>
+                </div>
+            </div>
+        </aside>
+        <!-- ===== Left-Sidebar-End ===== -->
+        <!-- ===== Page-Content ===== -->
+        <!-- Page Content -->
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>        <!-- ===== Page-Content-End ===== -->
         </div>
-        <!-- /Right-bar -->
     </div>
-
-
-
-    <script>
-        var resizefunc = [];
-    </script>
-
-    <!-- jQuery  -->
-    <script src="~/Content/Theme Files/assets/js/jquery.min.js"></script>
-    <script src="~/Content/Theme Files/assets/js/bootstrap.min.js"></script>
-    <script src="~/Content/Theme Files/assets/js/detect.js"></script>
-    <script src="~/Content/Theme Files/assets/js/fastclick.js"></script>
-    <script src="~/Content/Theme Files/assets/js/jquery.slimscroll.js"></script>
-    <script src="~/Content/Theme Files/assets/js/jquery.blockUI.js"></script>
-    <script src="~/Content/Theme Files/assets/js/waves.js"></script>
-    <script src="~/Content/Theme Files/assets/js/wow.min.js"></script>
-    <script src="~/Content/Theme Files/assets/js/jquery.nicescroll.js"></script>
-    @*<script src="~/Content/Theme Files/assets/js/jquery.slimscroll.js"></script>*@
-    <script src="~/Content/Theme Files/assets/js/jquery.scrollTo.min.js"></script>
-
-    <!-- KNOB JS -->
-    <!--[if IE]>
-    <script type="text/javascript" src="~/Content/Theme Files/assets/plugins/jquery-knob/excanvas.js"></script>
-    <![endif]-->
-    <script src="~/Content/Theme Files/assets/plugins/jquery-knob/jquery.knob.js"></script>
-
-    <!--Morris Chart-->
-    <script src="~/Content/Theme Files/assets/plugins/morris/morris.min.js"></script>
-    <script src="~/Content/Theme Files/assets/plugins/raphael/raphael-min.js"></script>
-
-    <!-- Dashboard init -->
-    <script src="~/Content/Theme Files/assets/pages/jquery.dashboard.js"></script>
-
-    <!-- App js -->
-    <script src="~/Content/Theme Files/assets/js/jquery.core.js"></script>
-    <script src="~/Content/Theme Files/assets/js/jquery.app.js"></script>
+    <!-- ===== Main-Wrapper-End ===== -->
+    <!-- ==============================
+        Required JS Files
+    =============================== -->
+    <!-- ===== jQuery ===== -->
+    <script src="~/Content/Theme Files/_Cubic/plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- ===== Bootstrap JavaScript ===== -->
+    <script src="~/Content/Theme Files/_Cubic/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- ===== Slimscroll JavaScript ===== -->
+    <script src="~/Content/Theme Files/_Cubic/js/jquery.slimscroll.js"></script>
+    <!-- ===== Wave Effects JavaScript ===== -->
+    <script src="~/Content/Theme Files/_Cubic/js/waves.js"></script>
+    <!-- ===== Menu Plugin JavaScript ===== -->
+    <script src="~/Content/Theme Files/_Cubic/js/sidebarmenu.js"></script>
+    <!-- ===== Custom JavaScript ===== -->
+    <script src="~/Content/Theme Files/_Cubic/js/custom.js"></script>
+    <!-- ===== Plugin JS ===== -->
+    @*<script src="~/Content/Theme Files/_Cubic/plugins/components/chartist-js/dist/chartist.min.js"></script>
+    <script src="~/Content/Theme Files/_Cubic/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src='~/Content/Theme Files/_Cubic/plugins/components/moment/moment.js'></script>
+    <script src='~/Content/Theme Files/_Cubic/plugins/components/fullcalendar/fullcalendar.js'></script>
+    <script src="~/Content/Theme Files/_Cubic/js/db2.js"></script>*@
+    <!-- ===== Style Switcher JS ===== -->
+    <script src="~/Content/Theme Files/_Cubic/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
     @RenderSection("scripts", required: false)
+
 </body>
+
 </html>

@@ -2,9 +2,59 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.Web.Mvc;
+using BugTracker.Models.CodeFirst;
 
 namespace BugTracker.Models
 {
+    public class AccountManagementViewModel : Universal {
+        //private ApplicationUser UserInfo;
+        
+        //public AccountManagementViewModel(string userId) {
+        //    ApplicationUser user
+        //}
+        // FROM INDEXVIEWMODEL
+        //public ApplicationUser UserInfo {
+        //    get {
+        //        return (db.Users.Find(User.Identity.GetUserId()));
+        //    }
+        //}
+        public AccountManagementViewModel() {
+            UserRoles = new HashSet<string>();
+        }
+        public bool HasPassword { get; set; }
+        public IList<UserLoginInfo> Logins { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool TwoFactor { get; set; }
+        public bool BrowserRemembered { get; set; }
+        public ApplicationUser UserInfo { get; set; }
+        public ICollection<Ticket> UserTickets { get; set; }
+        public ICollection<TicketComment> UserComments { get; set; }
+        public ICollection<TicketAttachment> UserAttachments { get; set; }
+        public ICollection<string> UserRoles { get; set; }
+
+        // FROM CHANGEPASSWORDVIEWMODEL
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        // FROM MANAGELOGINSVIEWMODEL
+        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<AuthenticationDescription> OtherLogins { get; set; }
+    }
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -35,7 +85,7 @@ namespace BugTracker.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -54,7 +104,7 @@ namespace BugTracker.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 

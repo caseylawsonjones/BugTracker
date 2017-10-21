@@ -1,0 +1,363 @@
+﻿@model BugTracker.Models.Helpers.TicketsListViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
+    <title>Cubic Admin Template</title>
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link rel="stylesheet" type="text/css" href="../plugins/components/gallery/css/animated-masonry-gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../plugins/components/fancybox/ekko-lightbox.min.css" />
+    <!-- ===== Animation CSS ===== -->
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<div class="row">
+    <div class="col-md-8 col-xs-12">
+        <div class="white-box">
+
+                    <h3 class="box-title">Gallery Page</h3>
+                    <div id="gallery">
+                        <div id="gallery-header">
+                            <div id="gallery-header-center">
+                                <div id="gallery-header-center-left">
+                                    <ul class="nav nav-tabs tabs customtab">
+                                        @if(UserInRole("Admin")){
+                                        <li class="active tab">
+                                            <a href="#admin" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">All Active Tickets - All Projects</span> </a>
+                                        </li>
+                                        }
+                                        @if(UserInRole("ProjectManager")){
+                                        <li class="tab">
+                                            <a href="#projectManager" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">All Active Tickets - My Projects</span> </a>
+                                        </li>
+                                        }
+                                        @if(UserInRole("Developer")){
+                                        <li class="tab">
+                                            <a href="#developer" data-toggle="tab" aria-expanded="true"> <span class="visible-xs"><i class="fa fa-envelope-o"></i></span> <span class="hidden-xs">My Assigned Tickets</span> </a>
+                                        </li>
+                                        }
+                                        @if(UserInRole("Submitter")){
+                                        <li class="tab">
+                                            <a href="#submitter" data-toggle="tab" aria-expanded="false"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">My Submitted Tickets</span> </a>
+                                        </li>
+                                        }
+                                    </ul>
+
+                                    <!--<div class="gallery-header-center-right-links" id="filter-all">All Active Tickets - All Projects</div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div id="gallery-content">
+                            @if (ViewBag.NoRolesAssigned) {
+                                <h1>Your account currently is not assigned to any roles.  Please contact your administrator.</h1>
+                            }
+                            <!-- Admin and ProjectManager - All Tickets-->
+                            <div class="tab-pane" id="admin">
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h4 class="header-title m-t-0 m-b-30">List of All Tickets For My Assigned Projects</h4>
+
+                                            <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.AllTickets) {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                        }
+                                                        else {
+                                                        <td></td> }
+                                                        <td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                }
+                            </div>                            <hr />
+                            <!-- Project Manager -->
+                            <div class="tab-pane" id="projectManager">
+                                @if (User.IsInRole("ProjectManager")) {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h4 class="header-title m-t-0 m-b-30">List of All Tickets For My Assigned Projects</h4>
+
+                                            <table id="datatable-ProjectManager" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.ProjectTickets) {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                        }
+                                                        else {
+                                                        <td></td> }
+                                                        <td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                }
+                            </div>                            <hr />
+                            <!-- Developer -->
+                            <div class="tab-pane" id="developer">
+                                @if (User.IsInRole("Developer")) {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h4 class="header-title m-t-0 m-b-30">List of My Assigned Tickets</h4>
+
+                                            <table id="datatable-Developer" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.AssignedTickets) {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                        }
+                                                        else {
+                                                        <td></td> }
+                                                        <td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                }
+                            </div>                            <hr />
+                            <!-- Submitter -->
+                            <div class="tab-pane" id="submitter">
+                                @if (User.IsInRole("Submitter")) {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h4 class="header-title m-t-0 m-b-30">List of My Submitted Tickets</h4>
+
+                                            <table id="datatable-Submitter" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.SubmittedTickets) {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                        }
+                                                        else {
+                                                        <td></td> }
+                                                        <td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        @section Scripts {
+        <!-- DataTables -->
+        <script src="~/Content/DataTables/datatables.min.js"></script>
+        <script>$("#datatable-Submitter").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+        <script>$("#datatable-Developer").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+        <script>$("#datatable-ProjectManager").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+        <script>$("#datatable-AdminPM").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+
+        <!-- jQuery -->
+        <!--<script src="../plugins/components/jquery/dist/jquery.min.js"></script>-->
+        <!-- Bootstrap Core JavaScript -->
+        <!--<script src="bootstrap/dist/js/bootstrap.min.js"></script>-->
+        <!-- Menu Plugin JavaScript -->
+        <script src="js/sidebarmenu.js"></script>
+        <!--slimscroll JavaScript -->
+        <script src="js/jquery.slimscroll.js"></script>
+        <!--Wave Effects -->
+        <script src="js/waves.js"></script>
+        <script type="text/javascript" src="../plugins/components/gallery/js/animated-masonry-gallery.js"></script>
+        <script type="text/javascript" src="../plugins/components/gallery/js/jquery.isotope.min.js"></script>
+        <script type="text/javascript" src="../plugins/components/fancybox/ekko-lightbox.min.js"></script>
+        <script type="text/javascript">
+            $(function ($) {
+                // delegate calls to data-toggle="lightbox"
+                $(document).delegate('*[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', 'click', function (event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox({
+                        onShown: function () {
+                            if (window.console) {
+                                return console.log('Checking our the events huh?');
+                            }
+                        },
+                        onNavigate: function (direction, itemIndex) {
+                            if (window.console) {
+                                return console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
+                            }
+                        }
+                    });
+                });
+                //Programatically call
+                $('#open-image').on("click", function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+                $('#open-youtube').on("click", function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+                // navigateTo
+                $(document).delegate('*[data-gallery="navigateTo"]', 'click', function (event) {
+                    event.preventDefault();
+                    var lb;
+                    return $(this).ekkoLightbox({
+                        onShown: function () {
+                            lb = this;
+                            $(lb.modal_content).on('click', '.modal-footer a', function (e) {
+                                e.preventDefault();
+                                lb.navigateTo(2);
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+        <!-- Custom Theme JavaScript -->
+        <script src="js/custom.js"></script>
+        <!--Style Switcher -->
+        <script src="../plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+        }

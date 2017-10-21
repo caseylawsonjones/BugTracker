@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using BugTracker.Models;
 using System.Data.Entity;
 using System.IO;
+using System.Net;
 
 namespace BugTracker.Controllers
 {
@@ -59,8 +60,7 @@ namespace BugTracker.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
-        {
+        public async Task<ActionResult> Index(ManageMessageId? message) {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -69,16 +69,33 @@ namespace BugTracker.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+            var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            AccountManagementViewModel model = new AccountManagementViewModel();
+            model.HasPassword = HasPassword();
+            model.PhoneNumber = await UserManager.GetPhoneNumberAsync(userId);
+            model.TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId);
+            model.Logins = await UserManager.GetLoginsAsync(userId);
+            model.BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId);
+            model.CurrentLogins = userLogins;
+            model.OtherLogins = otherLogins;
+            model.UserInfo = db.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
+            model.UserTickets = model.UserInfo.Tickets.OrderByDescending(m => m.Created).ToList();
+            model.UserComments = model.UserInfo.TicketComments.OrderByDescending(c => c.Created).ToList();
+            model.UserAttachments = model.UserInfo.TicketAttachments.OrderByDescending(a => a.Created).ToList();
+            foreach(var role in model.UserInfo.Roles) {
+                model.UserRoles.Add(db.Roles.First(r => r.Id == role.RoleId).Name);
+            }
+            ViewBag.StatusMessage =
+                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null) {
+                return View("Error");
+            }
+            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(model);
         }
 
@@ -88,6 +105,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             ManageMessageId? message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
@@ -110,6 +130,9 @@ namespace BugTracker.Controllers
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             return View();
         }
 
@@ -119,6 +142,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -143,6 +169,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
@@ -158,6 +187,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
@@ -207,6 +239,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
@@ -224,6 +259,9 @@ namespace BugTracker.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             return View();
         }
 
@@ -232,6 +270,9 @@ namespace BugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model) {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             if (!ModelState.IsValid) {
                 return View(model);
             }
@@ -251,6 +292,9 @@ namespace BugTracker.Controllers
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             return View();
         }
 
@@ -260,6 +304,9 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
@@ -327,6 +374,9 @@ namespace BugTracker.Controllers
 
         // GET: /Manage/EditProfile
         public ActionResult EditProfile() {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
             var id = User.Identity.GetUserId();
             ApplicationUser user = db.Users.First(u => u.Id == id);
             return View(user);
@@ -334,11 +384,14 @@ namespace BugTracker.Controllers
 
         //POST: /Manage/EditProfile
         [HttpPost]
-        public async Task<ActionResult> EditProfile(string firstName, string lastName, string email, string id) {
-            var user = UserManager.FindById(id);
-            user.Email = email;
-            user.FirstName = firstName;
-            user.LastName = lastName;
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditProfile(AccountManagementViewModel model) {
+            if (User.IsInRole("DemoAccount")) {
+                RedirectToAction("Index", "Manage");
+            }
+            var user = UserManager.FindById(model.UserInfo.Id);
+            user.FirstName = model.UserInfo.FirstName;
+            user.LastName = model.UserInfo.LastName;
             var updateResult = await UserManager.UpdateAsync(user);
             return RedirectToAction("Index");
         }

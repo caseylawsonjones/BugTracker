@@ -378,13 +378,12 @@ namespace BugTracker.Controllers
                         arrChangedProperties[arrayCounter, 1] = oldTicket.Description;
                         arrChangedProperties[arrayCounter, 2] = ticket.Description;
                         arrayCounter++;
-
                     }
                     if (oldTicket.TicketPriorityId != ticket.TicketPriorityId) {
                         TicketPriority oldPriority = db.TicketPriorities.Find(oldTicket.TicketPriorityId);
                         TicketPriority newPriority = db.TicketPriorities.Find(ticket.TicketPriorityId);
                         ticketHistory.AddHistoryEvent(ticket.Id, "TicketPriorityId", oldPriority.Name, newPriority.Name);
-                        arrChangedProperties[arrayCounter, 0] = "Ticket Priority";
+                        arrChangedProperties[arrayCounter, 0] = "Priority";
                         arrChangedProperties[arrayCounter, 1] = oldPriority.Name;
                         arrChangedProperties[arrayCounter, 2] = newPriority.Name;
                         arrayCounter++;
@@ -393,14 +392,14 @@ namespace BugTracker.Controllers
                         TicketStatus oldStatus = db.TicketStatuses.Find(oldTicket.TicketStatusId);
                         TicketStatus newStatus = db.TicketStatuses.Find(ticket.TicketStatusId);
                         ticketHistory.AddHistoryEvent(ticket.Id, "TicketStatus", oldStatus.Name, newStatus.Name);
-                        arrChangedProperties[arrayCounter, 0] = "Ticket Status";
+                        arrChangedProperties[arrayCounter, 0] = "Status";
                         arrChangedProperties[arrayCounter, 1] = oldStatus.Name;
                         arrChangedProperties[arrayCounter, 2] = newStatus.Name;
                         arrayCounter++;
                     }
                     if (oldTicket.AssignedUserId != ticket.AssignedUserId) {
                         ApplicationUser newUser = db.Users.Find(ticket.AssignedUserId);
-                        arrChangedProperties[arrayCounter, 0] = "Assigned User";
+                        arrChangedProperties[arrayCounter, 0] = "Developer";
                         if (oldTicket.AssignedUserId == null) {
                             ticketHistory.AddHistoryEvent(ticket.Id, "AssignedUserId", "null", newUser.FullName);
                             arrChangedProperties[arrayCounter, 1] = "null";
@@ -418,7 +417,7 @@ namespace BugTracker.Controllers
                         TicketType oldType = db.TicketTypes.Find(oldTicket.TicketTypeId);
                         TicketType newType = db.TicketTypes.Find(ticket.TicketTypeId);
                         ticketHistory.AddHistoryEvent(ticket.Id, "Ticket Type", oldType.Name, newType.Name);
-                        arrChangedProperties[arrayCounter, 0] = "Ticket Type";
+                        arrChangedProperties[arrayCounter, 0] = "Type";
                         arrChangedProperties[arrayCounter, 1] = oldType.Name;
                         arrChangedProperties[arrayCounter, 2] = newType.Name;
                         arrayCounter++;
@@ -427,7 +426,7 @@ namespace BugTracker.Controllers
                     if (oldTicket.IsArchived != ticket.IsArchived) {
                         ticketHistory.AddHistoryEvent(ticket.Id, "Ticket Archived", oldTicket.IsArchived, ticket.IsArchived);
                         //hasIsArchivedChanged = true;
-                        arrChangedProperties[arrayCounter, 0] = "Ticket Archived";
+                        arrChangedProperties[arrayCounter, 0] = "Archived";
                         arrChangedProperties[arrayCounter, 1] = oldTicket.IsArchived.ToString();
                         arrChangedProperties[arrayCounter, 2] = ticket.IsArchived.ToString();
                         arrayCounter++;
@@ -464,6 +463,9 @@ namespace BugTracker.Controllers
                                 if (oldTicket.AssignedUserId != null) {
                                     await notification.AddNotification(ticket.Id, arrChangedProperties, arrayCounter, oldAssignedUserEmailAddress);
                                 }
+                                await notification.AddNotification(ticket.Id, arrChangedProperties, arrayCounter, newAssignedUserEmailAddress);
+                            }
+                            else {//Current User is neither assignee and the assignee has not changed.  Ticket changes were made, however and the assigned Developer needs to be notified.
                                 await notification.AddNotification(ticket.Id, arrChangedProperties, arrayCounter, newAssignedUserEmailAddress);
                             }
                         }

@@ -35,6 +35,7 @@ namespace BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             TicketComment ticketComment = db.TicketComments.Find(id);
+            Ticket ticket = db.Tickets.Find(ticketComment.TicketId);
             var project = db.Projects.First(u => u.Tickets.Any(t => t.Id == ticketComment.TicketId));
             if (ticketComment == null)
             {
@@ -46,14 +47,14 @@ namespace BugTracker.Controllers
                 (User.IsInRole("Submitter") && ticketComment.AuthorId == User.Identity.GetUserId())) {
                 return View(ticketComment);
             }
-            return RedirectToAction("Index", "TicketComments");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         // GET: TicketComments/Create
         public ActionResult Create(int id)
         {
-            TicketComment comment = db.TicketComments.Find(id);
-            Ticket ticket = db.Tickets.Find(comment.TicketId);
+            //TicketComment comment = db.TicketComments.Find(id);
+            Ticket ticket = db.Tickets.Find(id);
             Project project = db.Projects.Find(ticket.ProjectId);
             if  ((User.IsInRole("Admin") ||
                 (User.IsInRole("ProjectManager") && project.Users.Any(u => u.Id == User.Identity.GetUserId())) ||
@@ -63,7 +64,7 @@ namespace BugTracker.Controllers
                 ViewBag.ticketId = id;
                 return View();
             }
-            return RedirectToAction("Index", "TicketComments");
+            return RedirectToAction("Details", "Tickets", new { id = id });
             //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
         }
 
@@ -74,8 +75,8 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Body")] TicketComment ticketComment, int ticketId)
         {
-            TicketComment comment = db.TicketComments.Find(ticketId);
-            Ticket ticket = db.Tickets.Find(comment.TicketId);
+            TicketComment comment = db.TicketComments.Find(ticketComment.Id);
+            Ticket ticket = db.Tickets.Find(ticketId);
             Project project = db.Projects.Find(ticket.ProjectId);
             if ((User.IsInRole("Admin") ||
                 (User.IsInRole("ProjectManager") && project.Users.Any(u => u.Id == User.Identity.GetUserId())) ||
@@ -93,7 +94,7 @@ namespace BugTracker.Controllers
                     db.SaveChanges();
 
                     // Now send Notification, if ticket.AssignedUserId != Current User
-                    if (User.Identity.GetUserId() != ticket.AssignedUserId) {
+                    if (ticket.AssignedUserId != null && ticket.AssignedUserId != User.Identity.GetUserId()) {
                         string assignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
                         bool commentAdded = true;
                         NotificationHelper notification = new NotificationHelper(User.Identity.GetUserId());
@@ -130,7 +131,7 @@ namespace BugTracker.Controllers
                 (ticket.IsArchived == false)) {
                 return View(ticketComment);
             }
-            return RedirectToAction("Index", "TicketComments");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             // Original Scaffolded Code included this
             //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
         }
@@ -140,7 +141,7 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Body,Created,TicketId,AuthorId")] TicketComment ticketComment)
+        public  async Task<ActionResult>Edit([Bind(Include = "Id,Body,Created,TicketId,AuthorId")] TicketComment ticketComment)
         {
             Ticket ticket = db.Tickets.Find(ticketComment.TicketId);
             Project project = db.Projects.First(p => p.Id == ticket.ProjectId);
@@ -155,15 +156,23 @@ namespace BugTracker.Controllers
                     HistoryHelper ticketHistory = new HistoryHelper(User.Identity.GetUserId());
                     ticketHistory.AddHistoryEvent(ticketComment.TicketId, "Comment Edited", oldComment.Body, ticketComment.Body);
 
+                    // Now send Notification, if ticket.AssignedUserId != Current User
+                    if (ticket.AssignedUserId != null && ticket.AssignedUserId != User.Identity.GetUserId()) {
+                        string assignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
+                        NotificationHelper notification = new NotificationHelper(User.Identity.GetUserId());
+                        await notification.AddCommentEditedNotification(ticket.Id, oldComment.Body, ticketComment.Body, assignedUserEmailAddress);
+                    }
+
                     db.Entry(ticketComment).State = EntityState.Modified;
                     ticketComment.Updated = DateTime.Now;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
                 }
                 //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
                 return View(ticketComment);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         // GET: TicketComments/Delete/5
@@ -185,7 +194,7 @@ namespace BugTracker.Controllers
                 (ticket.IsArchived == false)) {
                 return View(ticketComment);
             }
-            return RedirectToAction("Index", "TicketComments");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         // POST: TicketComments/Delete/5
@@ -208,13 +217,12 @@ namespace BugTracker.Controllers
 
                 // Now send Notification, if ticket.AssignedUserId != Current User
                 Ticket ticket = db.Tickets.Find(ticketId);
-                if (User.Identity.GetUserId() != ticket.AssignedUserId) {
+                if (ticket.AssignedUserId != null && ticket.AssignedUserId != User.Identity.GetUserId()) {
                     string assignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
                     bool commentAdded = false;
                     NotificationHelper notification = new NotificationHelper(User.Identity.GetUserId());
                     await notification.AddCommentNotification(ticket.Id, ticketComment.Body, commentAdded, assignedUserEmailAddress);
                 }
-
 
                 return RedirectToAction("Details", "Tickets", new { id = ticketId });
             }

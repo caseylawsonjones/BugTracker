@@ -5,13 +5,12 @@
 }
 
 @using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post)){
-    <h2>
-        Assign roles for <i style="color:darkmagenta"><b>@Html.DisplayFor(model => Model.User.FullName)
-    </b></i></h2>
-    <input type="submit" value="AssignRoles" class="btn btn-default pull-right" style="margin-top: 0px" />
+    <h2>Assign roles for <i style="color:blue"><b>@Html.DisplayFor(model => Model.User.FullName)</b></i></h2>
     <hr/>
     @Html.HiddenFor(mdoel => Model.User.Id)
     @Html.ListBox("AssignedRoles", Model.Roles, new { @class = "multi-select" })
+    <br />
+    <input type="submit" value="AssignRoles" class="btn btn-secondary " style="margin-top: 0px; background-color:green; color:white; text-align:center;" />
 }
 
 <div style="margin-top: 40px">
@@ -23,8 +22,8 @@
         /* Multiselect inputs */
         $(function () { "use strict";
             $('.multi-select').multiSelect({
-                selectableHeader: "<div style='text-align: center; background-color: violet; color: white'><strong>Available Roles</strong></div>",
-                selectionHeader: "<div style='text-align: center; background-color: violet; color: white'><strong>Available Roles</strong></div>"
+                selectableHeader: "<div style='text-align: center; background-color: blue; color: white'><strong>Available Roles</strong></div>",
+                selectionHeader: "<div style='text-align: center; background-color: green; color: white'><strong>Selected Roles</strong></div>"
             })
             $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
         })

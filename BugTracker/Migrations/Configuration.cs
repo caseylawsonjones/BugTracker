@@ -24,6 +24,12 @@ namespace BugTracker.Migrations
             if (!context.Roles.Any(r => r.Name == "Admin")) {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
             }
+            if (!context.Roles.Any(r => r.Name == "SuperAdmin")) {
+                roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
+            }
+            if(!context.Roles.Any(r => r.Name == "DemoAccount")) {
+                roleManager.Create(new IdentityRole { Name = "DemoAccount" });
+            }
             if (!context.Roles.Any(r => r.Name == "ProjectManager")) {
                 roleManager.Create(new IdentityRole { Name = "ProjectManager" });
             }
@@ -101,6 +107,9 @@ namespace BugTracker.Migrations
             //Casey Jones
             var userID = userManager.FindByEmail("caseylawsonjones@yahoo.com").Id;
             userManager.AddToRole(userID, "Admin");
+            userID = userManager.FindByEmail("caseylawsonjones@yahoo.com").Id;
+            userManager.AddToRole(userID, "SuperAdmin");
+
             //Mark Jaang
             var userID2 = userManager.FindByEmail("mjaang@coderfoundry.com").Id;
             userManager.AddToRole(userID2, "Admin");
@@ -113,15 +122,23 @@ namespace BugTracker.Migrations
             //DemoAdmin
             var userID4 = userManager.FindByEmail("DemoAdmin@coderfoundry.com").Id;
             userManager.AddToRole(userID4, "Admin");
+            userManager.AddToRole(userID4, "DemoAccount");
+
             //DemoProjectManager
             var userID5 = userManager.FindByEmail("DemoProjectManager@coderfoundry.com").Id;
             userManager.AddToRole(userID5, "ProjectManager");
+            userManager.AddToRole(userID5, "DemoAccount");
+
             //DemoDeveloper
             var userID6 = userManager.FindByEmail("DemoDeveloper@coderfoundry.com").Id;
             userManager.AddToRole(userID6, "Developer");
+            userManager.AddToRole(userID6, "DemoAccount");
+
             //DemoSubmitter
             var userID7 = userManager.FindByEmail("DemoSubmitter@coderfoundry.com").Id;
             userManager.AddToRole(userID7, "Submitter");
+            userManager.AddToRole(userID7, "DemoAccount");
+
 
             //TICKET STATUS SEEDS
             if (!context.TicketStatuses.Any(p => p.Name == "Submitted")) {

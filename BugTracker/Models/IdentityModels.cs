@@ -25,6 +25,7 @@ namespace BugTracker.Models
 
         // These are all Many-to-Many relationships and have no foreign key
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }

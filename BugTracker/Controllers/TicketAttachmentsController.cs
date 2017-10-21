@@ -51,7 +51,7 @@ namespace BugTracker.Controllers {
                 ViewBag.ticketId = ticketId;
                 return View();
             }
-            return RedirectToAction("Index", "TicketComments");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         // POST: TicketAttachments/Create
@@ -233,6 +233,7 @@ namespace BugTracker.Controllers {
                             ticketHistory.AddHistoryEvent(ticketAttachment.TicketId, "Attachment Added", null, attachment.FileUrl);
                         }
                     }
+
                     // Now, send notification, if Ticket.AssignedUserId == Current User
                     if (ticket.AssignedUserId != null && User.Identity.GetUserId() != ticket.AssignedUserId) {
                         ApplicationUser assignedUser = db.Users.Find(ticket.AssignedUserId);
@@ -307,7 +308,7 @@ namespace BugTracker.Controllers {
                 }
                 return View(ticketAttachment);
             }
-            return RedirectToAction("Index", "Tickets");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         // POST: TicketAttachments/Delete/5
@@ -344,7 +345,7 @@ namespace BugTracker.Controllers {
                 ticketHistory.AddHistoryEvent(ticketAttachment.TicketId, "Attachment Deleted", ticketAttachment.FileUrl, null);
 
                 // Now send notification, if assignedUser != Current User
-                if (ticket.AssignedUserId != null && ticket.AssignedUserId != User.Identity.GetUserId()) { // 
+                if (ticket.AssignedUserId != null && ticket.AssignedUserId != User.Identity.GetUserId()) {
                     List<string> attachments = new List<string>();
                     attachments.Add(ticketAttachment.FileName);
                     string assignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
@@ -355,7 +356,7 @@ namespace BugTracker.Controllers {
 
                 return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
             }
-            return RedirectToAction("Index", "Tickets");
+            return RedirectToAction("Details", "Tickets", new { id = ticket.Id });
         }
 
         protected override void Dispose(bool disposing)
