@@ -26,6 +26,7 @@ namespace BugTracker.Controllers {
             ICollection<Ticket> allTickets = db.Tickets.ToList();
             ICollection<Project> userProjects = allProjects.Where(p => p.Users.Any(z => z.Id == User.Identity.GetUserId())).ToList();
             ICollection<Ticket> userTickets = allTickets.Where(t => t.AssignedUserId == User.Identity.GetUserId()).ToList();
+            ICollection<Ticket> submittedTickets = allTickets.Where(t => t.OwnerUserId == User.Identity.GetUserId()).ToList();
             ICollection<ApplicationUser> developersWithNoTicketAssignments = db.Users.Where(u => (u.Roles.Any(r => r.RoleId == "f6c4f96d-cab2-4667-b3da-70b9165f344c")) && (u.Tickets.Count <= 0)).ToList();
             ICollection<ApplicationUser> usersWithNoRolesAssigned = db.Users.Where(u => u.Roles.Count <= 0).ToList();
             ICollection<ApplicationUser> allUsers = db.Users.ToList();
@@ -33,6 +34,7 @@ namespace BugTracker.Controllers {
             pListVM.AllProjects = allProjects;
             pListVM.AllTickets = allTickets;
             pListVM.UserTickets = userTickets;
+            pListVM.SubmittedTickets = submittedTickets;
             pListVM.DevelopersWithNoTicketAssignments = developersWithNoTicketAssignments;
             pListVM.UsersWithNoRoles = usersWithNoRolesAssigned;
             pListVM.AllUsers = allUsers;

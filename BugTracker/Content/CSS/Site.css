@@ -76,5 +76,66 @@ a.bg-roseybrown:focus {
     I normally wouldn't change anything there and would just over-ride it here, but I do not trust CSS.
 .fix-header .page-wrapper {
     margin-top: 0px /* originally, it was 60px*/
+
+.nav-tabs > li > a {
+    border-radius: 0;
+    color: #2b2b2b
 }
-*/
+    .nav-tabs > li:focus,
+    .nav-tabs > li:active,
+    .nav-tabs > li > a:focus,
+    .nav-tabs > li > a:active,
+    .nav-tabs > li > a:hover,
+    .nav-tabs > li > a > span:focus,
+    .nav-tabs > li > a > span:active,
+    .nav-tabs > li > a > span:hover,
+    .nav > li:focus,
+    .nav > li:active,
+    .nav > li > a:focus,
+    .nav > li > a:active,
+    .nav > li > a:hover,
+    .nav > li > a > span:focus,
+    .nav > li > a > span:active,
+    .nav > li > a > span:hover,
+    .white-box > ul > li:focus,
+    .white-box > ul > li:active,
+    .white-box > ul > li > a:focus,
+    .white-box > ul > li > a:active,
+    .white-box > ul > li > a:hover,
+    .white-box > ul > li > a > span:focus,
+    .white-box > ul > li > a > span:active,
+    .white-box > ul > li > a > span:hover,
+    .customtab > li:focus,
+    .customtab > li:active,
+    .customtab > li > a:focus,
+    .customtab > li > a:active,
+    .customtab > li > a:hover,
+    .customtab > li > a > span:focus,
+    .customtab > li > a > span:active,
+    .customtab > li > a > span:hover,
+    .tabs > li:focus,
+    .tabs > li:active,
+    .tabs > li > a:focus,
+    .tabs > li > a:active,
+    .tabs > li > a:hover,
+    .tabs > li > a > span:focus,
+    .tabs > li > a > span:active,
+    .tabs > li > a > span:hover {
+        background: none;
+        background-color: transparent;
+    }
+.btn-danger > a:active,
+.btn-danger > li:active
+.btn-danger > li > a:active {
+    background: #d9534f!important;
+}
+.customtab li.active a,
+.customtab li.active a:focus,
+.customtab li.active a:hover {
+    /*background: #2b2b2b;*/
+    background: content-box;
+    border: 0;
+    border-bottom: 2px solid #0283cc;
+    margin-bottom: -1px;
+    color: #fff;
+}

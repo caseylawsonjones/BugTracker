@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 }
 @if (User.Identity.IsAuthenticated) {
-
+    <!-- ADMIN SECTION -->
+    if (User.IsInRole("Admin")) {
     <!-- COLOR BOXES AT TOP OF PAGE -->
     <div class="row colorbox-group-widget">
         @*<div class="white-box">
@@ -127,323 +128,388 @@
             </div>
         </div>
     </div>
-
-  
-    <!-- TABLE/TABS SECTION -->
-
-    <!-- ALL CRITICAL TICKETS -->
-    <div class="tab-pane active" id="critical">
-        <div class="steamline">
-            <table id="criticalTable" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AllProjects) {
-                        foreach (var ticket in item.Tickets.Where(t => t.TicketPriorityId == 5)) {
-                            <tr>
-                                <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    <!-- ALL HIGH PRIORITY TICKETS -->
-    <div class="tab-pane active" id="highPriority">
-        <div class="steamline">
-            <table id="highPriorityTable" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AllProjects) {
-                        foreach (var ticket in item.Tickets.Where(t => t.TicketPriorityId == 4)) {
-                            <tr>
-                                <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    <!-- ALL TICKETS NOT UPDATED IN PAST 7 DAYS -->
-    <div class="tab-pane active" id="notUpdated">
-        <div class="steamline">
-            <table id="notUpdatedTable" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AllProjects) {
-                        foreach (var ticket in item.Tickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7))) {
-                            <tr>
-                                <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- ALL TICKETS WITH NO ASSIGNED DEVELOPER -->
-    <div class="tab-pane active" id="unassigned">
-        <div class="steamline">
-            <table id="unassignedTable" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AllProjects) {
-                        foreach (var ticket in item.Tickets.Where(t => t.AssignedUserId == null)) {
-                            <tr>
-                                <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                                <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+    }
+    else {
+    <!-- PROJECTMANAGER SECTION -->
+        if (User.IsInRole("ProjectManager")) {
+            <!-- PROJECTMANAGER COLOR BOXES AT TOP OF PAGE -->
+            <div class="row colorbox-group-widget">
+                @*<div class="white-box">
+                    <ul class="nav nav-tabs tabs customtab">*@
+                <li class="active tab" style="display: inline;">
+                    <a href="#critical" data-toggle="tab">
+                        <div class="col-md-3 col-sm-6 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-danger">
+                                    <div class="media-body">
+                                        <h3 class="info-count">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriority.Id == 5)).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
+                                        <p class="info-text font-12">Critical Tickets</p>
+                                        <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="tab" style="display: inline;">
+                    <a href="#highPriority" data-toggle="tab">
+                        <div class="col-md-3 col-sm-6 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-warning">
+                                    <div class="media-body">
+                                        <h3 class="info-count">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriority.Id == 4)).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
+                                        <p class="info-text font-12">High Priority Tickets</p>
+                                        <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="tab" style="display: inline;">
+                    <a href="#notUpdated" data-toggle="tab">
+                        <div class="col-md-3 col-sm-6 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-info">
+                                    <div class="media-body">
+                                        <h3 class="info-count">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.Updated > DateTime.Now.Date.AddDays(-7))).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                                        <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                                        <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.UserProjects.Where(p => p.Tickets.Any(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null))).Count()</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="tab" style="display: inline;">
+                    <a href = "#unassigned" data-toggle="tab">
+                        <div class="col-md-3 col-sm-6 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-roseybrown">
+                                    <div class="media-body" style="color:white;">
+                                        <h3 class="info-count">@Model.UserProjects.Where(p => p.Tickets.Any(t => t.AssignedUserId == null)).Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                                        <p class="info-text font-12">Unassigned Tickets</p>
+                                        <p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.UserProjects.Where(z => z.Users.Any(u => u.Projects.Count() <= 0)).Count()</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                @*</ul>
+                    </div>*@
 
 
-    <div class="tab-pane active" id="critical">
-        <div class="steamline">
+            </div>
 
-        </div>
-    </div>
+            <!-- PROJECTMANAGER GRAPHS SECTION -->
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="white-box order-chart-widget">
+                        <h4 class="box-title">Ticket Priorities</h4>
+                        <div id="pmticket_priority_donut" style="height: 387px;"></div>
+                        <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Critical</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>High</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Medium</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Low</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="white-box order-chart-widget" style="height: 539px;">
+                        <h3 class="box-title">User Count Per Role</h3>
+                        <div id="pmdeveloperInfoChart" style="height: 425px"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="white-box order-chart-widget">
+                        <h4 class="box-title">Ticket Statuses</h4>
+                        <div id="pmticket_status_donut" style="height: 350px;"></div>
+                        <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Submitted</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>Assigned</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>In-Progress</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Pending</h6>
+                            </li>
+                            <li>
+                                <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Resolved</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        else {
+                <!-- DEVELOPER SECTION -->
+            if (User.IsInRole("Developer")) {
+                <!-- DEVELOPER COLOR BOXES AT TOP OF PAGE -->
+                <div class="row colorbox-group-widget">
+                    <li class="active tab" style="display: inline;">
+                        <a href="#critical" data-toggle="tab">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-danger">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.UserTickets.Where(t => t.TicketPriority.Id == 5).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
+                                            <p class="info-text font-12">Critical Tickets</p>
+                                            @*<p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="tab" style="display: inline;">
+                        <a href="#highPriority" data-toggle="tab">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-warning">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.UserTickets.Where(t => t.TicketPriority.Id == 4).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
+                                            <p class="info-text font-12">High Priority Tickets</p>
+                                            @*<p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="tab" style="display: inline;">
+                        <div class="col-md-4 col-sm-8 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-info">
+                                    <div class="media-body">
+                                        <h3 class="info-count">@Model.UserTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                                        <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                                        @*<p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--
+                    <li class="tab" style="display: inline;">
+                        <div class="col-md-4 col-sm-12 info-color-box">
+                            <div class="white-box">
+                                <div class="media bg-roseybrown">
+                                    <div class="media-body" style="color:white;">
+                                        <h3 class="info-count">@Model.UserTickets.Where(t => t.AssignedUserId == null).Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                                        <p class="info-text font-12">Unassigned Tickets</p>
+                                        <p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.DevelopersWithNoTicketAssignments.Count()</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>-->
 
 
-
-    <div class="tab-pane active" id="critical">
-        <div class="steamline">
-
-        </div>
-    </div>
-
-
-    <!-- ALL ACTIVE PROJEJCTS -->
-    <table id="projectsTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.AllProjects) {
-                <tr>
-                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
-                        @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
-                        @Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)
-                    </td>
-                </tr>
+                    <!-- DEVELOPER GRAPHS SECTION -->
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="white-box order-chart-widget">
+                            <h4 class="box-title">Ticket Priorities</h4>
+                            <div id="devticket_priority_donut" style="height: 387px;"></div>
+                            <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Critical</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>High</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Medium</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Low</h6>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="colorbox-group-widget">
+                        <li class="tab" style="display: inline;">
+                            <div class="col-md-4 col-sm-12 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-roseybrown">
+                                        <div class="media-body" style="color:white;">
+                                            <h3 class="info-count">@Model.UserTickets.Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                                            <p class="info-text font-12"># Assigned Tickets</p>
+                                            @*<p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.DevelopersWithNoTicketAssignments.Count()</span></p>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="white-box order-chart-widget">
+                            <h4 class="box-title">Ticket Statuses</h4>
+                            <div id="devticket_status_donut" style="height: 350px;"></div>
+                            <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Submitted</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>Assigned</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>In-Progress</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Pending</h6>
+                                </li>
+                                <li>
+                                    <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Resolved</h6>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+            else {
+                    <!-- SUBMITTER SECTION -->
+                if (User.IsInRole("Submitter")) {
+                    <!-- SUBMITTER COLOR BOXES AT TOP OF PAGE -->
+                    <div class="row colorbox-group-widget">
+                        @*<div class="white-box">
+                            <ul class="nav nav-tabs tabs customtab">*@
+                        <li class="active tab" style="display: inline;">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-danger">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 5).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
+                                            <p class="info-text font-12">Critical Tickets</p>
+                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tab" style="display: inline;">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-warning">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 4).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
+                                            <p class="info-text font-12">High Priority Tickets</p>
+                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tab" style="display: inline;">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-info">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                                            <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--
+                        <li class="tab" style="display: inline;">
+                                <div class="col-md-3 col-sm-6 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-roseybrown">
+                                        <div class="media-body" style="color:white;">
+                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.AssignedUserId == null).Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                                            <p class="info-text font-12">Unassigned Tickets</p>
+                                            <p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.SubmittedTickets.Where(t => t.AssignedUserId == null).Count()</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </li>
+                        -->
 
-
-    <!-- MY ACTIVE PROJECTS -->
-    <table id="projectsTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.UserProjects != null) {
-                foreach (var item in Model.UserProjects) {
-                    <tr>
-                        <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                        <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
-                            @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
-                            @Html.ActionLink("Assign Users", "Projects", "ProjectUser", new { id = item.Id }, null)
-                        </td>
-                    </tr>
+                        <!-- SUBMITTER GRAPHS SECTION -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="white-box order-chart-widget">
+                                <h4 class="box-title">Ticket Priorities</h4>
+                                <div id="subticket_priority_donut" style="height: 387px;"></div>
+                                <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Critical</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>High</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Medium</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Low</h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="colorbox-group-widget">
+                            <li class="tab" style="display: inline;">
+                                <div class="col-md-4 col-sm-12 info-color-box">
+                                    <div class="white-box">
+                                        <div class="media bg-roseybrown">
+                                            <div class="media-body" style="color:white;">
+                                                <h3 class="info-count">@Model.SubmittedTickets.Count() <span class="pull-right"><i class="fa fa-users"></i></span></h3>
+                                                <p class="info-text font-12">Total Submitted Tickets</p>
+                                                @*<p class="info-ot font-15">Dev's with No Assignments<span class="label label-rounded">@Model.DevelopersWithNoTicketAssignments.Count()</span></p>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="white-box order-chart-widget">
+                                <h4 class="box-title">Ticket Statuses</h4>
+                                <div id="subticket_status_donut" style="height: 350px;"></div>
+                                <ul class="list-inline m-b-0 m-t-20 t-a-c">
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-danger"></i>Submitted</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-warning"></i>Assigned</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-primary"></i>In-Progress</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-info"></i>Pending</h6>
+                                    </li>
+                                    <li>
+                                        <h6 class="font-15"><i class="fa fa-circle m-r-5 text-success"></i>Resolved</h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 }
             }
-        </tbody>
-    </table>
-
-    <!-- ALL CRITICAL TICKETS -->
-    <table id="criticalTicketsTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.AllProjects) {
-                foreach (var ticket in item.Tickets.Where(t => t.TicketPriorityId == 5)) {
-                    <tr>
-                        <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-    <!-- PROJECTS WITH NO ASSIGNED USERS -->
-    <table id="projectsTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.UserProjects != null) {
-                foreach (var item in Model.UserProjects.Where(p => p.Users.Count <= 0)) {
-                    <tr>
-                        <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                        <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
-                            @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
-                            @Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-    <!-- TICKETS WITH NO ASSIGNED DEVELOPERS -->
-    <table id="ticketsNoAssigneeTable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
-                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.AllProjects) {
-                foreach (var ticket in item.Tickets.Where(t => t.AssignedUserId == null)) {
-                    <tr>
-                        <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
-                        <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-    <!-- USERS WITH NO ASSIGNED ROLES -->
-    <table id="datatable-buttons" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.UsersWithNoRoles.First(p => p.Id != null).FullName)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.UsersWithNoRoles.Count() > 0) {
-                foreach (var user in Model.UsersWithNoRoles) {
-                    <tr>
-                        <td><a href="/Admin/EditUserRoles/@user.Id">@Html.DisplayFor(modelItem => user.FullName)</a></td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
+        }
+    }
 
 
 
@@ -451,20 +517,8 @@
     @section Scripts {
         <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-        <script src="~/Content/Theme Files/From Other Templates/js/data-tables/jquery.dataTables.js"></script>
-        <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.tableTools.js"></script>
-        <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.bootstrap.js"></script>
-        <script src="~/Content/Theme Files/From Other Templates/js/data-tables/dataTables.responsive.js"></script>
-        <script src="~/Content/DataTables/datatables.min.js"></script>
-        <script>$("#unassignedTable").DataTable({ "order": [[2, 'desc']] });</script>
-        <script>$("#notUpdatedTable").DataTable({ "order": [[5, 'desc']] });</script>
-        <script>$("#highPriorityTable").DataTable({ "order": [[4, 'desc']] });</script>
-        <script>$("#criticalTable").DataTable({ "order": [[2, 'desc']] });</script>
-        @*<script>$("#unassigned").DataTable({ "order": [[5, 'desc']] });</script>
-        <script>$("#ticketsNoAssigneeTable").DataTable({ "order": [[4, 'desc']] });</script>
-        <script>$("#ticketsNoAssigneeTable").DataTable({ "order": [[4, 'desc']] });</script>*@
-
+        @if (User.IsInRole("Admin")) {
+        <!-- ADMIN WIDGET SCRIPTS-->
         <script>
         new Morris.Donut({
             element: 'ticket_priority_donut',
@@ -491,19 +545,19 @@
                 element: 'ticket_status_donut',
                 data: [{
                     label: "Submitted",
-                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 1).Count()
+                    value: @Model.AllTickets.Where(t => t.TicketStatusId == 1).Count()
                 }, {
                     label: "Assigned",
-                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 2).Count()
+                    value: @Model.AllTickets.Where(t => t.TicketStatusId == 2).Count()
                 }, {
                     label: "In Progress",
-                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 3).Count()
+                    value: @Model.AllTickets.Where(t => t.TicketStatusId == 3).Count()
                 }, {
                     label: "Pending",
-                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 4).Count()
+                    value: @Model.AllTickets.Where(t => t.TicketStatusId == 4).Count()
                 }, {
                     label: "Resolved",
-                    value: @Model.AllTickets.Where(t => t.TicketPriorityId == 5).Count()
+                    value: @Model.AllTickets.Where(t => t.TicketStatusId == 5).Count()
                 }],
                 resize: true,
                 colors: ['#d9534f', '#f0ad4e', '#337ab7', '#5bc0de', '#5cb85c']
@@ -538,6 +592,189 @@
             });
 
         </script>
+        }
+        else {
+            if (User.IsInRole("ProjectManager")) {
+        <!-- PROJECTMANAGER WIDGET SCRIPTS-->
+                <script>
+                    new Morris.Donut({
+                        element: 'pmticket_priority_donut',
+                        data: [{
+                            label: "Critical",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriorityId == 5)).Count()
+                        }, {
+                            label: "High",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriorityId == 4)).Count()
+                            }, {
+                            label: "Medium",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriorityId == 3)).Count()
+                            }, {
+                            label: "Low",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketPriorityId == 2)).Count()
+                            }
+                        ],
+                        resize: true,
+                        colors: ['#d9534f', '#f0ad4e', '#5bc0de', '#5cb85c']
+                    });
+
+                </script>
+                <script>
+                    new Morris.Donut({
+                        element: 'pmticket_status_donut',
+                        data: [{
+                            label: "Submitted",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketStatusId == 1)).Count()
+                        }, {
+                            label: "Assigned",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketStatusId == 2)).Count()
+                        }, {
+                            label: "In Progress",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketStatusId == 3)).Count()
+                        }, {
+                            label: "Pending",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketStatusId == 4)).Count()
+                        }, {
+                            label: "Resolved",
+                            value: @Model.UserProjects.Where(p => p.Tickets.Any(t => t.TicketStatusId == 5)).Count()
+                        }],
+                        resize: true,
+                        colors: ['#d9534f', '#f0ad4e', '#337ab7', '#5bc0de', '#5cb85c']
+                    });
+                </script>
+                <script>
+                    var line2 = new Morris.Bar({
+                        element: 'pmdeveloperInfoChart',
+                        resize: true,
+                        data: [{
+                            x: 'Admin',
+                            Value: @Model.UserProjects.Where(p => p.Users.Any(u => u.Roles.Any(r => r.RoleId == "15d6e5d2-56b5-4023-a411-c6029a989052"))).Count()
+                        }, {
+                            x: 'Project Manager',
+                            Value: @Model.UserProjects.Where(p => p.Users.Any(u => u.Roles.Any(r => r.RoleId == "5e1d6394-7712-4389-bfee-eecc30b2b985"))).Count()
+                        }, {
+                            x: 'Developer',
+                            Value: @Model.UserProjects.Where(p => p.Users.Any(u => u.Roles.Any(r => r.RoleId == "f6c4f96d-cab2-4667-b3da-70b9165f344c"))).Count()
+                        }, {
+                            x: 'Submitter',
+                            Value: @Model.UserProjects.Where(p => p.Users.Any(u => u.Roles.Any(r => r.RoleId == "bab7637d-3aba-4a75-b243-b08e1a8440d1"))).Count()
+                        }],
+                        xkey: 'x',
+                        ykeys: ['Value'],
+                        labels: ['Roles'],
+                        //gridLineColor: '#e0e0e0',
+                        barColors: ['#5cb85c'],
+                        lineWidth: 1,
+                        xLabelAngle: 45,
+                        padding: 50,
+                        hideHover: 'auto'
+                    });
+
+                </script>
+            }
+            else {
+                if (User.IsInRole("Developer")) {
+        <!-- DEVELOPER WIDGET SCRIPTS-->
+            <script>
+                new Morris.Donut({
+                    element: 'devticket_priority_donut',
+                    data: [{
+                        label: "Critical",
+                        value: @Model.UserTickets.Where(t => t.TicketPriorityId == 5).Count()
+                    }, {
+                        label: "High",
+                        value: @Model.UserTickets.Where(t => t.TicketPriorityId == 4).Count()
+                    }, {
+                        label: "Medium",
+                        value: @Model.UserTickets.Where(t => t.TicketPriorityId == 3).Count()
+                    }, {
+                        label: "Low",
+                        value: @Model.UserTickets.Where(t => t.TicketPriorityId == 2).Count()
+                    }
+                    ],
+                    resize: true,
+                    colors: ['#d9534f', '#f0ad4e', '#5bc0de', '#5cb85c']
+                });
+                    </script>
+                    <script>
+                    new Morris.Donut({
+                        element: 'devticket_status_donut',
+                        data: [{
+                            label: "Submitted",
+                            value: @Model.UserTickets.Where(t => t.TicketStatusId == 1).Count()
+                        }, {
+                            label: "Assigned",
+                            value: @Model.UserTickets.Where(t => t.TicketStatusId == 2).Count()
+                        }, {
+                            label: "In Progress",
+                            value: @Model.UserTickets.Where(t => t.TicketStatusId == 3).Count()
+                        }, {
+                            label: "Pending",
+                            value: @Model.UserTickets.Where(t => t.TicketStatusId == 4).Count()
+                        }, {
+                            label: "Resolved",
+                            value: @Model.UserTickets.Where(t => t.TicketStatusId == 5).Count()
+                        }],
+                        resize: true,
+                        colors: ['#d9534f', '#f0ad4e', '#337ab7', '#5bc0de', '#5cb85c']
+                    });
+                    </script>
+
+                }
+                else {
+                    if (User.IsInRole("Submitter")) {
+                    <!-- SUBMITTER WIDGET SCRIPTS-->
+                        <script>
+                        new Morris.Donut({
+                            element: 'subticket_priority_donut',
+                            data: [{
+                                label: "Critical",
+                                value: @Model.SubmittedTickets.Where(t => t.TicketPriorityId == 5).Count()
+                            }, {
+                                label: "High",
+                                value: @Model.SubmittedTickets.Where(t => t.TicketPriorityId == 4).Count()
+                            }, {
+                                label: "Medium",
+                                value: @Model.SubmittedTickets.Where(t => t.TicketPriorityId == 3).Count()
+                            }, {
+                                label: "Low",
+                                value: @Model.SubmittedTickets.Where(t => t.TicketPriorityId == 2).Count()
+                            }
+                            ],
+                            resize: true,
+                            colors: ['#d9534f', '#f0ad4e', '#5bc0de', '#5cb85c']
+                        });
+                        </script>
+                        <script>
+                            new Morris.Donut({
+                                element: 'subticket_status_donut',
+                                data: [{
+                                    label: "Submitted",
+                                    value: @Model.SubmittedTickets.Where(t => t.TicketStatusId == 1).Count()
+                                }, {
+                                    label: "Assigned",
+                                    value: @Model.SubmittedTickets.Where(t => t.TicketStatusId == 2).Count()
+                                }, {
+                                    label: "In Progress",
+                                    value: @Model.SubmittedTickets.Where(t => t.TicketStatusId == 3).Count()
+                                }, {
+                                    label: "Pending",
+                                    value: @Model.SubmittedTickets.Where(t => t.TicketStatusId == 4).Count()
+                                }, {
+                                    label: "Resolved",
+                                    value: @Model.SubmittedTickets.Where(t => t.TicketStatusId == 5).Count()
+                                }],
+                                resize: true,
+                                colors: ['#d9534f', '#f0ad4e', '#337ab7', '#5bc0de', '#5cb85c']
+                            });
+                        </script>
+                    }
+                }
+            }
+
+        }
+
+
+
     }
 }
 

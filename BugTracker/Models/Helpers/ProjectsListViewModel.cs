@@ -14,9 +14,10 @@ namespace BugTracker.Models.Helpers {
         //public ApplicationUser[] Developers { get; set; }
         //public ICollection<Ticket> ManagedProjects { get; set; } - this may be used later if Projects are assigned a specific PM
 
-        // Lists for All of the Curretn User's Assigned Projects and Tickets
+        // Lists for All of the Current User's Assigned Projects and Tickets
         public ICollection<Project> UserProjects { get; set; }
         public ICollection<Ticket> UserTickets { get; set; }
+        public ICollection<Ticket> SubmittedTickets { get; set; }
 
         public ICollection<ApplicationUser> ProjectAuthors { get; set; }
 

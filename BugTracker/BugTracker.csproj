@@ -5568,6 +5568,8 @@
     <Content Include="Views\Home\Index - Copy %283%29.cshtml" />
     <Content Include="Views\Tickets\IndexScared.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
+    <Content Include="Views\Projects\Index - Copy %282%29.cshtml" />
+    <Content Include="Views\Home\Index - Copy %284%29.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
