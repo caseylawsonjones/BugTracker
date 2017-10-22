@@ -40,7 +40,7 @@
 
                                                                 <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
                                                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                                                 <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
                                                                 <td>
@@ -95,7 +95,7 @@
 
                                                                 <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
                                                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                                                 <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
                                                                 <td>
@@ -155,7 +155,7 @@
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                                                        <td>@Html.ToUserTime(ticket.Created, ViewBag.UserTimeZone as string)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
                                                                     </tr>
                                                                 }
@@ -206,7 +206,7 @@
                                                                     <tr>
                                                                         <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                        <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                                                         <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
                                                                         <td>
@@ -263,7 +263,7 @@
                                                                         <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
-                                                                        <td>@Html.ToUserTime(ticket.Created, ViewBag.UserTimeZone as string)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
                                                                         <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
                                                                     </tr>
                                                                 }
@@ -330,6 +330,170 @@
         </div>
     </div>
 
+    <!-- ALL ACTIVE PROJEJCTS -->
+    <table id="projectsTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllProjects) {
+                <tr>
+
+                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
+                        @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
+                        @Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <!-- MY ACTIVE PROJECTS -->
+    <table id="projectsTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UserProjects) {
+                <tr>
+
+                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
+                        @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
+                        @Html.ActionLink("Assign Users", "Projects", "ProjectUser", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- ALL CRITICAL TICKETS -->
+    <table id="criticalTicketsTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).AssignedUser)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllProjects) {
+                foreach (var ticket in item.Tickets.Where(t => t.TicketPriorityId == 5)) {
+                    <tr>
+                        <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!-- PROJECTS WITH NO ASSIGNED USERS -->
+    <table id="projectsTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.UserProjects != null) {
+                foreach (var item in Model.UserProjects.Where(p => p.Users.Count <= 0)) {
+                    <tr>
+                        <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                        <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
+                            @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
+                            @Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!-- TICKETS WITH NO ASSIGNED DEVELOPERS -->
+    <table id="ticketsNoAssigneeTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Description)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Project.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Created)</th>
+                <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Tickets.First(t => t.Id > 0).Updated)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllProjects) {
+                foreach (var ticket in item.Tickets.Where(t => t.AssignedUserId == null)) {
+                    <tr>
+                        <td><a href="/Tickets/Details/@ticket.Id">@Html.DisplayFor(modelItem => ticket.Title)</a></td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
+                        <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!-- USERS WITH NO ASSIGNED ROLES -->
+    <table id="datatable-buttons" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.UsersWithNoRoles.First(p => p.Id != null).FullName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.UsersWithNoRoles) {
+                <tr>
+                    <td><a href="/Admin/EditUserRoles/@user.Id">@Html.DisplayFor(modelItem => user.FullName)</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
 

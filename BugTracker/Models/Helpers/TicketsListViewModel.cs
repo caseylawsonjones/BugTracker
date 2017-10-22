@@ -9,7 +9,7 @@ namespace BugTracker.Models.Helpers {
         // This class helps to pass a List of Project.Users to the
         // Tickets/Create view to provide a drop-down menu for assigning users.
         public ICollection<Ticket> AllTickets { get; set; }
-        public ICollection<Ticket> ProjectTickets { get; set; }
+        public ICollection<Ticket> ProjectTickets { get; set; } // All tickets for the projects to which the Current User is assigned
         public ICollection<Ticket> AssignedTickets { get; set; }
         public ICollection<Ticket> SubmittedTickets { get; set; }
         public ICollection<ApplicationUser> Users { get; set; }

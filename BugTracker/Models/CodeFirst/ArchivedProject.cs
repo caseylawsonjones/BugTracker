@@ -15,10 +15,13 @@ namespace BugTracker.Models.CodeFirst {
         public int Id { get; set; }
 
         [Display(Name = "Creation Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset Created { get; set; }
 
         [Display(Name = "Last Updated")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset? Updated { get; set; }
+
         public string Title { get; set; }
         public string Description { get; set; }
 

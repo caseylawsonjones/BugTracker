@@ -80,11 +80,11 @@ namespace BugTracker.Controllers {
             }
 
             // I don't remember why I was pulling a list of Project Authors and cannot find where I used the information
-            //List<ApplicationUser> tempUsers = new List<ApplicationUser>();
-            //ApplicationUser tempUser = new ApplicationUser();
-            //foreach (var project in pListVM.AllProjects) {
-            //    tempUsers.Add(db.Users.FirstOrDefault(u => u.Id == project.AuthorId));
-            //}
+            List<ApplicationUser> tempUsers = new List<ApplicationUser>();
+            ApplicationUser tempUser = new ApplicationUser();
+            foreach (var project in pListVM.AllProjects) {
+                tempUsers.Add(db.Users.FirstOrDefault(u => u.Id == project.AuthorId));
+            }
             // Admin Role does not need to be checked as all projects have already been passed to the VM.
 
             if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter")) {
@@ -92,13 +92,13 @@ namespace BugTracker.Controllers {
                 ApplicationUser user = users.First(u => u.Id == User.Identity.GetUserId());
                 pListVM.UserProjects = user.Projects.ToList();
 
-                //foreach (var userProject in pListVM.UserProjects) {
-                //    tempUser = db.Users.FirstOrDefault(u => u.Id == userProject.AuthorId);
-                //    tempUsers.Add(tempUser);
-                //}
+                foreach (var userProject in pListVM.UserProjects) {
+                    tempUser = db.Users.FirstOrDefault(u => u.Id == userProject.AuthorId);
+                    tempUsers.Add(tempUser);
+                }
             }
 
-            //pListVM.ProjectAuthors = tempUsers;
+            pListVM.ProjectAuthors = tempUsers;
             return View(pListVM);
         }
 

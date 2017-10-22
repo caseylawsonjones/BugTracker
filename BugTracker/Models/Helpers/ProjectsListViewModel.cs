@@ -18,8 +18,7 @@ namespace BugTracker.Models.Helpers {
         public ICollection<Project> UserProjects { get; set; }
         public ICollection<Ticket> UserTickets { get; set; }
 
-        // I don't recall why I had created this and can find no place where it is used
-        //public ICollection<ApplicationUser> ProjectAuthors { get; set; }
+        public ICollection<ApplicationUser> ProjectAuthors { get; set; }
 
         // Lists of Users with either No Roles assigned, or no Ticket Assignments
         public ICollection<ApplicationUser> UsersWithNoRoles { get; set; }

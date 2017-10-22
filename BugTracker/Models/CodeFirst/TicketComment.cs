@@ -8,11 +8,16 @@ namespace BugTracker.Models.CodeFirst {
     public class TicketComment {
 
         public int Id { get; set; }
+
         [Display(Name = "Comment Body")]
         public string Body { get; set; }
+
         [Display(Name = "Creation Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset Created { get; set; }
+
         [Display(Name = "Last Updated")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset? Updated { get; set; }
 
         // Foreign Keys

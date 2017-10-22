@@ -14,8 +14,11 @@ namespace BugTracker.Models.CodeFirst {
         public string OldValue { get; set; }
         [Display(Name = "New Value")]
         public string NewValue { get; set; }
+
         [Display(Name = "Modification Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset Created { get; set; }
+
         [Display(Name = "Modified by")]
         public string AuthorName { get; set; }
 

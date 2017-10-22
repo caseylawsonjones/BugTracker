@@ -29,7 +29,7 @@
                     <dt>@Html.DisplayNameFor(model => model.TicketType.Name)</dt>
                     <dd>@Html.DisplayFor(model => model.TicketType.Name)</dd>
                     <dt>@Html.DisplayNameFor(model => model.Created)</dt>
-                    <dd>@Html.ToUserTime(Model.Created, ViewBag.UserTimeZone as string)</dd>
+                    <dd>@Html.DisplayFor(model => model.Created)</dd>
                     <dt>@Html.DisplayNameFor(model => model.Updated)</dt>
                     <dd>@Html.DisplayFor(model => model.Updated)</dd>
                     <dt>@Html.DisplayNameFor(model => model.Title)</dt>
@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="row" @*This DIV was not here, originally.*@>
                                         <!-- Meta Date -->
-                                        <span class="time"><i class="fa fa-calendar"></i> @Html.ToUserTime(attachment.Created, ViewBag.UserTimeZone as string) </span>
+                                        <span class="time"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => attachment.Created)</span>
                                     </div>
                                     <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
                                         @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
@@ -168,7 +168,7 @@
                                 @Html.Raw(comment.Body)
                             </td>
                             <td>
-                                @Html.ToUserTime(comment.Created, ViewBag.UserTimeZone as string)
+                                @Html.DisplayFor(modelItem => comment.Created)
                             </td>
                             <td>
                                 <span class="post-meta author"><i class="fa fa-user"></i> @comment.Author.FullName</span>
@@ -250,7 +250,7 @@
                                                             <td>@Html.DisplayFor(modelItem => item.Property)</td>
                                                             <td>@Html.DisplayFor(modelItem => item.OldValue)</td>
                                                             <td>@Html.DisplayFor(modelItem => item.NewValue)</td>
-                                                            <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                                             <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
                                                         </tr>
                                                     }

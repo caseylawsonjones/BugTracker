@@ -81,9 +81,10 @@ namespace BugTracker.Controllers
             model.CurrentLogins = userLogins;
             model.OtherLogins = otherLogins;
             model.UserInfo = db.Users.AsNoTracking().FirstOrDefault(u => u.Id == userId);
-            model.UserTickets = model.UserInfo.Tickets.OrderByDescending(m => m.Created).ToList();
-            model.UserComments = model.UserInfo.TicketComments.OrderByDescending(c => c.Created).ToList();
-            model.UserAttachments = model.UserInfo.TicketAttachments.OrderByDescending(a => a.Created).ToList();
+            //model.UserTickets = model.UserInfo.Tickets.OrderByDescending(m => m.Created).ToList();
+            model.UserTickets = db.Tickets.AsNoTracking().Where(t => (t.AssignedUserId == userId) && t.IsArchived == false).ToList();
+            model.UserComments = db.TicketComments.AsNoTracking().OrderByDescending(c => c.Created).ToList();
+            model.UserAttachments = db.TicketAttachments.AsNoTracking().OrderByDescending(a => a.Created).ToList();
             foreach(var role in model.UserInfo.Roles) {
                 model.UserRoles.Add(db.Roles.First(r => r.Id == role.RoleId).Name);
             }

@@ -14,8 +14,11 @@ namespace BugTracker.Models.CodeFirst {
         public string FileUrl { get; set; }
         [Display(Name = "Attachment File Name")]
         public string FileName { get; set; }
+
         [Display(Name = "Creation Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         public DateTimeOffset Created { get; set; }
+
         [Display(Name = "Icon URL")]
         public string IconUrl { get; set; }
         // Icons used come from https://github.com/redbooth/free-file-icons

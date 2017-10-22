@@ -39,7 +39,7 @@
                 <div class="user-btm-box">
                     <div class="col-md-4 col-sm-4 text-center">
                         <p class="text-purple">Active<br />Tickets</p>
-                        <h1>@Model.UserInfo.Tickets.Where(t => t.IsArchived == false).Count()</h1>
+                        <h1>@Model.UserTickets.Where(t => t.IsArchived == false).Count()</h1>
                     </div>
                     <div class="col-md-4 col-sm-4 text-center">
                         <p class="text-blue">Comments To Date</p>
@@ -126,26 +126,46 @@
                             @if (Model.UserTickets.Count > 0) {
                                 <table>
                                     @*<thead>
-                                        <tr>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Title)</th>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Description)</th>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Project.Title)</th>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).AssignedUser)</th>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Created)</th>
-                                            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Updated)</th>
-                                        </tr>
-                                    </thead>*@
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Title)</th>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Description)</th>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Project.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).AssignedUser)</th>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Created.LocalDateTime)</th>
+            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Updated)</th>
+        </tr>
+    </thead>*@
                                     <tbody>
                                         @foreach (var ticket in Model.UserTickets) {
                                             <tr class="sl-item">
                                                 <td>
                                                     <div class="sl-right">
                                                         <div class="m-l-40">
-                                                            <a href="/Tickets/Details/@ticket.Id" class="text-info">@Html.DisplayFor(modelItem => ticket.Title)</a><span class="sl-date">Last Updated: @Html.DisplayFor(modelItem => ticket.Updated)</span>
-                                                            <p>Created: @Html.ToUserTime(ticket.Created, ViewBag.UserTimeZone as string)</p>
-                                                            <p>Description: @Html.DisplayFor(modelItem => ticket.Description)</p>
-                                                            <p>Total Comments: @Html.DisplayFor(modelItem => ticket.TicketComments.Count)</p>
-                                                            <p>Total Attachments: @Html.DisplayFor(modelItem => ticket.Attachments.Count)</p>
+                                                            <span style="font-size:medium; font-weight:700"><a href="/Tickets/Details/@ticket.Id" class="text-info">@Html.DisplayFor(modelItem => ticket.Title)</a></span>
+                                                            @if (ticket.TicketPriority.Name == "Project") {
+                                                                <span class="label label-info center_text">@Html.DisplayFor(modelItem => ticket.TicketPriority.Name)</span>
+                                                            }
+
+                                                            @if (ticket.TicketPriority.Name == "Low") {
+                                                                <span class="label label-success center_text">@Html.DisplayFor(modelItem => ticket.TicketPriority.Name)</span>
+                                                            }
+
+                                                            @if (ticket.TicketPriority.Name == "Medium") {
+                                                                <span class="label label-primary center_text">@Html.DisplayFor(modelItem => ticket.TicketPriority.Name)</span>
+                                                            }
+
+                                                            @if (ticket.TicketPriority.Name == "High") {
+                                                                <span class="label label-warning center_text">@Html.DisplayFor(modelItem => ticket.TicketPriority.Name)</span>
+                                                            }
+
+                                                            @if (ticket.TicketPriority.Name == "Critical") {
+                                                                <span class="label label-danger center_text">@Html.DisplayFor(modelItem => ticket.TicketPriority.Name)</span>
+                                                            }
+                                                            <span class="sl-date">&nbsp;-&nbsp;Last Updated: @Html.DisplayFor(modelItem => ticket.Updated)</span><br />
+                                                            <span>Created: <span class="text-info">@Html.DisplayFor(modelItem => ticket.Created.LocalDateTime)</span></span><br />
+                                                            <span>Description: <span class="text-info">@Html.DisplayFor(modelItem => ticket.Description)</span></span><br />
+                                                            <span>Total Comments: <span class="text-info">@Html.DisplayFor(modelItem => ticket.TicketComments.Count)</span></span><br />
+                                                            <span>Total Attachments: <span class="text-info">@Html.DisplayFor(modelItem => ticket.Attachments.Count)</span></span><br />
                                                             <hr>
                                                         </div>
                                                     </div>

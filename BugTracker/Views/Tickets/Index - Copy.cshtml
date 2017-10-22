@@ -43,7 +43,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
-                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                 <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>
                                 @if (item.AssignedUser != null) {
@@ -93,7 +93,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
-                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
@@ -145,7 +145,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
-                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
@@ -196,7 +196,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
                                 <td>@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
-                                <td>@Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Updated)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>

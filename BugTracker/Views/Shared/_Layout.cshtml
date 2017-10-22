@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="~/Content/Theme Files/_Cubic/plugins/images/favicon.png">
-    <title>Cubic Admin Template</title>
+    <title>BugTracker</title>
     <!-- ===== Bootstrap CSS ===== -->
     <link href="~/Content/Theme Files/_Cubic/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- ===== Plugin CSS ===== -->
@@ -290,12 +290,12 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated flipInY">
-                                <li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
-                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>
+                                @*<li><a href="javascript:void(0);"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="javascript:void(0);"><i class="fa fa-inbox"></i> Inbox</a></li>*@
                                 <li role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);"><i class="fa fa-cog"></i> Account Settings</a></li>
+                                <li><a href="/Manage/Index"><i class="fa fa-cog"></i> Account Settings</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href=""><i class="fa fa-power-off"></i> Logout</a></li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>
                         </div>
                         <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> Hanna Gover</a></p>
@@ -453,6 +453,10 @@
             <div class="container-fluid">
                 @RenderBody()
             </div>        <!-- ===== Page-Content-End ===== -->
+            <footer class="footer t-a-c">
+                © 2017 Casey L. Jones
+            </footer>
+
         </div>
     </div>
     <!-- ===== Main-Wrapper-End ===== -->

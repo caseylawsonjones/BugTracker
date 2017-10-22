@@ -10,7 +10,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Project.Created)</dt>
-        <dd>@Html.ToUserTime(Model.Project.Created, ViewBag.UserTimeZone as string)</dd>
+        <dd>@Html.DisplayFor(model => model.Project.Created)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.Project.Updated)</dt>
         <dd>@Html.DisplayFor(model => model.Project.Updated)</dd>

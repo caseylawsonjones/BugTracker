@@ -170,7 +170,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => ticket.Description)</td>
                                                                     <td>@Html.DisplayFor(modelItem => ticket.Project.Title)</td>
                                                                     <td>@Html.DisplayFor(modelItem => ticket.AssignedUser.FullName)</td>
-                                                                    <td>@Html.ToUserTime(ticket.Created, Model.UserInfo.TimeZone as string)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => ticket.Created)</td>
                                                                     <td>@Html.DisplayFor(modelItem => ticket.Updated)</td>
                                                                 </tr>
                                                             }

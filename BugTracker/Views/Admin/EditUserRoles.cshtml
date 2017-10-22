@@ -4,12 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post)){
-    <h2>Assign roles for <i style="color:blue"><b>@Html.DisplayFor(model => Model.User.FullName)</b></i></h2>
-    <hr/>
-    @Html.HiddenFor(mdoel => Model.User.Id)
+@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => Model.User.Id)
     @Html.ListBox("AssignedRoles", Model.Roles, new { @class = "multi-select" })
+
+    <h2>Assign roles for <i style="color:blue"><b>@Html.DisplayFor(model => Model.User.FullName)</b></i></h2>
+    <hr />
     <br />
+
     <input type="submit" value="AssignRoles" class="btn btn-secondary " style="margin-top: 0px; background-color:green; color:white; text-align:center;" />
 }
 

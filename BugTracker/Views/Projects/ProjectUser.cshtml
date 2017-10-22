@@ -4,15 +4,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Assign Users to Project</h2>
-
-
 @using (Html.BeginForm()) {  <!-- If you leave this blank, it will default to the Post action of the model -->
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ProjectId)
+    @Html.ListBox("AssignedUsers", Model.Users, new { @class = "multi-select" })
 
-    <h3>Project Name: @Model.Project.Title</h3>
+    <h2>Assign users for <i style="color:blue"><b>@Html.DisplayFor(model => Model.Project.Title)</b></i></h2>
+    <hr />
+    <br />
 
-    @Html.ListBox("AssignedUsers", Model.Users)
-    <button type="submit">Submit</button>
+    <input type="submit" value="AssignRoles" class="btn btn-secondary " style="margin-top: 0px; background-color:green; color:white; text-align:center;" />
+}
+
+<div style="margin-top: 40px">
+    @Html.ActionLink("Back to Admin Index", "Index")
+</div>
+@section Scripts {
+    <script src="~/Content/MultiSelect/multiselect.js"></script>
+    <script type="text/javascript">
+        /* Multiselect inputs */
+        $(function () { "use strict";
+            $('.multi-select').multiSelect({
+                selectableHeader: "<div style='text-align: center; background-color: blue; color: white'><strong>Available Roles</strong></div>",
+                selectionHeader: "<div style='text-align: center; background-color: green; color: white'><strong>Selected Roles</strong></div>"
+            })
+            $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
+        })
+    </script>
 }

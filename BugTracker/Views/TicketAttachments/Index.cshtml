@@ -45,7 +45,7 @@
             @Html.DisplayFor(modelItem => item.FileUrl)
         </td>
         <td>
-            @Html.ToUserTime(item.Created, ViewBag.UserTimeZone as string)
+            @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

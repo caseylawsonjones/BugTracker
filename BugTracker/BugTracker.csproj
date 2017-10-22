@@ -4635,6 +4635,7 @@
     <Content Include="Content\Theme Files\AdminTo\ui-treeview.html" />
     <Content Include="Content\Theme Files\AdminTo\ui-typography.html" />
     <Content Include="Content\Theme Files\AdminTo\ui-widgets.html" />
+    <Content Include="Content\Theme Files\_Cubic\recoverpw.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -5535,7 +5536,6 @@
     <Content Include="Views\Tickets\Delete.cshtml" />
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
-    <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\EditUserRoles.cshtml" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
@@ -5564,6 +5564,10 @@
     <Content Include="Views\Manage\Index - AdminPlust Attempt.cshtml" />
     <Content Include="Views\Tickets\Index - Copy.cshtml" />
     <Content Include="Views\Home\Index - Copy %282%29.cshtml" />
+    <Content Include="Views\Account\ForgotPassword - Copy.cshtml" />
+    <Content Include="Views\Home\Index - Copy %283%29.cshtml" />
+    <Content Include="Views\Tickets\IndexScared.cshtml" />
+    <Content Include="Views\Tickets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

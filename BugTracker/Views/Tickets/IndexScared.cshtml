@@ -1,0 +1,1345 @@
+﻿@model BugTracker.Models.Helpers.TicketsListViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <!-- ===== Plugin CSS ===== -->
+    <link rel="stylesheet" type="text/css" href="../plugins/components/gallery/css/animated-masonry-gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../plugins/components/fancybox/ekko-lightbox.min.css" />
+}
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="white-box">
+            <ul class="nav nav-tabs tabs customtab">
+                <li class="tab">
+                    <a href="#Admin" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Critical Tickets - All Projects</span> </a>
+                </li>
+                <li class="tab">
+                    <a href="#ProjectManager" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">High Priority Tickets - All Projects</span> </a>
+                </li>
+                <li class="tab">
+                    <a href="#Developer" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Tickets with No Recent Updates - All Projects</span> </a>
+                </li>
+                <li class="tab">
+                    <a href="#Submitter" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Unassigned Tickets - All Projects</span> </a>
+                </li>
+            </ul>
+                @if (User.IsInRole("Admin")) {
+                    <ul class="nav nav-tabs tabs customtab">
+                        <li class="tab">
+                            <a href="#critical" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Critical Tickets - All Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#high" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">High Priority Tickets - All Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#notUpdated" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Tickets with No Recent Updates - All Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#unassigned" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Unassigned Tickets - All Projects</span> </a>
+                        </li>
+                        @*<li class="active tab">
+                        <a href="#usersNoTickets" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Active Tickets - All Projects</span> </a>
+                    </li>
+                    <li class="active tab">
+                        <a href="#usersNoRoles" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Active Tickets - All Projects</span> </a>
+                    </li>*@
+                    </ul>                                }
+                @if (User.IsInRole("ProjectManager")) {
+                    <ul class="nav nav-tabs tabs customtab">
+                        <li class="tab">
+                            <a href="#pmcritical" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Critical Tickets - My Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#pmhigh" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">High Priority Tickets - My Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#pmnotUpdated" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Tickets with No Recent Updates - My Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#pmunassigned" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Unassigned Tickets - My Projects</span> </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#pmallTickets" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">All Tickets - My Projects</span> </a>
+                        </li>
+
+                    </ul>                                }
+                @if (User.IsInRole("Developer")) {
+                    <ul class="nav nav-tabs tabs customtab">
+                        <li class="tab">
+                            <a href="#developer" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-envelope-o"></i></span> <span class="hidden-xs">My Assigned Tickets</span> </a>
+                        </li>
+                    </ul>                                }
+                @if (User.IsInRole("Submitter")) {
+                    <ul class="nav nav-tabs tabs customtab">
+                        <li class="tab">
+                            <a href="#submitter" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-cog"></i></span> <span class="hidden-xs">My Submitted Tickets</span> </a>
+                        </li>
+                    </ul>                                }
+
+                <div class="tab-content">
+                    @if (ViewBag.NoRolesAssigned) {
+                        <h1>Your account currently is not assigned to any roles.  Please contact your administrator.</h1>
+                    }
+                    <!-- ADMIN TABLES SECTION -->
+                    <div>
+                        <!-- ADMIN - CRITICAL TICKETS -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="critical">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Critical Tickets</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.AllTickets.Where(t => t.TicketPriority.Name == "Critical")) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--ADMIN - HIGH PRIORITY TICKETS -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="high">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All High Priority Tickets</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.AllTickets.Where(t => t.TicketPriority.Name == "High")) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--ADMIN - TICKETS NOT UPDATED IN ONE WEEK -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="notUpdated">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Tickets With No Updates in the Last Week</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.AllTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7))) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--ADMIN - UNASSIGNED TICKETS-->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="unassigned">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Unassigned Tickets</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.AllTickets.Where(t => t.AssignedUserId == null)) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!-- ADMIN - ALL TICKETS FOR All PROJECTS -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="admin">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Tickets For All Projects</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.ProjectTickets != null) {
+                                                            foreach (var item in Model.AllTickets) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                    </div>
+
+                    <!-- PROJECT MANAGER TABLES SECTION -->
+                    <div>
+                        <!-- PROJECT MANAGER - MY PROJECTS - CRITICAL TICKETS -->
+                            @if (User.IsInRole("ProjectManager")) {
+                                <div class="tab-pane active" id="pmcritical">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Critical Tickets For My Projects</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.ProjectTickets.Where(t => t.TicketPriority.Name == "Critical")) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--PROJECT MANAGER - MY PROJECTS - HIGH PRIORITY TICKETS -->
+                            @if (User.IsInRole("ProjectManager")) {
+                                <div class="tab-pane active" id="pmhigh">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All High Priority Tickets For My Projects</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllTickets != null) {
+                                                            foreach (var item in Model.ProjectTickets.Where(t => t.TicketPriority.Name == "High")) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--PROJECT MANAGER - MY PROJECTS - TICKETS NOT UPDATED IN ONE WEEK -->
+                            @if (User.IsInRole("ProjectManager")) {
+                                <div class="tab-pane active" id="pmnotUpdated">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Tickets in My Projects With No Updates in the Last Week</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.ProjectTickets != null) {
+                                                            foreach (var item in Model.ProjectTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7))) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!--PROJECT MANAGER - MY PROJECTS - UNASSIGNED TICKETS -->
+                            @if (User.IsInRole("ProjectManager")) {
+                                <div class="tab-pane active" id="pmunassigned">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Unassigned Tickets For My Projects</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.ProjectTickets != null) {
+                                                    foreach (var item in Model.ProjectTickets.Where(t => t.AssignedUserId == null)) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+
+                        <!-- PROJECT MANAGER - MY PROJECTS - ALL TICKETS -->
+                            @if (User.IsInRole("ProjectManager")) {
+                                <div class="tab-pane active" id="pmallTickets">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">List of All Tickets For My Projects</h3>
+                                                <table id="datatable-AdminPM" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                            @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>*@
+                                                            @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>*@
+                                                            @*<th></th>*@
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.ProjectTickets != null) {
+                                                            foreach (var item in Model.ProjectTickets) {
+                                                                <tr>
+                                                                    <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    @if (item.TicketPriority.Name == "Project") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Low") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Medium") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "High") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketPriority.Name == "Critical") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                                    }
+
+
+
+                                                                    @if (item.TicketStatus.Name == "Resolved") {
+                                                                        <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Pending") {
+                                                                        <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "In Progress") {
+                                                                        <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Assigned") {
+                                                                        <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Submitted") {
+                                                                        <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Closed") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+                                                                    @if (item.TicketStatus.Name == "Cancelled") {
+                                                                        <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                                    }
+
+
+                                                                    @*<td class="center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>*@
+                                                                    <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    @if (item.AssignedUser != null) {
+                                                                        <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                                    }
+                                                                    else {
+                                                                        <td></td> }
+                                                                    @*<td>@Html.DisplayFor(modelItem => item.Description)</td>*@
+                                                                    @*<td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>*@
+                                                                    @*<td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>*@
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    }
+                                </div>
+                        <hr />
+                    </div>
+
+
+                    <!-- Project Manager -->
+                        @if (User.IsInRole("ProjectManager")) {
+                            <div class="tab-pane" id="projectManager">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h3 class="header-title m-t-0 m-b-30">List of All Tickets For My Assigned Projects</h3>
+
+                                            <table id="datatable-ProjectManager" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>*@
+                                                        @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>*@
+                                                        @*<th></th>*@
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.ProjectTickets) {
+                                                    <tr>
+                                                        <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                        @if (item.TicketPriority.Name == "Project") {
+                                                            <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Low") {
+                                                            <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Medium") {
+                                                            <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "High") {
+                                                            <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Critical") {
+                                                            <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+                                                        <td class="center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                            <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                            }
+                                                            else {
+                                                            <td></td> }
+                                                        @*<td>@Html.DisplayFor(modelItem => item.Description)</td>*@
+                                                        @*<td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>*@
+                                                        @*<td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>*@
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                            </div>
+                        }
+                            <hr />
+                    <!-- Developer -->
+                        @if (User.IsInRole("Developer")) {
+                            <div class="tab-pane" id="developer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h3 class="header-title m-t-0 m-b-30">List of My Assigned Tickets</h3>
+
+                                            <table id="datatable-Developer" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                        @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Description)</th>*@
+                                                        @*<th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).OwnerUserId)</th>*@
+                                                        @*<th></th>*@
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.AssignedTickets) {
+                                                    <tr>
+                                                        <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                        @if (item.TicketPriority.Name == "Project") {
+                                                            <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Low") {
+                                                            <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Medium") {
+                                                            <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "High") {
+                                                            <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Critical") {
+                                                            <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+                                                        <td class="center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</td>
+                                                        <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                            <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                            }
+                                                            else {
+                                                            <td></td> }
+                                                        @*<td>@Html.DisplayFor(modelItem => item.Description)</td>*@
+                                                        @*<td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.OwnerUserId).FullName)</td>*@
+                                                        @*<td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>*@
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                            </div>
+                        }
+                            <hr />
+                    <!-- Submitter -->
+                        @if (User.IsInRole("Submitter")) {
+                            <div class="tab-pane" id="submitter">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box table-responsive">
+
+                                            <h3 class="header-title m-t-0 m-b-30">List of My Submitted Tickets</h3>
+
+                                            <table id="datatable-Submitter" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Title)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketPriorityId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketStatusId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).TicketTypeId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).ProjectId)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Created)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).Updated)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.AllTickets.First(x => x.OwnerUserId != null).AssignedUserId)</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @foreach (var item in Model.SubmittedTickets) {
+                                                    <tr>
+                                                        <td><a href="/Tickets/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                        @if (item.TicketPriority.Name == "Project") {
+                                                            <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Low") {
+                                                            <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Medium") {
+                                                            <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "High") {
+                                                            <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketPriority.Name == "Critical") {
+                                                            <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Resolved") {
+                                                            <td class="center_text"><span class="label label-success center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Pending") {
+                                                            <td class="center_text"><span class="label label-info center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "In Progress") {
+                                                            <td class="center_text"><span class="label label-primary center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Assigned") {
+                                                            <td class="center_text"><span class="label label-warning center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Submitted") {
+                                                            <td class="center_text"><span class="label label-danger center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Closed") {
+                                                            <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+                                                        @if (item.TicketStatus.Name == "Cancelled") {
+                                                            <td class="center_text"><span class="label label-default center_text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span></td>
+                                                            }
+
+
+                                                        <td class="center_text">@Html.DisplayFor(modelItem => item.TicketType.Name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Project.Title)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                        @if (item.AssignedUser != null) {
+                                                            <td>@Html.DisplayFor(modelItem => Model.Users.First(u => u.Id == item.AssignedUserId).FullName)</td>
+                                                            }
+                                                            else {
+                                                            <td></td> }
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div>
+                            </div>
+                        }
+                </div>                @*</div>*@
+                @*</div>*@
+                <div class="clearfix"></div>
+</div>
+    </div>
+</div>
+@section Scripts {
+    <!-- DataTables -->
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script>$("#datatable-Submitter").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+    <script>$("#datatable-Developer").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+    <script>$("#datatable-ProjectManager").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+    <script>$("#datatable-AdminPM").DataTable({ "order": [[0, 'asc'], [3, 'desc'], [4, 'asc']] });</script>
+
+    @*<script type="text/javascript" src="../plugins/components/gallery/js/animated-masonry-gallery.js"></script>
+    <script type="text/javascript" src="../plugins/components/gallery/js/jquery.isotope.min.js"></script>
+    <script type="text/javascript" src="../plugins/components/fancybox/ekko-lightbox.min.js"></script>*@
+    @*<script type="text/javascript">
+        $(function ($) {
+            // delegate calls to data-toggle="lightbox"
+            $(document).delegate('*[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', 'click', function (event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox({
+                    onShown: function () {
+                        if (window.console) {
+                            return console.log('Checking our the events huh?');
+                        }
+                    },
+                    onNavigate: function (direction, itemIndex) {
+                        if (window.console) {
+                            return console.log('Navigating ' + direction + '. Current item: ' + itemIndex);
+                        }
+                    }
+                });
+            });
+            //Programatically call
+            $('#open-image').on("click", function (e) {
+                e.preventDefault();
+                $(this).ekkoLightbox();
+            });
+            $('#open-youtube').on("click", function (e) {
+                e.preventDefault();
+                $(this).ekkoLightbox();
+            });
+            // navigateTo
+            $(document).delegate('*[data-gallery="navigateTo"]', 'click', function (event) {
+                event.preventDefault();
+                var lb;
+                return $(this).ekkoLightbox({
+                    onShown: function () {
+                        lb = this;
+                        $(lb.modal_content).on('click', '.modal-footer a', function (e) {
+                            e.preventDefault();
+                            lb.navigateTo(2);
+                        });
+                    }
+                });
+            });
+        });
+    </script>*@
+}

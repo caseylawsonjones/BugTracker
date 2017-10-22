@@ -448,7 +448,7 @@
                                                             <div class="sl-right">
                                                                 <div class="m-l-40">
                                                                     <a href="/Tickets/Details/@ticket.Id" class="text-info">@Html.DisplayFor(modelItem => ticket.Title)</a><span class="sl-date">Last Updated: @Html.DisplayFor(modelItem => ticket.Updated)</span>
-                                                                    <p>Created: @Html.ToUserTime(ticket.Created, ViewBag.UserTimeZone as string)</p>
+                                                                    <p>Created: @Html.DisplayFor(modelItem => ticket.Created)</p>
                                                                     <p>Description: @Html.DisplayFor(modelItem => ticket.Description)</p>
                                                                     <p>Total Comments: @Html.DisplayFor(modelItem => ticket.Comments.Count</p>
                                                                     <p>Total Attachments: @Html.DisplayFor(modelItem => ticket.Attachments.Count</p>
@@ -801,9 +801,6 @@
                 <!-- ===== Right-Sidebar-End ===== -->
             </div>
             <!-- /.container-fluid -->
-            <footer class="footer t-a-c">
-                © 2017 Cubic Admin
-            </footer>
         </div>
         <!-- /#page-wrapper -->
     </div>
