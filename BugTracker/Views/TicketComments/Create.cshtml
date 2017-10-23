@@ -5,15 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm("Create", "TicketComments", new { ticketId = ViewBag.ticketId}, FormMethod.Post))
-{
+<div class="white-box">
+    <h2 class="text-info">Create New Ticket Comment</h2>
+    <hr />
+    @using (Html.BeginForm("Create", "TicketComments", new { ticketId = ViewBag.ticketId }, FormMethod.Post)) {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>TicketComment</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -25,12 +23,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-info" />
             </div>
         </div>
     </div>
 }
-
+    <br />
+    <hr />
 <div>
     @Html.ActionLink("Back to Ticket", "Details", "Tickets", new { id = ViewBag.ticketId }, null)
+</div>
 </div>

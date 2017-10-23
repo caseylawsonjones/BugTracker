@@ -407,6 +407,7 @@
     <Compile Include="Models\Helpers\AttachmentHelper.cs" />
     <Compile Include="Models\Helpers\CustomHelpers.cs" />
     <Compile Include="Models\Helpers\EmailHelper.cs" />
+    <Compile Include="Models\Helpers\NotificationHelper - Copy.cs" />
     <Compile Include="Models\Helpers\NotificationHelper.cs" />
     <Compile Include="Models\Helpers\HistoryHelper.cs" />
     <Compile Include="Models\Helpers\ProjectAssignHelper.cs" />
@@ -539,6 +540,7 @@
     <Content Include="Content\DataTables\Scroller-1.4.3\js\dataTables.scroller.min.js" />
     <Content Include="Content\Images\300px-No_sign_Right.svg.png" />
     <Content Include="Content\Images\electric-bug-zapper-612x630.jpg" />
+    <Content Include="Content\Images\favicon.png" />
     <Content Include="Content\Images\Icons\512px\aac.png" />
     <Content Include="Content\Images\Icons\512px\ai.png" />
     <Content Include="Content\Images\Icons\512px\aiff.png" />
@@ -607,6 +609,9 @@
     <Content Include="Content\Images\Icons\logo D.png" />
     <Content Include="Content\Images\Icons\logo P.png" />
     <Content Include="Content\Images\Icons\logo S.png" />
+    <Content Include="Content\Images\logo - 32x32.png" />
+    <Content Include="Content\Images\logo - 48x48.png" />
+    <Content Include="Content\Images\logo - 64x64.png" />
     <Content Include="Content\Images\Radar elements blue background vector.png" />
     <Content Include="Content\jasny-bootstrap.css" />
     <Content Include="Content\jasny-bootstrap.min.css" />
@@ -5570,6 +5575,8 @@
     <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Projects\Index - Copy %282%29.cshtml" />
     <Content Include="Views\Home\Index - Copy %284%29.cshtml" />
+    <Content Include="Views\Admin\IndexOLD.cshtml" />
+    <Content Include="Views\Account\Login - Copy %282%29.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

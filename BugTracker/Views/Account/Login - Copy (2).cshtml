@@ -39,8 +39,7 @@
     <!-- jQuery -->
     <!-- / JAVASCRIPT -->
 </head>
-<body class="layout layout-vertical layout-left-navigation layout-above-toolbar">
-    <div id="wrapper">
+    <body>
         <div class="content-wrapper">
             <div class="content">
                 <div id="login-v2" class="row no-gutters">
@@ -48,7 +47,7 @@
                     <div class="intro col-12 col-md">
                         <div class="d-flex flex-column align-items-center align-items-md-start text-center text-md-left py-16 py-md-32 px-12">
                             @*<div class="logo bg-secondary mb-8 loginDiv">
-                                </div>*@
+                            </div>*@
                             <div class="title" style="color:white">
                                 Welcome to BUGTRACKER!
                             </div>
@@ -59,8 +58,7 @@
                     </div>
                     <!-- LOGIN FORM ON RIGHT OF PAGE -->
                     <div class="form-wrapper col-12 col-md-auto d-flex justify-content-center p-4 p-md-0">
-                        <div class="form-content md-elevation-8 h-100 bg-white text-auto px-12" style="padding-top:16px;">
-                            <!-- classes: (py-md-32 main.css ln 3215) (py-16 main.css ln 1658)-->
+                        <div class="form-content md-elevation-8 h-100 bg-white text-auto px-12" style="padding-top:16px;"><!-- classes: (py-md-32 main.css ln 3215) (py-16 main.css ln 1658)-->
                             <div class="title h5">Log in to your account</div>
                             <section id="loginForm" novalidate class="mt-8">
                                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mt-8", role = "form", name = "loginForm" })) {
@@ -72,15 +70,13 @@
                                         <label for="loginFormInputEmail">Email address</label>
                                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="form-group mb-0">
-                                        <!-- classes: (mb-4 main.css ln 1214)-->
+                                    <div class="form-group mb-0"><!-- classes: (mb-4 main.css ln 1214)-->
                                         @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
                                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", style = "padding-bottom:0px;", id = "loginFormInputPassword" })
                                         <label for="loginFormInputPassword">Password</label>
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="remember-forgot-password row no-gutters align-items-center justify-content-between">
-                                        <!-- classes: (pt-4 main.css ln 1569)-->
+                                    <div class="remember-forgot-password row no-gutters align-items-center justify-content-between"><!-- classes: (pt-4 main.css ln 1569)-->
                                         <div class="form-group form-check remember-me mb-4">
                                             <label class="form-check-label">
                                                 @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
@@ -135,7 +131,7 @@
                                 @using (Html.BeginForm("Login", "Account", new { Email = "DemoProjectManager@coderfoundry.com", Password = "BugTracker8**" })) {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="demopm btn btn-block btn-secondary my-2 mx-auto" value="DemoProjectManager" style="width:200px">
-                                        <span>Demo Project Manager</span>
+                                    <span>Demo Project Manager</span>
                                     </button>
 
                                 }
@@ -143,7 +139,7 @@
                                 @using (Html.BeginForm("Login", "Account", new { Email = "DemoDeveloper@coderfoundry.com", Password = "BugTracker8**" })) {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="demodev btn btn-block btn-secondary my-2 mx-auto" value="DemoDeveloper" style="width:200px">
-                                        <span>Demo Developer</span>
+                                    <span>Demo Developer</span>
                                     </button>
 
                                 }
@@ -151,7 +147,7 @@
                                 @using (Html.BeginForm("Login", "Account", new { Email = "DemoSubmitter@coderfoundry.com", Password = "BugTracker8**" })) {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="demosub btn btn-block btn-secondary my-2 mx-auto" value="DemoSubmitter" style="width:200px">
-                                        <span>Demo Submitter</span>
+                                    <span>Demo Submitter</span>
                                     </button>
                                 }
                             </section>
@@ -164,27 +160,27 @@
                 </div>
             </div>
         </div>
-    </div>    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/jquery/dist/jquery.min.js"></script>
-    <!-- Mobile Detect -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/mobile-detect/mobile-detect.min.js"></script>
-    <!-- Perfect Scrollbar -->
-    <script type="text/javascript"
-            src="~/Content/Theme Files/From Other Templates/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
-    <!-- Popper.js -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/popper.js/index.js"></script>
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/bootstrap/bootstrap.min.js"></script>
-    <!-- Nvd3 - D3 Charts -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/d3/d3.min.js"></script>
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/nvd3/build/nv.d3.min.js"></script>
-    <!-- Data tables -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
-    <!-- PNotify -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/pnotify/pnotify.custom.min.js"></script>
-    <!-- Fuse Html -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/fuse-html/fuse-html.min.js"></script>
-    <!-- Main JS -->
-    <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/js/main.js"></script>
-</body>
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/jquery/dist/jquery.min.js"></script>
+        <!-- Mobile Detect -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/mobile-detect/mobile-detect.min.js"></script>
+        <!-- Perfect Scrollbar -->
+        <script type="text/javascript"
+                src="~/Content/Theme Files/From Other Templates/vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+        <!-- Popper.js -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/popper.js/index.js"></script>
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/bootstrap/bootstrap.min.js"></script>
+        <!-- Nvd3 - D3 Charts -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/d3/d3.min.js"></script>
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/nvd3/build/nv.d3.min.js"></script>
+        <!-- Data tables -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+        <!-- PNotify -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/pnotify/pnotify.custom.min.js"></script>
+        <!-- Fuse Html -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/vendor/fuse-html/fuse-html.min.js"></script>
+        <!-- Main JS -->
+        <script type="text/javascript" src="~/Content/Theme Files/From Other Templates/js/main.js"></script>
+    </body>
 </html>

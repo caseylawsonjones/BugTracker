@@ -139,3 +139,39 @@ a.bg-roseybrown:focus {
     margin-bottom: -1px;
     color: #fff;
 }
+
+.btn-roseybrown {
+    color: #ffffff;
+    background-color: #BC8F8F;
+    border-color: #a98080;
+}
+    .btn-roseybrown:hover, .btn-roseybrown:focus, .btn-roseybrown:active, .btn-roseybrown.active, .open .dropdown-toggle.btn-roseybrown {
+        color: #ffffff;
+        background-color: #c29a9a;
+        border-color: #c29a9a;
+    }
+
+.btn-roseybrown:active,
+.btn-roseybrown.active,
+.open .dropdown-toggle.btn-roseybrown {
+    background-image: none;
+}
+
+.btn-roseybrown.disabled,
+.btn-roseybrown[disabled],
+fieldset[disabled] .btn-roseybrown,
+.btn-roseybrown.disabled:hover,
+.btn-roseybrown[disabled]:hover,
+fieldset[disabled] .btn-roseybrown:hover,
+.btn-roseybrown.disabled:focus,
+.btn-roseybrown[disabled]:focus,
+fieldset[disabled] .btn-roseybrown:focus,
+.btn-roseybrown.disabled:active,
+.btn-roseybrown[disabled]:active,
+fieldset[disabled] .btn-roseybrown:active,
+.btn-roseybrown.disabled.active,
+.btn-roseybrown[disabled].active,
+fieldset[disabled] .btn-roseybrown.active {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}

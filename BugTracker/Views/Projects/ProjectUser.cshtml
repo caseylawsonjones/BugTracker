@@ -3,32 +3,44 @@
     ViewBag.Title = "ProjectUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@using (Html.BeginForm()) {  <!-- If you leave this blank, it will default to the Post action of the model -->
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.ProjectId)
-    @Html.ListBox("AssignedUsers", Model.Users, new { @class = "multi-select" })
-
-    <h2>Assign users for <i style="color:blue"><b>@Html.DisplayFor(model => Model.Project.Title)</b></i></h2>
-    <hr />
-    <br />
-
-    <input type="submit" value="AssignRoles" class="btn btn-secondary " style="margin-top: 0px; background-color:green; color:white; text-align:center;" />
+@section Styles {
+    <link href="~/Content/MultiSelect/multiselect.css" rel="stylesheet" />
 }
+<div class="white-box">
+    @using (Html.BeginForm()) {  <!-- If you leave this blank, it will default to the Post action of the model -->
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ProjectId)
 
-<div style="margin-top: 40px">
-    @Html.ActionLink("Back to Admin Index", "Index")
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><span class="text-info">Modify/Assign Users For Project:</span> &nbsp;<b>@Html.DisplayFor(model => Model.Project.Title)</b></h4>
+                        <hr />
+                        @Html.ListBox("AssignedUsers", Model.Users, new { @class = "multi-select" })
+                        <br />
+                        <input type="submit" value="Assign Users" class="btn btn-secondary " style="margin-top: 0px; background-color:green; color:white; text-align:center;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+    <hr />
+    <div style="margin-top: 40px">
+        @Html.ActionLink("Back to Projects List", "Index")
+    </div>
 </div>
 @section Scripts {
-    <script src="~/Content/MultiSelect/multiselect.js"></script>
-    <script type="text/javascript">
-        /* Multiselect inputs */
-        $(function () { "use strict";
-            $('.multi-select').multiSelect({
-                selectableHeader: "<div style='text-align: center; background-color: blue; color: white'><strong>Available Roles</strong></div>",
-                selectionHeader: "<div style='text-align: center; background-color: green; color: white'><strong>Selected Roles</strong></div>"
-            })
-            $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
-        })
-    </script>
+<script type="text/javascript" src="~/Content/MultiSelect/multiselect.js"></script>
+<script type="text/javascript">
+    $(function () {
+        "use strict";
+        $('.multi-select').multiSelect({
+            selectableHeader: "<div style='text-align: center; background-color: lightgreen; color: white!important;'><strong>Available Users</strong></div>",
+            selectionHeader: "<div style='text-align: center; background-color: lightblue; color: white!important;'><strong>Current Users</strong></div>"
+        });
+        $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
+
+    });
+</script>
 }

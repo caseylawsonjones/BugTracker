@@ -103,11 +103,11 @@
         <div class="col-md-8 col-xs-12">
             <div class="white-box">
                 <ul class="nav nav-tabs tabs customtab">
+                    @*<li class="active tab">
+                        <a href="#tickets" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs" style="color:black!important">Tickets</span> </a>
+                    </li>*@
                     <li class="active tab">
-                        <a href="#tickets" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">Tickets</span> </a>
-                    </li>
-                    <li class="tab">
-                        <a href="#profile" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">Profile</span> </a>
+                        <a href="#profile" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs" style="color:black!important">Profile</span> </a>
                     </li>
                     <!--
                     <li class="tab">
@@ -120,21 +120,11 @@
                 </ul>
                 <div class="tab-content">
 
-                    <!-- TICKETS TAB -->
+                    <!-- TICKETS TAB 
                     <div class="tab-pane active" id="tickets">
                         <div class="steamline">
                             @if (Model.UserTickets.Count > 0) {
                                 <table>
-                                    @*<thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Title)</th>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Description)</th>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Project.Title)</th>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).AssignedUser)</th>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Created.LocalDateTime)</th>
-            <th>@Html.DisplayNameFor(model => model.UserTickets.First(t => t.Id > 0).Updated)</th>
-        </tr>
-    </thead>*@
                                     <tbody>
                                         @foreach (var ticket in Model.UserTickets) {
                                             <tr class="sl-item">
@@ -175,7 +165,7 @@
                                     </tbody>
                                 </table>
                             }
-                            else {  <!-- No Tickets Currently Assigned-->
+                            else {  
                                 <div class="sl-item">
                                     <div class="sl-left"> <img src="~/Content/Images/300px-No_sign_Right.svg.png" alt="user" class="img-circle" /> </div>
                                     <div class="sl-right">
@@ -188,9 +178,11 @@
                             }
                         </div>
                     </div>
+                    -->
+
 
                     <!-- PROFILE TAB -->
-                    <div class="tab-pane" id="profile">
+                    <div class="active tab-pane" id="profile">
                         <!-- Change Name Section-->
                         <div class="steamline">
                             <!-- widget-body col-md-9 -->

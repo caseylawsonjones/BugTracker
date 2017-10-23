@@ -4,9 +4,9 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Details</h2>
-<div>
-    <h4>Project</h4>
+<div class="white-box">
+    <h2 class="text-info">@Html.DisplayFor(model => model.Project.Title)</h2>
+    <h6>@Html.DisplayFor(model => model.Project.Description)</h6>
     <hr />
     <dl class="dl-horizontal">
         <dt>@Html.DisplayNameFor(model => model.Project.Created)</dt>
@@ -14,12 +14,6 @@
 
         <dt>@Html.DisplayNameFor(model => model.Project.Updated)</dt>
         <dd>@Html.DisplayFor(model => model.Project.Updated)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.Project.Title)</dt>
-        <dd>@Html.DisplayFor(model => model.Project.Title)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.Project.Description)</dt>
-        <dd>@Html.DisplayFor(model => model.Project.Description)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.Project.AuthorId)</dt>
         <dd>@Html.DisplayFor(model => model.ProjectOwner)</dd>
@@ -30,8 +24,10 @@
             <dd>@user.FullName</dd>
         }
     </dl>
+    <br />
+    <hr />
+    <span>
+        @Html.ActionLink("Edit", "Edit", new { id = @Model.ProjectId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </span>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = @Model.ProjectId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

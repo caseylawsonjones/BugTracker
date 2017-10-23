@@ -4,59 +4,59 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container">
+<div class="white-box">
     <div class="row">
         <div class="col-xs-5">
-            <h2>@Model.Title</h2>
+            <h2 class="text-info">@Html.DisplayFor(model => model.Title)</h2>
+            <h6>@Html.DisplayFor(model => model.Description)</h6>
         </div>
         <div class="col-xs-7" style="text-align:center">
             <h2>Attachments</h2>
         </div>
     </div>
-</div>
-<div>
-    <hr />
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-5 wordWrapBreakWord" style="border-right:solid">
-                <dl class="dl-horizontal">
-                    <dt>@Html.DisplayNameFor(model => model.Project.Title)</dt>
-                    <dd>@Html.DisplayFor(model => model.Project.Title)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.TicketPriority.Name)</dt>
-                    <dd>@Html.DisplayFor(model => model.TicketPriority.Name)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.TicketStatus.Name)</dt>
-                    <dd>@Html.DisplayFor(model => model.TicketStatus.Name)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.TicketType.Name)</dt>
-                    <dd>@Html.DisplayFor(model => model.TicketType.Name)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Created)</dt>
-                    <dd>@Html.DisplayFor(model => model.Created)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Updated)</dt>
-                    <dd>@Html.DisplayFor(model => model.Updated)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Title)</dt>
-                    <dd>@Html.DisplayFor(model => model.Title)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
-                    <dd>@Html.DisplayFor(model => model.Description)</dd>
-                    <dt>@Html.DisplayNameFor(model => model.OwnerUserId)</dt>
-                    <dd>@ViewBag.ownerUser</dd>
-                    <dt>@Html.DisplayNameFor(model => model.AssignedUserId)</dt>
-                    <dd>@ViewBag.assignedUser</dd>
-                </dl>
-                <p style="text-align:center;">
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) &#124;
-                    @Html.ActionLink("Add Comment", "Create", "TicketComments", new { id = Model.Id }, null) &#124;
-                    @Html.ActionLink("Add Attachment", "Create", "TicketAttachments", new { ticketId = Model.Id }, null) &#124;
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
-            </div>
-            <div class="col-xs-7">
-                @{int i = 0;  <!-- The column number for Attachment Icons does not work properly. -->
+    <div>
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-5 wordWrapBreakWord" style="border-right:solid">
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Project.Title)</dt>
+                        <dd>@Html.DisplayFor(model => model.Project.Title)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.TicketPriority.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.TicketPriority.Name)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.TicketStatus.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.TicketStatus.Name)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.TicketType.Name)</dt>
+                        <dd>@Html.DisplayFor(model => model.TicketType.Name)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Created)</dt>
+                        <dd>@Html.DisplayFor(model => model.Created)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Updated)</dt>
+                        <dd>@Html.DisplayFor(model => model.Updated)</dd>
+                        @*<dt>@Html.DisplayNameFor(model => model.Title)</dt>
+                        <dd>@Html.DisplayFor(model => model.Title)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                        <dd>@Html.DisplayFor(model => model.Description)</dd>*@
+                        <dt>@Html.DisplayNameFor(model => model.OwnerUserId)</dt>
+                        <dd>@ViewBag.ownerUser</dd>
+                        <dt>@Html.DisplayNameFor(model => model.AssignedUserId)</dt>
+                        <dd>@ViewBag.assignedUser</dd>
+                    </dl>
+                    <p style="text-align:center;">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) &#124;
+                        @Html.ActionLink("Add Comment", "Create", "TicketComments", new { id = Model.Id }, null) &#124;
+                        @Html.ActionLink("Add Attachment", "Create", "TicketAttachments", new { ticketId = Model.Id }, null) &#124;
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                </div>
+                <div class="col-xs-7">
+                    @{int i = 0;  <!-- The column number for Attachment Icons does not work properly. -->
                     int x = 3; <!-- Number of Attachment Display Columns = (x+1)  Acceptable values are 0, 1, 2, 3 or 5</!-->
                     int xx = 12 / (x + 1);  <!-- xx is used to set the column size -->
-                    <div class="row">
-                        @foreach (var attachment in Model.Attachments) {
-                            <div class="col-xs-2" style="text-align:center; max-width: 15vw!important;">
-                                <div class="row">
-                                    @if ((Path.GetExtension(@attachment.FileName).ToLower()) == ".png" ||
+                        <div class="row">
+                            @foreach (var attachment in Model.Attachments) {
+                                <div class="col-xs-2" style="text-align:center; max-width: 15vw!important;">
+                                    <div class="row">
+                                        @if ((Path.GetExtension(@attachment.FileName).ToLower()) == ".png" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".jpg" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".jpeg" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".gif" ||
@@ -70,69 +70,69 @@
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".css" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".less" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".sass") {
-                                        <a href="#" data-toggle="modal" data-target="#AttModal_@attachment.Id"><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
+                                            <a href="#" data-toggle="modal" data-target="#AttModal_@attachment.Id"><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
                                     }
                                     else {
-                                        <a href="@attachment.FileUrl" download=""><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
+                                            <a href="@attachment.FileUrl" download=""><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
                                     }
-                                </div>
-                                <br />
-                                <div class="row" style="max-width: 5vw; text-align:center; margin: 0 auto;"><h5 style="text-align:center; width:5vw; word-wrap:break-word; display:inline-block;">@attachment.FileName</h5></div>
-                                <div class="post-meta" style="font-size:x-small;">
-                                    <div class="row" @*col-md-7 col-sm-7 col-xs-7*@>
-                                        <!-- Author  -->
-                                        <span class="author wordWrapBreakWord"><i class="fa fa-user wordWrapBreakWord"></i> @attachment.Author.FullName</span>
                                     </div>
-                                    <div class="row" @*This DIV was not here, originally.*@>
-                                        <!-- Meta Date -->
-                                        <span class="time"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => attachment.Created)</span>
-                                    </div>
-                                    <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
-                                        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
+                                    <br />
+                                    <div class="row" style="max-width: 5vw; text-align:center; margin: 0 auto;"><h5 style="text-align:center; width:5vw; word-wrap:break-word; display:inline-block;">@attachment.FileName</h5></div>
+                                    <div class="post-meta" style="font-size:x-small;">
+                                        <div class="row" @*col-md-7 col-sm-7 col-xs-7*@>
+                                            <!-- Author  -->
+                                            <span class="author wordWrapBreakWord"><i class="fa fa-user wordWrapBreakWord"></i> @attachment.Author.FullName</span>
+                                        </div>
+                                        <div class="row" @*This DIV was not here, originally.*@>
+                                            <!-- Meta Date -->
+                                            <span class="time"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => attachment.Created)</span>
+                                        </div>
+                                        <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
+                                            @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
                                             ((User.IsInRole("Developer") && (attachment.AuthorId == User.Identity.GetUserId()))) ||
                                             ((User.IsInRole("Submitter") && (attachment.AuthorId == User.Identity.GetUserId())))) {
-                                            <a href="#" data-toggle="modal" data-target="#DeleteAttachmentModal_@attachment.Id">Delete</a>
-                                            <br /><br />
+                                                <a href="#" data-toggle="modal" data-target="#DeleteAttachmentModal_@attachment.Id">Delete</a>
+                                                <br /><br />
                                         }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             //if (i > 0 && (i % (x + 1)) == 0) {  // Determines if we are at the end of a row
                             //    Html.Raw("</div><div class='row'>"); /*Adds a row ending DIV and starts a new row DIV*/
                             //}
                             //i++;
                                     <!-- DELETE COMMENT MODAL -->
-                            <div class="modal fade DeleteAttachmentModal" id="DeleteAttachmentModal_@attachment.Id">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <h2 style="text-align:center;">Confirm Deletion of Ticket Attachment</h2>
-                                            <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+                                <div class="modal fade DeleteAttachmentModal" id="DeleteAttachmentModal_@attachment.Id">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h2 style="text-align:center;">Confirm Deletion of Ticket Attachment</h2>
+                                                <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
 
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-sm-4"></div>
-                                                    <div class="col-sm-2">
-                                                        @using (Html.BeginForm("Delete", "TicketAttachments", new { id = attachment.Id }, FormMethod.Post)) {
-                                                            @Html.AntiForgeryToken()
-                                                            <div class="form-actions no-color">
-                                                                <input type="submit" value="Delete" class="btn btn-default" />
-                                                            </div>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="col-sm-2">
+                                                            @using (Html.BeginForm("Delete", "TicketAttachments", new { id = attachment.Id }, FormMethod.Post)) {
+                                                                @Html.AntiForgeryToken()
+                                                                <div class="form-actions no-color">
+                                                                    <input type="submit" value="Delete" class="btn btn-default" />
+                                                                </div>
                                                         }
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                        </div>
+                                                        <div class="col-sm-4"></div>
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                        <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                                                    </div>
-                                                    <div class="col-sm-4"></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
                             //Attachment Display Modal
                             <div class="modal fade" id="AttModal_@attachment.Id">
@@ -148,122 +148,137 @@
                                 </div>
                             </div>
                         }
-                    </div>
-                }
-            </div>
-        </div>
-        <hr />
-        <!-- COMMENTS -->
-        <div class="row">
-            <h4 style="color:blue">Comments</h4>
-            <table id="commentsTable"  class="table table-striped table-bordered">
-                <thead>
-                    <tr><th></th><th></th><th></th><th></th></tr>
-                </thead>
-                <tbody>
-                    @foreach (var comment in Model.TicketComments) {
-                        <tr class="comment-item comments_border">
-                            <!-- Actual Comment -->
-                            <td>
-                                @Html.Raw(comment.Body)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => comment.Created)
-                            </td>
-                            <td>
-                                <span class="post-meta author"><i class="fa fa-user"></i> @comment.Author.FullName</span>
-                            </td>
-                            <!-- Edit and Delete Options -->
-                            <td>
-                                @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
-                                    @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null)<br />
-                                    @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
-                                    <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id"><span style="color:darkred">Delete</span></a>
-                                }
-                            </td>
-                        </tr>
-                        <!-- DELETE COMMENT MODAL -->
-                        <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <h2 style="text-align:center;">Confirm Deletion of Ticket Comment</h2>
-                                        <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
-
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-sm-4"></div>
-                                                <div class="col-sm-2">
-                                                    @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
-                                                        @Html.AntiForgeryToken()
-                                                        <div class="form-actions no-color">
-                                                            <input type="submit" value="Delete" class="btn btn-default" />
-                                                        </div>
-                                                    }
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                                                </div>
-                                                <div class="col-sm-4"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     }
-                </tbody>
-            </table>
+                </div>
+            </div>
+            <hr />
         </div>
-        <!-- TICKET HISTORY EVENTS -->
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title header-title m-t-0 ">
-                                <!--m-b-30-->
-                                <a data-toggle="collapse" href="#collapse1">Ticket History</a>
-                            </h4>
+    </div>
+</div>
+
+            <!-- COMMENTS AND TICKET HISTORY -->
+<div class="white-box">
+    <div class="white-box">
+        <ul class="nav nav-tabs tabs customtab">
+            @*<li class="active tab">
+                    <a href="#tickets" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs" style="color:black!important">Tickets</span> </a>
+                </li>*@
+            <li class="active tab">
+                <a href="#comments" data-toggle="tab"> <span class="visible-xs"></span> <span class="hidden-xs" style="color:black!important">Comments</span> </a>
+            </li>
+            <li class="tab">
+                <a href="#history" data-toggle="tab"> <span class="visible-xs"></span> <span class="hidden-xs" style="color:black!important">Ticket History</span> </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- Comments Section -->
+            <div class="tab-pane active" id="comments">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h3 class="header-title m-t-0 m-b-30">Comments</h3>
+                            <table id="datatable_comments" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr><th></th><th></th><th></th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.TicketComments != null) {
+                                                foreach (var comment in Model.TicketComments) {
+                                                <tr class="comment-item comments_border">
+                                                    <!-- Actual Comment -->
+                                                    <td>
+                                                        @Html.Raw(comment.Body)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => comment.Created)
+                                                    </td>
+                                                    <td>
+                                                        <span class="post-meta author"><i class="fa fa-user"></i> @comment.Author.FullName</span>
+                                                    </td>
+                                                    <!-- Edit and Delete Options -->
+                                                    <td>
+                                                        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
+                                                                @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null)<br />
+                                                                @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
+                                                                <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id"><span style="color:darkred">Delete</span></a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                        <!-- DELETE COMMENT MODAL -->
+                                                <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                <h2 style="text-align:center;">Confirm Deletion of Ticket Comment</h2>
+                                                                <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-4"></div>
+                                                                        <div class="col-sm-2">
+                                                                            @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
+                                                                                    @Html.AntiForgeryToken()
+                                                                                    <div class="form-actions no-color">
+                                                                                        <input type="submit" value="Delete" class="btn btn-default" />
+                                                                                    </div>
+                                                                            }
+                                                                        </div>
+                                                                        <div class="col-sm-2">
+                                                                            <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                                        </div>
+                                                                        <div class="col-sm-4"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            }
+                                </tbody>
+                            </table>
                         </div>
-                        <div id="collapse1" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div class="row" style="height: 23px;">
-                                    <div class="col-md-11 top-pad-20">
-                                        <div class="card-box table-responsive">
-                                            <table id="historyTable" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Property)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).OldValue)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).NewValue)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Created)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).AuthorId)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in Model.TicketHistories) {
-                                                        <tr>
-                                                            <td>@Html.DisplayFor(modelItem => item.Property)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.OldValue)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.NewValue)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-                            @*<div class="panel-footer">Panel Footer</div>*@
+                    </div><!-- end col -->
+                </div>
+            </div>
+
+            <!-- Ticket History Section -->
+            <div class="tab-pane" id="history">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h3 class="header-title m-t-0 m-b-30">Ticket History</h3>
+                            <table id="datatable_history" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Property)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).OldValue)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).NewValue)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Created)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).AuthorId)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.TicketHistories != null) {
+                                                foreach (var item in Model.TicketHistories) {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item.Property)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.OldValue)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.NewValue)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
+                                                </tr>
+                                            }
+                                            }
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                    </div><!-- end col -->
                 </div>
             </div>
         </div>
@@ -285,9 +300,7 @@
 
 @section Scripts {
     <script src="~/Content/DataTables/datatables.min.js"></script>
-    <script>$("#datatable-buttons").DataTable();</script>
-    <script>$("#datatable-buttons2").DataTable();</script>
-    <script>$("#historyTable").DataTable({ "order": [[3, 'desc']] });</script>
-    <script>$("#commentsTable").DataTable({ "order": [[1, 'desc']] });</script>
+    <script>$("#datatable_history").DataTable({ "order": [[3, 'desc']] });</script>
+    <script>$("#datatable_comments").DataTable({ "order": [[1, 'desc']] });</script>
 
 }

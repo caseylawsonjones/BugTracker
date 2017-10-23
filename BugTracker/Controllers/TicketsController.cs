@@ -440,7 +440,10 @@ namespace BugTracker.Controllers
 
                     //Call NotificationHelper
                     NotificationHelper notification = new NotificationHelper(User.Identity.GetUserId());
-                    string newAssignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
+                    string newAssignedUserEmailAddress = "temporary value";
+                    if (ticket.AssignedUserId != null) {
+                        newAssignedUserEmailAddress = db.Users.Find(ticket.AssignedUserId).Email;
+                    }
                     string oldAssignedUserEmailAddress = "temporary value";
                     if (oldTicket.AssignedUserId != null) {
                         oldAssignedUserEmailAddress = db.Users.Find(oldTicket.AssignedUserId).Email;

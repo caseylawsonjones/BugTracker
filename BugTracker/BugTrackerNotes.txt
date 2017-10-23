@@ -202,35 +202,39 @@ XXX - Layout - Create nice pages for XXXForgot Password, XXXReset Password, XXXR
 XXX - Tickets - Add cute Priority and Status buttons on lists - XXXTickets/Index
 XXX - Tickets - Index - created unique names for the data tables and corresponding scripts
 XXX - Projects - Index - Add buttons for Details, Edit, Assign User
+XXX - Dashboard - Jazz up the tables and see about getting the width correct
+XXX - Dashboard - Version for each role - get rid of anchor tags
+XXX - Layout - Determine what columns truly need to display in tables to limit their width
+XXX - Home Page - ticketsNoAssigneeTable is jacked up and throwing an error
+XXX - User Admin - Display Users in a table
+XXX - User Admin - Index
+XXX - User Admin - Assign Roles
+XXX - Projects - Assign Users - Project Name - underneath, Current Users select box, underneath Potential Users select box - each with the add/remove button to the right
+XXX - Tables - set default sort to date
+XXX - Manage Index - Consider removing Tickets section
+XXX - Layout - Menu on the Profile Pic needs to be directed properly
+XXX - Layout - do something with the menu items in the upper right corner
+XXX - Layout - create a Favicon
+XXX - Layout - fix menu items
+XXX - Layout - Double-check for any Right Sidebars
+XXX - General - XXXAssign Roles, XXXProject Users, XXXTicket Details, Edit, Create; XXXProject Details, Edit, Create; Comment Create, Edit; Attachment Create; - make sure they have the same basic layout as the template.
+XXX - Notifications - Test with additional email providers; fix in gmail
 ----------
-Dashboard - Jazz up the tables and see about getting the width correct
-Dashboard - Version for each role - get rid of anchor tags
-Login Screen - Remove blank space at bottom
-Notifications - Test with additional email providers; fix in gmail
+Login Screen - Remove blank space at bottom - May be fixed - check on another computer
 3rd Party Logins - Make them work
 History - Put in a timeline or something other than a table because it is just too much table at this point - see Mustang Timeline in Profile, maybe a timeline & a table, both
 Comments - "Spice" them up - Use the "Activity" tab styling from User Management
-User Admin - Display Users in a table
-User Admin - User Details - List of user's associated Projects, Ticket, Comments and Attachments
-Projects - Assign Users - Project Name - underneath, Current Users select box, underneath Potential Users select box - each with the add/remove button to the right
-User Admin - Index
-Everything - go through all of your controller actions and make sure you are grabbing the right things, based on the parameters you are passing
-Home Page - ticketsNoAssigneeTable is jacked up and throwing an error
 Clean up all JavaScript or page errors when finished
-Layout - Custom Error Pages
-Layout - Create nice pages for ExternalLoginConfirmation, ExternalLoginFailure
-Layout - Determine what columns truly need to display in tables to limit their width
-Layout - create a Favicon
-Layout - fix menu items
-Layout - do something with the menu items in the upper right corner
-Layout - Double-check for any Right Sidebars
-Resume - check for needed corrections and send to Kevin
-Layout - Profile Pic menu needs to be directed properly
-Tables - set default sort to date
+Everything - go through all of your controller actions and make sure you are grabbing the right things, based on the parameters you are passing
 
 ##### SECOND PRIORITY #####
 XXX - Layout - Format Time display everywhere
+XXX - Layout - Increase Menu dropdown width on Layout menu items
+XXX - Layout - Vertical Menu Items/Icons need to be slightly realigned
 ----------
+Resume - check for needed corrections and send to Kevin
+User Admin - User Details - List of user's associated Projects, Ticket, Comments and Attachments
+User Admin - Add a Details page with lists of Projects, Tickets, Comments and Attachments
 Dashboard - add widget for users with no roles
 Tickets - When a comment or attachment is added, update the updated date
 Projects - When a ticket is updated, update the updated date for the Project
@@ -248,15 +252,17 @@ Attachments - Make sure that the attachment icon display is scalable to smaller 
 Attachnents - Adjust picture sizing
 Attachments - Should there be a link for adding an attachment on the Attachments side of the screen at the top as well?
 Attachments - Display name in one row and meta data&edit/delete in a seperate row so the bottom of the row is not jagged - may not be doable.
-Layout - Increase Menu dropdown width on Layout menu items
+Attachments - In Ticket Details - pad the left side to move it off of the separator bar
 Layout - Change menu icons
-Layout - Add Breadcrumbs?
 Layout - Cute Icons beside links to things
+Layout - Create nice pages for ExternalLoginConfirmation, ExternalLoginFailure
+Layout - Custom Error Pages - RATHER involved
 User Admin - Role assignment could be a check list - clean and clear
 UserManagement - the faint background picture, behind the profile pic, needs to be changed to something else
 User Management - Make it clear, when logged in as Demo, why they cannot change things on the account
 Database - Clean out stupid sounding things and add realistic entries for Tickets, Projects, Comments
 Miscellaneous - Turn off website detailed errors in web.config, once finished
+
 
 ##### TERTIARY PRIORITY #####
 User Admin - Display the most recent ticket assignments or tickets logged for the user
@@ -275,6 +281,7 @@ Ticket Status - show project bars??
 Dashboard - see if I can change the Y-axis values to not include decimals
 Date/Time - History - Sort list - Sorting is a PITA, when done by time. - Just needs to be double-checked
 Date/Time - Comments - Sort the motherfuckers by time, if it ever decides to fucking work correctly - Just needs to be double-checked
+Manager Index - create an icon for the Roles section for the Demo role
 
 
 

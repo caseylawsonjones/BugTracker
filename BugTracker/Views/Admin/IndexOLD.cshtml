@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BugTracker.Models.Helpers.AdminUserViewModels>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.User.FullName)</th>
+        <th>@Html.DisplayNameFor(model => model.User.Email)</th>
+        <th>@Html.DisplayNameFor(model => model.User.Roles)</th>
+        <th>Options</th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @foreach (var role in item.AssignedRoles) {
+                    <p>@role</p>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit Roles", "EditUserRoles", new { id = item.User.Id }) |
+            </td>
+        </tr>
+    }
+
+</table>

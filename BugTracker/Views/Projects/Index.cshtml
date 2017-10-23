@@ -13,153 +13,158 @@
         <div class="row">
             <div class="col-md-12 col-xs-12">
                 <div class="white-box">
-                    <ul class="nav nav-tabs tabs customtab">
+                    <span class="btn btn-success">@Html.ActionLink("Create New Project", "Create")</span>
+                    <hr />
 
-                        <li class="active col-xs-3 btn btn-primary">
-                            <a href="#adminAllProjects" data-toggle="tab"><span>All Active Projects</span> </a>
-                        </li>
-                        <li class="col-xs-1">&nbsp;</li>
-                        <li class="tab col-xs-3 btn btn-danger">
-                            <a href="#adminUnassigned" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">All Unassigned Projects</span> </a>
-                        </li>
-                        <li class="col-xs-1">&nbsp;</li>
-                        @if (User.IsInRole("Developer")) {
-                            <li class="tab col-xs-3 btn btn-success">
-                                <a href="#adminMyProjects" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">My Assigned Projects</span> </a>
+                    <div>
+                        <ul class="nav nav-tabs tabs customtab">
+
+                            <li class="active col-xs-3 btn btn-primary">
+                                <a href="#adminAllProjects" data-toggle="tab"><span>All Active Projects</span> </a>
                             </li>
-                        }
-                        <li class="col-xs-1">&nbsp;</li>
-                    </ul>
+                            <li class="col-xs-1">&nbsp;</li>
+                            <li class="tab col-xs-3 btn btn-danger">
+                                <a href="#adminUnassigned" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">All Unassigned Projects</span> </a>
+                            </li>
+                            <li class="col-xs-1">&nbsp;</li>
+                            @if (User.IsInRole("Developer")) {
+                                <li class="tab col-xs-3 btn btn-success">
+                                    <a href="#adminMyProjects" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">My Assigned Projects</span> </a>
+                                </li>
+                            }
+                            <li class="col-xs-1">&nbsp;</li>
+                        </ul>
 
-                    <div class="tab-content">
-                        <!-- ADMIN - All Active Projects -->
-                        @if (User.IsInRole("Admin")) {
-                            <div class="tab-pane active" id="adminAllProjects">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card-box table-responsive">
-                                            <h3 class="header-title m-t-0 m-b-30">All Active Projects</h3>
-                                            <table id="datatable_adminAllProjects" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                                                        <th>Options</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.AllProjects != null) {
-                                                        foreach (var item in Model.AllProjects) {
-                                                            <tr>
-                                                                <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                                                                <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                                                                <td>
-                                                                    <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
-                                                                    <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
-                                                                </td>
-                                                            </tr>
+                        <div class="tab-content">
+                            <!-- ADMIN - All Active Projects -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane active" id="adminAllProjects">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">All Active Projects</h3>
+                                                <table id="datatable_adminAllProjects" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                                                            <th>Options</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllProjects != null) {
+                                                            foreach (var item in Model.AllProjects) {
+                                                                <tr>
+                                                                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                                                                    <td>
+                                                                        <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
+                                                                        <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
                                                         }
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- end col -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        <hr />
+                            }
+                            <hr />
 
-                        <!--ADMIN - All Unassigned Projects -->
-                        @if (User.IsInRole("Admin")) {
-                            <div class="tab-pane" id="adminUnassigned">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card-box table-responsive">
-                                            <h3 class="header-title m-t-0 m-b-30">All Unassigned Projects</h3>
-                                            <table id="datatable_adminUnassigned" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                                                        <th>Options</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.AllProjects != null) {
-                                                        foreach (var item in Model.AllProjects.Where(p => p.Users.Count <= 0)) {
-                                                            <tr>
-                                                                <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                                                                <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                                                                <td>
-                                                                    <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
-                                                                    <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
-                                                                </td>
-                                                            </tr>
+                            <!--ADMIN - All Unassigned Projects -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane" id="adminUnassigned">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">All Unassigned Projects</h3>
+                                                <table id="datatable_adminUnassigned" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                                                            <th>Options</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.AllProjects != null) {
+                                                            foreach (var item in Model.AllProjects.Where(p => p.Users.Count <= 0)) {
+                                                                <tr>
+                                                                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                                                                    <td>
+                                                                        <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
+                                                                        <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
                                                         }
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- end col -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        <hr />
+                            }
+                            <hr />
 
-                        <!--ADMIN - My Assigned Projects -->
-                        @if (User.IsInRole("Admin")) {
-                            <div class="tab-pane" id="adminMyProjects">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card-box table-responsive">
-                                            <h3 class="header-title m-t-0 m-b-30">My Assigned Projects</h3>
-                                            <table id="datatable_adminMyProjects" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                                                        <th>Options</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.UserProjects != null) {
-                                                        foreach (var item in Model.UserProjects) {
-                                                            <tr>
-                                                                <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                                                                <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                                                                <td>
-                                                                    <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
-                                                                    <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
-                                                                </td>
-                                                            </tr>
+                            <!--ADMIN - My Assigned Projects -->
+                            @if (User.IsInRole("Admin")) {
+                                <div class="tab-pane" id="adminMyProjects">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">My Assigned Projects</h3>
+                                                <table id="datatable_adminMyProjects" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                                                            <th>Options</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.UserProjects != null) {
+                                                            foreach (var item in Model.UserProjects) {
+                                                                <tr>
+                                                                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                                                                    <td>
+                                                                        <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
+                                                                        <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
                                                         }
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- end col -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        <hr />
+                            }
+                            <hr />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,54 +176,59 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <div class="white-box">
-                        <ul class="nav nav-tabs tabs customtab">
-                            <li class=" active tab btn btn-success">
-                                <a href="#allMyProjects" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">My Submitted Tickets</span> </a>
-                            </li>
-                        </ul>
-
-                        <!-- My Assigned Projects -->
-                        @if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter")) {
-                            <div class="tab-pane" id="allMyProjects">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card-box table-responsive">
-                                            <h3 class="header-title m-t-0 m-b-30">My Submitted Tickets</h3>
-                                            <table id="datatable_allMyProjects" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
-                                                        <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
-                                                        <th>Options</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @if (Model.UserProjects != null) {
-                                                        foreach (var item in Model.UserProjects) {
-                                                            <tr>
-                                                                <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Updated)</td>
-                                                                <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
-                                                                <td>
-                                                                    <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
-                                                                    <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div><!-- end col -->
-                                </div>
-                            </div>
+                        @if(User.IsInRole("ProjectManager")){
+                            <span class="btn btn-success">@Html.ActionLink("Create New Project", "Create")</span>
+                            <hr />
                         }
+                        <div>
+                            <ul class="nav nav-tabs tabs customtab">
+                                <li class=" active tab btn btn-success">
+                                    <a href="#allMyProjects" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-home"></i></span> <span class="hidden-xs">My Submitted Tickets</span> </a>
+                                </li>
+                            </ul>
 
+                            <!-- My Assigned Projects -->
+                            @if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter")) {
+                                <div class="tab-pane" id="allMyProjects">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card-box table-responsive">
+                                                <h3 class="header-title m-t-0 m-b-30">My Submitted Tickets</h3>
+                                                <table id="datatable_allMyProjects" class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Title)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Description)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Created)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).Updated)</th>
+                                                            <th>@Html.DisplayNameFor(model => model.AllProjects.First(p => p.Id > 0).AuthorId)</th>
+                                                            <th>Options</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.UserProjects != null) {
+                                                            foreach (var item in Model.UserProjects) {
+                                                                <tr>
+                                                                    <td><a href="/Projects/Details/@item.Id">@Html.DisplayFor(modelItem => item.Title)</a></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Updated)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => Model.ProjectAuthors.First(u => u.Id == item.AuthorId).FullName)</td>
+                                                                    <td>
+                                                                        <span class="btn btn-info">@Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null)</span> &nbsp;
+                                                                        <span class="btn btn-success">@Html.ActionLink("Assign Users", "ProjectUser", "Projects", new { id = item.Id }, null)</span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -19,12 +19,14 @@ namespace BugTracker.Controllers
         public ActionResult Index() {
             List<AdminUserViewModels> users = new List<AdminUserViewModels>();
             UserRolesHelper helper = new UserRolesHelper();
+
             foreach (var user in db.Users.ToList()) {
                 var eachUser = new AdminUserViewModels();
                 eachUser.User = user;
                 eachUser.AssignedRoles = helper.ListUserRoles(user.Id).ToArray();
                 users.Add(eachUser);
             }
+
             return View(users.OrderBy(u => u.User.LastName).ToList());
         }
 
