@@ -219,11 +219,11 @@ XXX - Layout - fix menu items
 XXX - Layout - Double-check for any Right Sidebars
 XXX - General - XXXAssign Roles, XXXProject Users, XXXTicket Details, Edit, Create; XXXProject Details, Edit, Create; Comment Create, Edit; Attachment Create; - make sure they have the same basic layout as the template.
 XXX - Notifications - Test with additional email providers; fix in gmail
+XXX - History - Put in a timeline or something other than a table because it is just too much table at this point - see Mustang Timeline in Profile, maybe a timeline & a table, both
+XXX - Comments - "Spice" them up - Use the "Activity" tab styling from User Management
 ----------
 Login Screen - Remove blank space at bottom - May be fixed - check on another computer
 3rd Party Logins - Make them work
-History - Put in a timeline or something other than a table because it is just too much table at this point - see Mustang Timeline in Profile, maybe a timeline & a table, both
-Comments - "Spice" them up - Use the "Activity" tab styling from User Management
 Clean up all JavaScript or page errors when finished
 Everything - go through all of your controller actions and make sure you are grabbing the right things, based on the parameters you are passing
 

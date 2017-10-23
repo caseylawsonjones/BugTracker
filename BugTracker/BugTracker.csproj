@@ -673,6 +673,9 @@
     <Content Include="Content\Theme Files\assets\css\pages.css" />
     <Content Include="Content\Theme Files\assets\css\responsive.css" />
     <Content Include="Content\Theme Files\assets\css\variables.css" />
+    <Content Include="Content\Theme Files\From Other Templates\ui-timeline.html" />
+    <Content Include="Content\Theme Files\UltraAdmin\responsive.css" />
+    <Content Include="Content\Theme Files\UltraAdmin\style.css" />
     <Content Include="Content\Theme Files\_Cubic\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="Content\Theme Files\_Cubic\bootstrap\dist\css\bootstrap-theme.min.css" />
     <Content Include="Content\Theme Files\_Cubic\bootstrap\dist\css\bootstrap.css" />
@@ -5577,6 +5580,7 @@
     <Content Include="Views\Home\Index - Copy %284%29.cshtml" />
     <Content Include="Views\Admin\IndexOLD.cshtml" />
     <Content Include="Views\Account\Login - Copy %282%29.cshtml" />
+    <Content Include="Views\Tickets\Details - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

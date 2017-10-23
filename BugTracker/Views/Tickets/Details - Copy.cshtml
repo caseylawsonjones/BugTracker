@@ -4,11 +4,6 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Styles{
-    
-<link href="~/Content/Theme Files/UltraAdmin/responsive.css" rel="stylesheet" />
-<link href="~/Content/Theme Files/UltraAdmin/style.css" rel="stylesheet" />
-    }
 <div class="white-box">
     <div class="row">
         <div class="col-xs-5">
@@ -184,27 +179,33 @@
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
                             <h3 class="header-title m-t-0 m-b-30">Comments</h3>
+                            <table id="datatable_comments" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr><th></th><th></th><th></th><th></th></tr>
+                                </thead>
+                                <tbody>
                                     @if (Model.TicketComments != null) {
-                                        foreach (var comment in Model.TicketComments.Reverse()) {
-                                            <article class="timeline2-entry">
-                                                <div class="timeline2-entry-inner">
-                                                    <div class="timeline2-icon bg-info">
-                                                        <img src="~/Content/Images/logo - 32x32.png" />
-                                                    </div>
-                                                    <div class="timeline2-label">
-                                                        <h2><strong>@comment.Author.FullName</strong>&nbsp;<span>@Html.DisplayFor(modelItem => comment.Created)</span></h2>
-                                                        <p>@Html.Raw(comment.Body)</p>
-                                                    </div>
-                                                    @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
-                                                        @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>&nbsp;</span>
-                                                        @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
-                                                        <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id"><span style="color:darkred">Delete</span></a>
-                                                    }
-                                                </div>
-                                                <hr />
-                                            </article>
-
-
+                                                foreach (var comment in Model.TicketComments) {
+                                                <tr class="comment-item comments_border">
+                                                    <!-- Actual Comment -->
+                                                    <td>
+                                                        @Html.Raw(comment.Body)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => comment.Created)
+                                                    </td>
+                                                    <td>
+                                                        <span class="post-meta author"><i class="fa fa-user"></i> @comment.Author.FullName</span>
+                                                    </td>
+                                                    <!-- Edit and Delete Options -->
+                                                    <td>
+                                                        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
+                                                                @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null)<br />
+                                                                @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
+                                                                <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id"><span style="color:darkred">Delete</span></a>
+                                                        }
+                                                    </td>
+                                                </tr>
                         <!-- DELETE COMMENT MODAL -->
                                                 <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
                                                     <div class="modal-dialog modal-lg" role="document">
@@ -221,10 +222,10 @@
                                                                         <div class="col-sm-4"></div>
                                                                         <div class="col-sm-2">
                                                                             @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
-                                                                                @Html.AntiForgeryToken()
-                                                                                <div class="form-actions no-color">
-                                                                                    <input type="submit" value="Delete" class="btn btn-default" />
-                                                                                </div>
+                                                                                    @Html.AntiForgeryToken()
+                                                                                    <div class="form-actions no-color">
+                                                                                        <input type="submit" value="Delete" class="btn btn-default" />
+                                                                                    </div>
                                                                             }
                                                                         </div>
                                                                         <div class="col-sm-2">
@@ -239,72 +240,50 @@
                                                 </div>
                                             }
                                             }
+                                </tbody>
+                            </table>
                         </div>
                     </div><!-- end col -->
                 </div>
             </div>
 
-            <!-- HISTORY SECTION -->
+            <!-- Ticket History Section -->
             <div class="tab-pane" id="history">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
                             <h3 class="header-title m-t-0 m-b-30">Ticket History</h3>
-                            <ul class="timeline">
-                                @if (Model.TicketHistories != null) {
-                                    var j = 1;
-                                    foreach (var item in Model.TicketHistories.Reverse()) {
-                                        if (j % 2 != 0) {
-                                            <li>
-                                                <div class="timeline-badge animated flipInY"><img src="~/Content/Images/logo - 32x32.png" /></div>
-                                                <div class="timeline-panel animated flipInY">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title text-info">@Html.DisplayFor(modelItem => item.Property)</h4>
-                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>&nbsp;@Html.DisplayFor(modelItem => item.Created)</small></p>
-                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-user"></i>&nbsp;@Html.DisplayFor(modelItem => item.AuthorName)</small></p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <dl>
-                                                            <dt>Old Value:</dt>
-                                                            <dd>@Html.DisplayFor(modelItem => item.OldValue)</dd>
-                                                            <dt>New Value:</dt>
-                                                            <dd>@Html.DisplayFor(modelItem => item.NewValue)</dd>
-                                                        </dl>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        }
-                                        else {
-                                            <li class="timeline-inverted ">
-                                                <div class="timeline-badge animated flipInY"><img src="~/Content/Images/logo - 32x32.png" /></div>
-                                                <div class="timeline-panel animated flipInY">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title text-info">@Html.DisplayFor(modelItem => item.Property)</h4>
-                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>&nbsp;@Html.DisplayFor(modelItem => item.Created)</small></p>
-                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-user"></i>&nbsp;@Html.DisplayFor(modelItem => item.AuthorName)</small></p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <dl>
-                                                            <dt>Old Value:</dt>
-                                                            <dd>@Html.DisplayFor(modelItem => item.OldValue)</dd>
-                                                            <dt>New Value:</dt>
-                                                            <dd>@Html.DisplayFor(modelItem => item.NewValue)</dd>
-                                                        </dl>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        }
-                                        j++;
-                                    }
-                                }
-                            </ul>
+                            <table id="datatable_history" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Property)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).OldValue)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).NewValue)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).Created)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TicketHistories.First(p => p.Id > 0).AuthorId)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.TicketHistories != null) {
+                                                foreach (var item in Model.TicketHistories) {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item.Property)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.OldValue)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.NewValue)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
+                                                </tr>
+                                            }
+                                            }
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                    </div><!-- end col -->
                 </div>
             </div>
         </div>
-
-</div></div>
+    </div>
+</div>
 
 <!-- LEAVE COMMENT IF LOGGED IN -->
 @*<h4>Leave a Comment</h4>
