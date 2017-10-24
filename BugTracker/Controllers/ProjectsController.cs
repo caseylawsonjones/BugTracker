@@ -114,11 +114,13 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
                 project.Created = DateTimeOffset.UtcNow;
                 project.AuthorId = User.Identity.GetUserId();
+                project.Users.Add(user);
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Projects");
             }
 
             return View(project);
@@ -153,7 +155,7 @@ namespace BugTracker.Controllers
                 project.Updated = DateTimeOffset.UtcNow;
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Projects");
             }
             return View(project);
         }

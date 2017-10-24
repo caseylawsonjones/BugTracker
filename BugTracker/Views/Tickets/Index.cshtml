@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../plugins/components/fancybox/ekko-lightbox.min.css" />
 }
 
-@if (User.IsInRole("Admin")) {
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <div class="white-box">
@@ -64,7 +64,7 @@
                 <!-------------------------->
                 <!-- ADMIN - CRITICAL TICKETS -->
                 <div class="tab-content">
-                    @if (User.IsInRole("Admin")) {
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
                         <div class="tab-pane active" id="adminCritical">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -158,7 +158,7 @@
                     <hr />
 
                     <!--ADMIN - HIGH PRIORITY TICKETS -->
-                    @if (User.IsInRole("Admin")) {
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
                         <div class="tab-pane" id="adminHigh">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -252,7 +252,7 @@
                     <hr />
 
                     <!--ADMIN - TICKETS NOT UPDATED IN ONE WEEK -->
-                    @if (User.IsInRole("Admin")) {
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
                         <div class="tab-pane" id="adminNotUpdated">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -335,7 +335,7 @@
                     <hr />
 
                     <!--ADMIN - UNASSIGNED TICKETS-->
-                    @if (User.IsInRole("Admin")) {
+@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
                         <div class="tab-pane" id="adminUnassigned">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -418,7 +418,7 @@
                     <hr />
 
                     <!-- ADMIN - ALL TICKETS FOR ALL PROJECTS-->
-                    @if (User.IsInRole("Admin")) {
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) {
                         <div class="tab-pane" id="adminAllTickets">
                             <div class="row">
                                 <div class="col-sm-12">

@@ -85,7 +85,7 @@
                                 </tbody>
                             </table>
                         }
-                        else {  <!-- No Tickets Currently Assigned-->
+                        else {  <!-- No Roles Currently Assigned-->
                             <div class="sl-item">
                                 <div class="sl-left"> <img src="~/Content/Images/300px-No_sign_Right.svg.png" alt="user" class="img-circle" /> </div>
                                 <div class="sl-right">
@@ -184,6 +184,7 @@
                     <!-- PROFILE TAB -->
                     <div class="active tab-pane" id="profile">
                         <!-- Change Name Section-->
+                        @if(!User.IsInRole("DemoAccount")){
                         <div class="steamline">
                             <!-- widget-body col-md-9 -->
                             <div class="sl-item">
@@ -213,15 +214,15 @@
                                             </div>
                                             <!-- ProfilePic -->
                                             <!--<div class="form-group">
-                    <label class="control-label col-md-2" style="text-align:right;">Upload Picture</label>
-                    <div class="col-md-10">
-                        if (Model.ProfilePic != null) {
-                            <div class="post-image opacity"><img src = "Url.Content(Model.ProfilePic)" width="1170" height="382" alt="" title=""></div>
-                        }
-                        <input name = "media" type="file" class="form-control No_Horizontal_Padding" style="padding-left: 0px; border:none; outline:none;" />
-                    </div>
-                </div>
-                    -->
+                                                <label class="control-label col-md-2" style="text-align:right;">Upload Picture</label>
+                                                <div class="col-md-10">
+                                                    if (Model.ProfilePic != null) {
+                                                        <div class="post-image opacity"><img src = "Url.Content(Model.ProfilePic)" width="1170" height="382" alt="" title=""></div>
+                                                    }
+                                                    <input name = "media" type="file" class="form-control No_Horizontal_Padding" style="padding-left: 0px; border:none; outline:none;" />
+                                                </div>
+                                            </div>
+                                                -->
                                         </div>
                                         <br />
                                         <div class="form-group">
@@ -269,6 +270,10 @@
                                 </div>
                             </div>
                         </div>
+                        }
+                        else{
+                        <h3 class="text-info">Demo Users Cannot Change Their Account Information</h3>
+                        }
                     </div>
 
                     <!-- ACTIVITY TAB -->

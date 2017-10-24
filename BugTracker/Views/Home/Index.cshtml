@@ -13,7 +13,7 @@
         @*<div class="white-box">
             <ul class="nav nav-tabs tabs customtab">*@
                 <li class="active tab" style="display: inline;">
-                    <a href="#critical" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-danger">
@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href="#highPriority" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-warning">
@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href="#notUpdated" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-info">
@@ -58,7 +58,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href="#unassigned" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-roseybrown">
@@ -137,7 +137,7 @@
                 @*<div class="white-box">
                     <ul class="nav nav-tabs tabs customtab">*@
                 <li class="active tab" style="display: inline;">
-                    <a href="#critical" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-danger">
@@ -152,7 +152,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href="#highPriority" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-warning">
@@ -167,7 +167,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href="#notUpdated" data-toggle="tab">
+                    <a href="/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-info">
@@ -182,7 +182,7 @@
                     </a>
                 </li>
                 <li class="tab" style="display: inline;">
-                    <a href = "#unassigned" data-toggle="tab">
+                    <a href = "/Tickets/Index" data-toggle="tab">
                         <div class="col-md-3 col-sm-6 info-color-box">
                             <div class="white-box">
                                 <div class="media bg-roseybrown">
@@ -261,7 +261,7 @@
                 <!-- DEVELOPER COLOR BOXES AT TOP OF PAGE -->
                 <div class="row colorbox-group-widget">
                     <li class="active tab" style="display: inline;">
-                        <a href="#critical" data-toggle="tab">
+                        <a href="/Tickets/Index" data-toggle="tab">
                             <div class="col-md-4 col-sm-8 info-color-box">
                                 <div class="white-box">
                                     <div class="media bg-danger">
@@ -276,7 +276,7 @@
                         </a>
                     </li>
                     <li class="tab" style="display: inline;">
-                        <a href="#highPriority" data-toggle="tab">
+                        <a href="/Tickets/Index" data-toggle="tab">
                             <div class="col-md-4 col-sm-8 info-color-box">
                                 <div class="white-box">
                                     <div class="media bg-warning">
@@ -291,18 +291,19 @@
                         </a>
                     </li>
                     <li class="tab" style="display: inline;">
-                        <div class="col-md-4 col-sm-8 info-color-box">
-                            <div class="white-box">
-                                <div class="media bg-info">
-                                    <div class="media-body">
-                                        <h3 class="info-count">@Model.UserTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
-                                        <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
-                                        @*<p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>*@
+                        <a href="/Tickets/Index" data-toggle="tab">
+                            <div class="col-md-4 col-sm-8 info-color-box">
+                                <div class="white-box">
+                                    <div class="media bg-info">
+                                        <div class="media-body">
+                                            <h3 class="info-count">@Model.UserTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                                            <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                                            @*<p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.AllTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>*@
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </a>                    </li>
                     <!--
                     <li class="tab" style="display: inline;">
                         <div class="col-md-4 col-sm-12 info-color-box">
@@ -390,44 +391,47 @@
                         @*<div class="white-box">
                             <ul class="nav nav-tabs tabs customtab">*@
                         <li class="active tab" style="display: inline;">
-                            <div class="col-md-4 col-sm-8 info-color-box">
-                                <div class="white-box">
-                                    <div class="media bg-danger">
-                                        <div class="media-body">
-                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 5).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
-                                            <p class="info-text font-12">Critical Tickets</p>
-                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>
+                            <a href="/Tickets/Index" data-toggle="tab">
+                                <div class="col-md-4 col-sm-8 info-color-box">
+                                    <div class="white-box">
+                                        <div class="media bg-danger">
+                                            <div class="media-body">
+                                                <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 5).Count() <span class="pull-right"><i class="fa fa-fire"></i></span></h3>
+                                                <p class="info-text font-12">Critical Tickets</p>
+                                                <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 5 && t.AssignedUserId == null)).Count()</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </a>                        </li>
                         <li class="tab" style="display: inline;">
-                            <div class="col-md-4 col-sm-8 info-color-box">
-                                <div class="white-box">
-                                    <div class="media bg-warning">
-                                        <div class="media-body">
-                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 4).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
-                                            <p class="info-text font-12">High Priority Tickets</p>
-                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>
+                            <a href="/Tickets/Index" data-toggle="tab">
+                                <div class="col-md-4 col-sm-8 info-color-box">
+                                    <div class="white-box">
+                                        <div class="media bg-warning">
+                                            <div class="media-body">
+                                                <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.TicketPriority.Id == 4).Count() <span class="pull-right"><i class="fa fa-bolt"></i></span></h3>
+                                                <p class="info-text font-12">High Priority Tickets</p>
+                                                <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.TicketPriority.Id == 4 && t.AssignedUserId == null)).Count()</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </a>                        </li>
                         <li class="tab" style="display: inline;">
-                            <div class="col-md-4 col-sm-8 info-color-box">
-                                <div class="white-box">
-                                    <div class="media bg-info">
-                                        <div class="media-body">
-                                            <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
-                                            <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
-                                            <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>
+                            <a href="/Tickets/Index" data-toggle="tab">
+                                <div class="col-md-4 col-sm-8 info-color-box">
+                                    <div class="white-box">
+                                        <div class="media bg-info">
+                                            <div class="media-body">
+                                                <h3 class="info-count">@Model.SubmittedTickets.Where(t => t.Updated > DateTime.Now.Date.AddDays(-7)).Count() <span class="pull-right"><i class="fa fa-calendar"></i></span></h3>
+                                                <p class="info-text font-12">Tickets Not Updated for 7 Days</p>
+                                                <p class="info-ot font-15">Unassigned:<span class="label label-rounded">@Model.SubmittedTickets.Where(t => (t.Updated > DateTime.Now.Date.AddDays(-14)) && (t.AssignedUserId == null)).Count()</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </a>                        </li>
                         <!--
                         <li class="tab" style="display: inline;">
                                 <div class="col-md-3 col-sm-6 info-color-box">

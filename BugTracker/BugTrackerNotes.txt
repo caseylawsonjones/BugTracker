@@ -227,6 +227,26 @@ Login Screen - Remove blank space at bottom - May be fixed - check on another co
 Clean up all JavaScript or page errors when finished
 Everything - go through all of your controller actions and make sure you are grabbing the right things, based on the parameters you are passing
 
+TESTING OF PUBLISHED SITE - 10/23/2017
+XXX - Projects - Create - redirect to /Projects/Index instead of /Home/Index
+XXX - Projects - Edit - redirect to /Projects/Index instead of /Home/Index
+ERROR - Tickets/Details - uploading attachment #53 & #38 - one is assigned, the other is not - logged in as Admin and PM
+XXX - ERROR - Project/Index is labeled Ticket Index info for Project Manager
+XXX - CATCH22 - Project Manager can create a Project, but then cannot edit it until assigned to it
+XXX - MISTAKE - Project Managers should be able to see all tickets
+Remove the links from the color boxes on the dashboard
+Attachment Confirm Delete in Modal - button needs to move left
+
+ITEMS TO FOCUS ON DURING PRESENTATION
+Log in as my account to demonstrate the Tickets and Projects Index
+Log in as a Developer or Submitter to demonstrate the customized Dashboard and Tickets/Projects Indices
+Comments
+Histories
+Attachments
+Notifications
+
+
+
 ##### SECOND PRIORITY #####
 XXX - Layout - Format Time display everywhere
 XXX - Layout - Increase Menu dropdown width on Layout menu items
@@ -262,7 +282,7 @@ UserManagement - the faint background picture, behind the profile pic, needs to 
 User Management - Make it clear, when logged in as Demo, why they cannot change things on the account
 Database - Clean out stupid sounding things and add realistic entries for Tickets, Projects, Comments
 Miscellaneous - Turn off website detailed errors in web.config, once finished
-
+Attachments in /Tickets/Details - concatenate the displayed name, like we did teasers in the Blog
 
 ##### TERTIARY PRIORITY #####
 User Admin - Display the most recent ticket assignments or tickets logged for the user
