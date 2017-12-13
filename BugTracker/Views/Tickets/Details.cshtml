@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles{
-    
-<link href="~/Content/Theme Files/UltraAdmin/responsive.css" rel="stylesheet" />
-<link href="~/Content/Theme Files/UltraAdmin/style.css" rel="stylesheet" />
-    }
+
+    <link href="~/Content/Theme Files/UltraAdmin/responsive.css" rel="stylesheet" />
+    <link href="~/Content/Theme Files/UltraAdmin/style.css" rel="stylesheet" />
+}
 <div class="white-box">
     <div class="row">
         <div class="col-xs-5">
@@ -38,9 +38,9 @@
                         <dt>@Html.DisplayNameFor(model => model.Updated)</dt>
                         <dd>@Html.DisplayFor(model => model.Updated)</dd>
                         @*<dt>@Html.DisplayNameFor(model => model.Title)</dt>
-                        <dd>@Html.DisplayFor(model => model.Title)</dd>
-                        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
-                        <dd>@Html.DisplayFor(model => model.Description)</dd>*@
+                            <dd>@Html.DisplayFor(model => model.Title)</dd>
+                            <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                            <dd>@Html.DisplayFor(model => model.Description)</dd>*@
                         <dt>@Html.DisplayNameFor(model => model.OwnerUserId)</dt>
                         <dd>@ViewBag.ownerUser</dd>
                         <dt>@Html.DisplayNameFor(model => model.AssignedUserId)</dt>
@@ -54,14 +54,15 @@
                     </p>
                 </div>
                 <div class="col-xs-7">
-                    @{int i = 0;  <!-- The column number for Attachment Icons does not work properly. -->
-                    int x = 3; <!-- Number of Attachment Display Columns = (x+1)  Acceptable values are 0, 1, 2, 3 or 5</!-->
-                    int xx = 12 / (x + 1);  <!-- xx is used to set the column size -->
-                        <div class="row">
-                            @foreach (var attachment in Model.Attachments) {
-                                <div class="col-xs-2" style="text-align:center; max-width: 15vw!important;">
-                                    <div class="row">
-                                        @if ((Path.GetExtension(@attachment.FileName).ToLower()) == ".png" ||
+                    @*@{
+                            int i = 0;  <!-- The column number for Attachment Icons does not work properly. -->
+                        int x = 3; <!-- Number of Attachment Display Columns = (x+1)  Acceptable values are 0, 1, 2, 3 or 5</!-->
+                        int xx = 12 / (x + 1);  <!-- xx is used to set the column size -->*@
+                    <div class="row">
+                        @foreach (var attachment in Model.Attachments) {
+                            <div class="col-xs-2" style="text-align:center; max-width: 15vw!important;">
+                                <div class="row">
+                                    @*@if ((Path.GetExtension(@attachment.FileName).ToLower()) == ".png" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".jpg" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".jpeg" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".gif" ||
@@ -75,86 +76,97 @@
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".css" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".less" ||
                                         (Path.GetExtension(@attachment.FileName).ToLower()) == ".sass") {
-                                            <a href="#" data-toggle="modal" data-target="#AttModal_@attachment.Id"><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
+                                        <a href="#" data-toggle="modal" data-target="#AttModal_@attachment.Id" id="link_@attachment.Id"><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
                                     }
                                     else {
-                                            <a href="@attachment.FileUrl" download=""><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
-                                    }
+                                        <a href="@attachment.FileUrl" download=""><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
+                                    }*@
+                                    <a href="@attachment.FileUrl" download=""><div class="TicketAttachmentIcons" style="border:thin;"><img src="@Url.Content(attachment.IconUrl)" style="max-height:10vh; max-width:10vh;" /></div></a>
+                                </div>
+                                <br />
+                                <div class="row" style="max-width: 5vw; text-align:center; margin: 0 auto;"><h5 style="text-align:center; width:5vw; word-wrap:break-word; display:inline-block;">@attachment.FileName</h5></div>
+                                <div class="post-meta" style="font-size:x-small;">
+                                    <div class="row" @*col-md-7 col-sm-7 col-xs-7*@>
+                                        <!-- Author  -->
+                                        <span class="author wordWrapBreakWord"><i class="fa fa-user wordWrapBreakWord"></i> @attachment.Author.FullName</span>
                                     </div>
-                                    <br />
-                                    <div class="row" style="max-width: 5vw; text-align:center; margin: 0 auto;"><h5 style="text-align:center; width:5vw; word-wrap:break-word; display:inline-block;">@attachment.FileName</h5></div>
-                                    <div class="post-meta" style="font-size:x-small;">
-                                        <div class="row" @*col-md-7 col-sm-7 col-xs-7*@>
-                                            <!-- Author  -->
-                                            <span class="author wordWrapBreakWord"><i class="fa fa-user wordWrapBreakWord"></i> @attachment.Author.FullName</span>
-                                        </div>
-                                        <div class="row" @*This DIV was not here, originally.*@>
-                                            <!-- Meta Date -->
-                                            <span class="time"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => attachment.Created)</span>
-                                        </div>
-                                        <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
-                                            @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
+                                    <div class="row" @*This DIV was not here, originally.*@>
+                                        <!-- Meta Date -->
+                                        <span class="time"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => attachment.Created)</span>
+                                    </div>
+                                    <div class="row" @*col-md-2 col-sm-2 col-xs-2*@ style="top: 0px;">
+                                        @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) ||
                                             ((User.IsInRole("Developer") && (attachment.AuthorId == User.Identity.GetUserId()))) ||
                                             ((User.IsInRole("Submitter") && (attachment.AuthorId == User.Identity.GetUserId())))) {
-                                                <a href="#" data-toggle="modal" data-target="#DeleteAttachmentModal_@attachment.Id">Delete</a>
-                                                <br /><br />
+                                            <a href="#" data-toggle="modal" data-target="#DeleteAttachmentModal_@attachment.Id">Delete</a>
+                                            <br /><br />
                                         }
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
                             //if (i > 0 && (i % (x + 1)) == 0) {  // Determines if we are at the end of a row
                             //    Html.Raw("</div><div class='row'>"); /*Adds a row ending DIV and starts a new row DIV*/
                             //}
                             //i++;
-                                    <!-- DELETE COMMENT MODAL -->
-                                <div class="modal fade DeleteAttachmentModal" id="DeleteAttachmentModal_@attachment.Id">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h2 style="text-align:center;">Confirm Deletion of Ticket Attachment</h2>
-                                                <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
-
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-sm-4"></div>
-                                                        <div class="col-sm-2">
-                                                            @using (Html.BeginForm("Delete", "TicketAttachments", new { id = attachment.Id }, FormMethod.Post)) {
-                                                                @Html.AntiForgeryToken()
-                                                                <div class="form-actions no-color">
-                                                                    <input type="submit" value="Delete" class="btn btn-default" />
-                                                                </div>
-                                                        }
-                                                        </div>
-                                                        <div class="col-sm-2">
-                                                            <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                                                        </div>
-                                                        <div class="col-sm-4"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            //Attachment Display Modal
-                            <div class="modal fade" id="AttModal_@attachment.Id">
+                                <!-- DELETE ATTACHMENT MODAL -->
+                            <div class="modal fade DeleteAttachmentModal" id="DeleteAttachmentModal_@attachment.Id">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
-                                            <object type="application/pdf" data="@Url.Content(attachment.FileUrl)" width="100%" height="500" style="height: 85vh;">No Support</object>
+                                            <h2 style="text-align:center;">Confirm Deletion of Ticket Attachment</h2>
+                                            <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-2">
+                                                        @using (Html.BeginForm("Delete", "TicketAttachments", new { id = attachment.Id }, FormMethod.Post)) {
+                                                            @Html.AntiForgeryToken()
+                                                            <div class="form-actions no-color">
+                                                                <input type="submit" value="Delete" class="btn btn-default" />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                    </div>
+                                                    <div class="col-sm-4"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            //Attachment Display Modal
+                            @*<script>
+                                $('#link_@attachment.Id').click(function () {
+                                    $('#AttModal_@attachment.Id').on('show', function () {
+
+                                        $('iframe').attr("src", @Url.Content(attachment.FileUrl));
+
+                                    });
+                                    $('#AttModal_@attachment.Id').modal({ show: true })
+                                });
+                            </script>*@
+                            @*<div class="modal hide fade" id="AttModal_@attachment.Id" tabindex="-1" role="dialog">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>Dialog</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <iframe src="" style="zoom:0.60" width="99.6%" height="250" frameborder="0"></iframe>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>*@
                         }
-                        </div>
-                    }
+                    </div>
+                    @*}*@
                 </div>
             </div>
             <hr />
@@ -162,7 +174,7 @@
     </div>
 </div>
 
-            <!-- COMMENTS AND TICKET HISTORY -->
+<!-- COMMENTS AND TICKET HISTORY -->
 <div class="white-box">
     <div class="white-box">
         <ul class="nav nav-tabs tabs customtab">
@@ -184,61 +196,61 @@
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
                             <h3 class="header-title m-t-0 m-b-30">Comments</h3>
-                                    @if (Model.TicketComments != null) {
-                                        foreach (var comment in Model.TicketComments.Reverse()) {
-                                            <article class="timeline2-entry">
-                                                <div class="timeline2-entry-inner">
-                                                    <div class="timeline2-icon bg-info">
-                                                        <img src="~/Content/Images/logo - 32x32.png" />
-                                                    </div>
-                                                    <div class="timeline2-label">
-                                                        <h2><strong>@comment.Author.FullName</strong>&nbsp;<span>@Html.DisplayFor(modelItem => comment.Created)</span></h2>
-                                                        <p>@Html.Raw(comment.Body)</p>
-                                                    </div>
-                                                    @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
-                                                        @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>&nbsp;</span>
+                            @if (Model.TicketComments != null) {
+                                foreach (var comment in Model.TicketComments.Reverse()) {
+                                    <article class="timeline2-entry">
+                                        <div class="timeline2-entry-inner">
+                                            <div class="timeline2-icon bg-info">
+                                                <img src="~/Content/Images/logo - 32x32.png" />
+                                            </div>
+                                            <div class="timeline2-label">
+                                                <h2><strong>@comment.Author.FullName</strong>&nbsp;<span>@Html.DisplayFor(modelItem => comment.Created)</span></h2>
+                                                <p>@Html.Raw(comment.Body)</p>
+                                            </div>
+                                            @if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || ((User.IsInRole("Developer") && (comment.AuthorId == User.Identity.GetUserId()))) || ((User.IsInRole("Submitter") && (comment.AuthorId == User.Identity.GetUserId())))) {
+                                                @Html.ActionLink("Edit", "Edit", "TicketComments", new { id = comment.Id }, null) <span>&nbsp;</span>
                                                         @*<button id="DeleteCommentLink" type="button" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id" class="btn btn-default"><p style="margin-bottom:2px;">Delete</button>*@
                                                         <a href="#" data-toggle="modal" data-target="#DeleteCommentModal_@comment.Id"><span style="color:darkred">Delete</span></a>
-                                                    }
-                                                </div>
-                                                <hr />
-                                            </article>
+                                            }
+                                        </div>
+                                        <hr />
+                                    </article>
 
 
                         <!-- DELETE COMMENT MODAL -->
-                                                <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
-                                                    <div class="modal-dialog modal-lg" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                                <h2 style="text-align:center;">Confirm Deletion of Ticket Comment</h2>
-                                                                <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
+                                            <div class="modal fade DeleteCommentModal" id="DeleteCommentModal_@comment.Id">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <h2 style="text-align:center;">Confirm Deletion of Ticket Comment</h2>
+                                                            <h4 style="text-align:center;">This Action Cannot Be Undone</h4>
 
-                                                                <div class="container">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4"></div>
-                                                                        <div class="col-sm-2">
-                                                                            @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
-                                                                                @Html.AntiForgeryToken()
-                                                                                <div class="form-actions no-color">
-                                                                                    <input type="submit" value="Delete" class="btn btn-default" />
-                                                                                </div>
-                                                                            }
-                                                                        </div>
-                                                                        <div class="col-sm-2">
-                                                                            <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                                                                        </div>
-                                                                        <div class="col-sm-4"></div>
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4"></div>
+                                                                    <div class="col-sm-2">
+                                                                        @using (Html.BeginForm("Delete", "TicketComments", new { id = comment.Id }, FormMethod.Post)) {
+                                                                            @Html.AntiForgeryToken()
+                                                                            <div class="form-actions no-color">
+                                                                                <input type="submit" value="Delete" class="btn btn-default" />
+                                                                            </div>
+                                                                        }
                                                                     </div>
+                                                                    <div class="col-sm-2">
+                                                                        <input type="submit" value="Cancel" class="btn btn-default" data-dismiss="modal" aria-label="Close">
+                                                                    </div>
+                                                                    <div class="col-sm-4"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            }
-                                            }
+                                            </div>
+                                }
+                            }
                         </div>
                     </div><!-- end col -->
                 </div>
@@ -304,7 +316,8 @@
             </div>
         </div>
 
-</div></div>
+    </div>
+</div>
 
 <!-- LEAVE COMMENT IF LOGGED IN -->
 @*<h4>Leave a Comment</h4>

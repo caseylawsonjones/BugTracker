@@ -236,6 +236,11 @@ XXX - CATCH22 - Project Manager can create a Project, but then cannot edit it un
 XXX - MISTAKE - Project Managers should be able to see all tickets
 Remove the links from the color boxes on the dashboard
 Attachment Confirm Delete in Modal - button needs to move left
+Attachments - Fix the object not showing in modal in Chrome
+Add info about the App on the Login Page - what it does, what technologies it uses etc.  Could make them as buttons that pop up a modal
+Project Details - list all Tickets for the Project, as well as all assigned users - maybe a dashboard
+Home/Contact - remove
+Home/About - add content or remove
 
 ITEMS TO FOCUS ON DURING PRESENTATION
 Log in as my account to demonstrate the Tickets and Projects Index
@@ -251,8 +256,8 @@ Notifications
 XXX - Layout - Format Time display everywhere
 XXX - Layout - Increase Menu dropdown width on Layout menu items
 XXX - Layout - Vertical Menu Items/Icons need to be slightly realigned
+XXX - Resume - check for needed corrections and send to Kevin
 ----------
-Resume - check for needed corrections and send to Kevin
 User Admin - User Details - List of user's associated Projects, Ticket, Comments and Attachments
 User Admin - Add a Details page with lists of Projects, Tickets, Comments and Attachments
 Dashboard - add widget for users with no roles
@@ -283,6 +288,13 @@ User Management - Make it clear, when logged in as Demo, why they cannot change 
 Database - Clean out stupid sounding things and add realistic entries for Tickets, Projects, Comments
 Miscellaneous - Turn off website detailed errors in web.config, once finished
 Attachments in /Tickets/Details - concatenate the displayed name, like we did teasers in the Blog
+TicketHistories - make them smaller, more concise - sszpunar-bugtracker.azurewebsites.net
+TicketHistories - pull the left side closer into the center
+Ticket Comments - 
+Attachments - concatenate the filename, either on the save or the display - probably display
+Admin Index - Put a chart or two on this page, relative to users and roles
+Dashboard - maybe make the charts smaller and add some other relevant info?
+Add a TaskList for Tickets - each task has its own object, like a comment or attachment and maybe use Ajax to check/uncheck the items as done.
 
 ##### TERTIARY PRIORITY #####
 User Admin - Display the most recent ticket assignments or tickets logged for the user
@@ -302,7 +314,8 @@ Dashboard - see if I can change the Y-axis values to not include decimals
 Date/Time - History - Sort list - Sorting is a PITA, when done by time. - Just needs to be double-checked
 Date/Time - Comments - Sort the motherfuckers by time, if it ever decides to fucking work correctly - Just needs to be double-checked
 Manager Index - create an icon for the Roles section for the Demo role
-
+External Logins - add more and make them small buttons to allow the space on the login page
+Clean up copies of Views
 
 
 

@@ -175,3 +175,18 @@ fieldset[disabled] .btn-roseybrown.active {
     background-color: #5bc0de;
     border-color: #46b8da;
 }
+
+
+iframe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    /*top: 50%;*/
+    /* video height / video width */
+    padding-bottom: 56.2%;
+    /* the above value * 0.5 */
+    /*margin-top: -28.1%;*/
+    height: 0;
+    overflow: hidden;
+}
+
